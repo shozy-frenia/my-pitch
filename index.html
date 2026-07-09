@@ -1,539 +1,1745 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OCD-Monitor · digital mental health screening</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OCD-Monitor — цифровой скрининг психического здоровья</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet" />
+    <!-- Google Identity Services (для входа через Google) -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        /* ---------- reset & base ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: #0b0b0b;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        /* ---------- анимации ---------- */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fade-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .fade-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fade-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.92);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .delay-1 { transition-delay: 0.05s; }
+        .delay-2 { transition-delay: 0.1s; }
+        .delay-3 { transition-delay: 0.2s; }
+        .delay-4 { transition-delay: 0.3s; }
+        .delay-5 { transition-delay: 0.4s; }
 
-    body {
-      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-      background: #f8faff;
-      color: #0b1a33;
-      line-height: 1.5;
-    }
+        /* ---------- navbar ---------- */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo span { color: #2563eb; }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #1e1e1e;
+            transition: color 0.15s;
+        }
+        .nav-links a:hover { color: #2563eb; }
+        .nav-cta {
+            background: #0b0b0b;
+            color: #fff !important;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.15s, transform 0.15s;
+            cursor: pointer;
+            border: none;
+        }
+        .nav-cta:hover {
+            background: #2563eb !important;
+            color: #fff !important;
+            transform: scale(1.02);
+        }
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-user span {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .nav-user .logout-btn {
+            background: none;
+            border: 1px solid #d0d0d0;
+            border-radius: 40px;
+            padding: 4px 14px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.15s;
+            color: #6b6b6b;
+        }
+        .nav-user .logout-btn:hover {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
 
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+        /* ---------- hero ---------- */
+        .hero {
+            padding: 72px 0 56px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: #f0f4ff;
+            color: #2563eb;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 40px;
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        .hero h1 .highlight { color: #2563eb; }
+        .hero p {
+            font-size: 1.15rem;
+            color: #3b3b3b;
+            max-width: 480px;
+            margin-bottom: 32px;
+        }
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .btn-primary {
+            background: #0b0b0b;
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+        }
+        .btn-outline {
+            background: transparent;
+            color: #0b0b0b;
+            border: 1px solid #d0d0d0;
+            padding: 12px 32px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-outline:hover {
+            border-color: #0b0b0b;
+            background: #f5f5f5;
+            transform: scale(1.02);
+        }
+        .btn-success {
+            background: #2ecc71;
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.15s;
+        }
+        .btn-success:hover {
+            background: #27ae60;
+            transform: scale(1.02);
+        }
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+        }
+        .hero-stats div {
+            display: flex;
+            flex-direction: column;
+        }
+        .hero-stats .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .hero-stats .label {
+            font-size: 0.8rem;
+            color: #6b6b6b;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .hero-visual {
+            background: #f8faff;
+            border-radius: 20px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: box-shadow 0.3s;
+        }
+        .hero-visual:hover { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); }
+        .hero-visual .formula-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            border: 1px solid #eaeef5;
+            font-family: "Inter", monospace;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #1e1e1e;
+            transition: transform 0.2s;
+        }
+        .hero-visual .formula-box:hover { transform: translateY(-2px); }
+        .hero-visual .formula-box span { color: #2563eb; }
+        .hero-visual .mini-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 64px;
+            padding: 8px 4px 0;
+        }
+        .hero-visual .mini-chart .bar {
+            flex: 1;
+            background: #2563eb;
+            border-radius: 4px 4px 0 0;
+            height: calc(20% + 8% * var(--h, 1));
+            min-height: 8px;
+            transition: height 0.3s, opacity 0.3s;
+            opacity: 0.7;
+        }
+        .hero-visual .mini-chart .bar:nth-child(1) { --h: 3; height: 44%; }
+        .hero-visual .mini-chart .bar:nth-child(2) { --h: 5; height: 60%; }
+        .hero-visual .mini-chart .bar:nth-child(3) { --h: 7; height: 76%; }
+        .hero-visual .mini-chart .bar:nth-child(4) { --h: 4; height: 52%; }
+        .hero-visual .mini-chart .bar:nth-child(5) { --h: 8; height: 84%; }
+        .hero-visual .mini-chart .bar:nth-child(6) { --h: 6; height: 68%; }
+        .hero-visual .mini-chart .bar:nth-child(7) { --h: 3; height: 44%; }
+        .hero-visual .mini-chart .bar.active { opacity: 1; background: #1e40af; }
+        .hero-visual .chart-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #6b6b6b;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
 
-    .hero {
-      background: linear-gradient(145deg, #0b1a33 0%, #1a2f4f 100%);
-      color: white;
-      padding: 48px 0 56px;
-      border-bottom: 6px solid #4fc9da;
-      position: relative;
-      overflow: hidden;
-    }
+        /* ---------- sections ---------- */
+        section { padding: 72px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.04); }
+        section:last-of-type { border-bottom: none; }
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #2563eb;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+        .section-desc {
+            font-size: 1.1rem;
+            color: #3b3b3b;
+            max-width: 560px;
+        }
 
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: -30%;
-      right: -10%;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(79, 201, 218, 0.08) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
+        /* ---------- problem ---------- */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 32px;
+        }
+        .stat-card {
+            background: #fafcff;
+            border-radius: 16px;
+            padding: 24px 28px;
+            border: 1px solid #eef2f8;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .stat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04); }
+        .stat-card .number {
+            font-size: 2.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #2563eb;
+        }
+        .stat-card .stat-label { font-size: 0.9rem; color: #3b3b3b; margin-top: 4px; }
+        .stat-card .stat-source { font-size: 0.75rem; color: #8a8a8a; margin-top: 8px; }
+        .problem-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .problem-list li {
+            list-style: none;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            font-size: 0.95rem;
+            color: #1e1e1e;
+        }
+        .problem-list li::before { content: "•"; color: #2563eb; font-weight: 700; font-size: 1.2rem; }
 
-    .hero .container {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-    }
+        /* ---------- solution ---------- */
+        .solution-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+            margin-top: 32px;
+        }
+        .solution-card {
+            background: #fafcff;
+            border-radius: 16px;
+            padding: 28px 24px;
+            border: 1px solid #eef2f8;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .solution-card:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(0, 0, 0, 0.04); }
+        .solution-card .emoji { font-size: 2rem; margin-bottom: 12px; }
+        .solution-card h4 { font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
+        .solution-card p { font-size: 0.9rem; color: #3b3b3b; }
 
-    .hero-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 600;
-      font-size: 1.8rem;
-      letter-spacing: -0.5px;
-    }
+        /* ---------- how it works ---------- */
+        .steps {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 32px;
+        }
+        .step { text-align: center; transition: transform 0.2s; }
+        .step:hover { transform: translateY(-4px); }
+        .step .num {
+            display: inline-block;
+            background: #0b0b0b;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            border-radius: 40px;
+            margin-bottom: 12px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .step:hover .num { background: #2563eb; transform: scale(1.08); }
+        .step h4 { font-weight: 600; font-size: 1rem; margin-bottom: 6px; }
+        .step p { font-size: 0.85rem; color: #3b3b3b; }
 
-    .hero-brand i {
-      color: #4fc9da;
-      font-size: 2.4rem;
-    }
+        /* ---------- math ---------- */
+        .math-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 32px;
+        }
+        .math-card {
+            background: #fafcff;
+            border-radius: 16px;
+            padding: 24px 28px;
+            border: 1px solid #eef2f8;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .math-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04); }
+        .math-card .formula {
+            font-family: "Inter", monospace;
+            font-weight: 500;
+            font-size: 1rem;
+            background: #fff;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #eaeef5;
+            margin: 8px 0 12px;
+            color: #0b0b0b;
+        }
+        .math-card .formula span { color: #2563eb; }
+        .math-card p { font-size: 0.9rem; color: #3b3b3b; }
 
-    .hero-badge {
-      background: rgba(79, 201, 218, 0.2);
-      padding: 8px 20px;
-      border-radius: 60px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      border: 1px solid rgba(79, 201, 218, 0.3);
-      backdrop-filter: blur(4px);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
+        /* ---------- market ---------- */
+        .market-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+            margin-top: 32px;
+        }
+        .market-item {
+            background: #fafcff;
+            border-radius: 16px;
+            padding: 24px 20px;
+            border: 1px solid #eef2f8;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .market-item:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04); }
+        .market-item .number { font-size: 2rem; font-weight: 700; color: #2563eb; }
+        .market-item .label { font-size: 0.9rem; color: #3b3b3b; margin-top: 4px; }
+        .tam-sam-som {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .tam-sam-som > div {
+            background: #fafcff;
+            border-radius: 12px;
+            padding: 16px 20px;
+            border: 1px solid #eef2f8;
+            transition: transform 0.2s;
+        }
+        .tam-sam-som > div:hover { transform: translateY(-2px); }
+        .tam-sam-som .label { font-weight: 600; }
+        .tam-sam-som .value { font-size: 1.4rem; font-weight: 700; }
 
-    .hero-badge i {
-      color: #4fc9da;
-    }
+        /* ---------- team ---------- */
+        .team-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 32px;
+        }
+        .team-card {
+            background: #fafcff;
+            border-radius: 16px;
+            padding: 24px 28px;
+            border: 1px solid #eef2f8;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .team-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04); }
+        .team-card .name { font-weight: 700; font-size: 1.05rem; }
+        .team-card .role { font-size: 0.85rem; color: #2563eb; font-weight: 500; }
+        .team-card p { font-size: 0.9rem; color: #3b3b3b; margin-top: 4px; }
 
-    .hero h1 {
-      font-size: 3.2rem;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-top: 28px;
-      max-width: 800px;
-    }
+        /* ---------- cta ---------- */
+        .cta-box {
+            background: #0b0b0b;
+            color: #fff;
+            border-radius: 24px;
+            padding: 56px 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 16px;
+            transition: box-shadow 0.3s;
+        }
+        .cta-box:hover { box-shadow: 0 24px 48px rgba(0, 0, 0, 0.08); }
+        .cta-box h2 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+        .cta-box p { font-size: 1.1rem; opacity: 0.7; max-width: 480px; margin-bottom: 28px; }
+        .cta-box .btn-primary { background: #fff; color: #0b0b0b; margin: 0 6px; }
+        .cta-box .btn-primary:hover { background: #2563eb; color: #fff; }
+        .cta-box .btn-outline { border-color: #fff; color: #fff; margin: 0 6px; }
+        .cta-box .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
 
-    .hero h1 span {
-      color: #4fc9da;
-      background: linear-gradient(to right, #4fc9da, #a1e8f0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+        /* ---------- footer ---------- */
+        .footer {
+            padding: 32px 0;
+            font-size: 0.8rem;
+            color: #6b6b6b;
+            border-top: 1px solid rgba(0, 0, 0, 0.04);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer a { color: #0b0b0b; text-decoration: none; }
+        .footer a:hover { color: #2563eb; }
 
-    .hero p {
-      font-size: 1.2rem;
-      opacity: 0.85;
-      max-width: 600px;
-      margin: 20px 0 32px;
-    }
+        /* ---------- МОДАЛЬНЫЕ ОКНА ---------- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(6px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background: #fff;
+            border-radius: 28px;
+            max-width: 480px;
+            width: 90%;
+            padding: 40px 36px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalIn 0.3s ease;
+            position: relative;
+        }
+        @keyframes modalIn {
+            from { transform: scale(0.95) translateY(10px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        .modal-box .close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #6b6b6b;
+            transition: 0.15s;
+        }
+        .modal-box .close:hover { color: #0b0b0b; }
+        .modal-box h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
+        .modal-box .subtitle { color: #6b6b6b; font-size: 0.9rem; margin-bottom: 20px; }
+        .modal-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d0d0d0;
+            border-radius: 40px;
+            margin-bottom: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.15s;
+        }
+        .modal-box input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+        .modal-box .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: #0b0b0b;
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .modal-box .btn-submit:hover { background: #2563eb; }
+        .modal-box .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 16px 0;
+            color: #b0b0b0;
+            font-size: 0.85rem;
+        }
+        .modal-box .divider::before,
+        .modal-box .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
+        }
+        .modal-box .google-btn {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d0d0d0;
+            border-radius: 40px;
+            background: #fff;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background 0.15s;
+        }
+        .modal-box .google-btn:hover { background: #f5f5f5; }
+        .modal-box .auth-switch {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 0.9rem;
+            color: #3b3b3b;
+        }
+        .modal-box .auth-switch a { color: #2563eb; cursor: pointer; text-decoration: none; }
+        .modal-box .auth-switch a:hover { text-decoration: underline; }
+        .modal-box .error-msg { color: #e74c3c; font-size: 0.85rem; margin-top: 8px; display: none; }
 
-    .hero-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 40px;
-      margin-top: 16px;
-    }
+        /* ---------- Payment modal ---------- */
+        .payment-plans {
+            display: flex;
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .payment-plans .plan {
+            flex: 1;
+            border: 2px solid #eef2f8;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .payment-plans .plan:hover { border-color: #2563eb; transform: translateY(-4px); }
+        .payment-plans .plan.selected { border-color: #2563eb; background: #f0f4ff; }
+        .payment-plans .plan .price { font-size: 2rem; font-weight: 700; color: #2563eb; }
+        .payment-plans .plan .period { font-size: 0.8rem; color: #6b6b6b; }
+        .payment-plans .plan .features { font-size: 0.85rem; margin-top: 8px; color: #3b3b3b; }
+        .payment-methods {
+            display: flex;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .payment-methods button {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #eef2f8;
+            border-radius: 12px;
+            background: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+            font-size: 0.9rem;
+        }
+        .payment-methods button:hover { border-color: #2563eb; background: #f0f4ff; }
+        .payment-methods button.active { border-color: #2563eb; background: #f0f4ff; }
+        .payment-status {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+        .payment-status .icon { font-size: 3rem; margin-bottom: 12px; }
+        .payment-status h3 { margin-bottom: 8px; }
 
-    .hero-stats div {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-    }
+        /* ---------- Dashboard modal ---------- */
+        .dash-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 16px 0;
+        }
+        .dash-card {
+            background: #fafcff;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #eef2f8;
+        }
+        .dash-card .label { font-size: 0.75rem; color: #6b6b6b; text-transform: uppercase; }
+        .dash-card .value { font-size: 1.4rem; font-weight: 700; }
+        .dash-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 16px 0;
+        }
+        .dash-actions button {
+            padding: 10px 20px;
+            border-radius: 40px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .dash-actions .primary { background: #0b0b0b; color: #fff; }
+        .dash-actions .primary:hover { background: #2563eb; }
+        .dash-actions .secondary { background: transparent; border: 1px solid #d0d0d0; }
+        .dash-actions .secondary:hover { background: #f0f4ff; border-color: #2563eb; }
+        .dash-actions .success { background: #2ecc71; color: #fff; }
+        .dash-actions .success:hover { background: #27ae60; }
 
-    .hero-stats .number {
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: #4fc9da;
-    }
+        /* ---------- Payment form (popup) ---------- */
+        .payment-popup {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .payment-popup.active { display: flex; }
+        .payment-popup .popup-box {
+            background: #fff;
+            border-radius: 28px;
+            max-width: 420px;
+            width: 90%;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalIn 0.3s ease;
+            position: relative;
+        }
+        .payment-popup .popup-box .close-popup {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 1.6rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #6b6b6b;
+        }
+        .payment-popup .popup-box h3 { margin-bottom: 16px; }
+        .payment-popup .popup-box .card-input {
+            border: 1px solid #d0d0d0;
+            border-radius: 12px;
+            padding: 12px;
+            width: 100%;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        .payment-popup .popup-box .row {
+            display: flex;
+            gap: 12px;
+        }
+        .payment-popup .popup-box .row .card-input { flex: 1; }
+        .payment-popup .popup-box .pay-btn {
+            width: 100%;
+            padding: 14px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .payment-popup .popup-box .pay-btn:hover { background: #1e40af; }
+        .payment-popup .popup-box .pay-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    .hero-stats .label {
-      font-size: 0.95rem;
-      opacity: 0.8;
-    }
-
-    .btn-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-top: 24px;
-    }
-
-    .btn {
-      background: white;
-      color: #0b1a33;
-      padding: 14px 36px;
-      border-radius: 60px;
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.2s;
-      border: none;
-      font-size: 1rem;
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1.5px solid rgba(255,255,255,0.3);
-      color: white;
-    }
-
-    .btn i {
-      font-size: 1.1rem;
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.2);
-    }
-
-    .section {
-      padding: 64px 0;
-      border-bottom: 1px solid #e9edf4;
-    }
-
-    .section-title {
-      font-size: 2.2rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .section-title i {
-      color: #1a3a5c;
-      font-size: 2rem;
-    }
-
-    .subtitle {
-      font-size: 1.1rem;
-      color: #2a405e;
-      max-width: 700px;
-      margin-bottom: 40px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 32px;
-    }
-
-    .card {
-      background: white;
-      padding: 32px 28px;
-      border-radius: 28px;
-      box-shadow: 0 8px 30px rgba(0, 20, 40, 0.06);
-      transition: 0.25s ease;
-      border: 1px solid #f0f3fa;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 18px 40px rgba(11, 26, 51, 0.08);
-    }
-
-    .card-icon {
-      font-size: 2.6rem;
-      color: #1a3a5c;
-      margin-bottom: 12px;
-    }
-
-    .card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 12px;
-    }
-
-    .card p, .card li {
-      color: #1f3757;
-      opacity: 0.85;
-    }
-
-    .card ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .card ul li {
-      padding: 6px 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .card ul li i {
-      color: #4fc9da;
-      width: 20px;
-    }
-
-    .chip {
-      background: #eef4ff;
-      border-radius: 40px;
-      padding: 4px 16px;
-      font-weight: 500;
-      font-size: 0.8rem;
-      color: #1a3a5c;
-      display: inline-block;
-    }
-
-    .math-box {
-      background: #f0f6fe;
-      border-radius: 28px;
-      padding: 28px 32px;
-      margin: 32px 0 16px;
-      font-family: 'Courier New', monospace;
-      font-size: 1.1rem;
-      overflow-x: auto;
-      border: 1px solid #dce6f5;
-    }
-
-    .math-box .formula {
-      display: block;
-      padding: 8px 0;
-      font-weight: 500;
-    }
-
-    .highlight {
-      background: #e6f3fa;
-      border-left: 6px solid #4fc9da;
-      padding: 20px 28px;
-      border-radius: 20px;
-      margin: 32px 0;
-    }
-
-    .footer {
-      background: #0b1a33;
-      color: white;
-      padding: 40px 0;
-      margin-top: 12px;
-    }
-
-    .footer a {
-      color: #8bb9d9;
-      text-decoration: none;
-    }
-
-    .footer .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-logo i {
-      font-size: 2rem;
-      color: #4fc9da;
-      margin-right: 12px;
-    }
-
-    .contact-links a {
-      color: white;
-      margin-left: 20px;
-      opacity: 0.8;
-      transition: opacity 0.2s;
-    }
-
-    .contact-links a:hover {
-      opacity: 1;
-    }
-
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.4rem;
-      }
-      .hero-stats {
-        gap: 20px;
-      }
-      .hero-stats .number {
-        font-size: 1.8rem;
-      }
-      .section-title {
-        font-size: 1.8rem;
-      }
-    }
-  </style>
+        /* ---------- responsive ---------- */
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.6rem; }
+            .solution-grid { grid-template-columns: 1fr 1fr; }
+            .steps { grid-template-columns: 1fr 1fr; }
+            .math-grid { grid-template-columns: 1fr; }
+            .problem-grid { grid-template-columns: 1fr; }
+            .market-grid { grid-template-columns: 1fr 1fr; }
+            .team-grid { grid-template-columns: 1fr; }
+            .tam-sam-som { grid-template-columns: 1fr; }
+            .dash-grid { grid-template-columns: 1fr; }
+            .payment-plans { flex-direction: column; }
+        }
+        @media (max-width: 600px) {
+            .navbar { flex-wrap: wrap; gap: 12px; }
+            .nav-links { gap: 16px; font-size: 0.8rem; flex-wrap: wrap; }
+            .hero { padding: 40px 0 32px; }
+            .hero h1 { font-size: 2rem; }
+            .hero-stats { flex-wrap: wrap; gap: 24px; }
+            .solution-grid { grid-template-columns: 1fr; }
+            .steps { grid-template-columns: 1fr; }
+            .market-grid { grid-template-columns: 1fr; }
+            .cta-box { padding: 32px 20px; }
+            .cta-box h2 { font-size: 1.8rem; }
+            .hero-actions { flex-direction: column; }
+            .hero-actions .btn-primary, .hero-actions .btn-outline { text-align: center; }
+            .modal-box { padding: 28px 20px; }
+            .payment-methods { flex-direction: column; }
+        }
+    </style>
 </head>
 <body>
 
-<!-- HERO -->
-<header class="hero">
-  <div class="container">
-    <div style="flex:1;">
-      <div class="hero-brand">
-        <i class="fas fa-brain"></i> OCD-Monitor
-        <span class="hero-badge"><i class="fas fa-shield-alt"></i> CONFIDENTIAL</span>
-      </div>
-      <h1>Digital mental health <span>screening</span> in schools</h1>
-      <p><i class="fas fa-quote-left" style="color:#4fc9da; margin-right:8px;"></i>«Mathematics as a tool for early diagnosis»</p>
-      <div class="hero-stats">
-        <div><span class="number">1–2%</span> <span class="label">global prevalence</span></div>
-        <div><span class="number">~200k</span> <span class="label">potential cases (KZ)</span></div>
-        <div><span class="number">70%</span> <span class="label">develop comorbidities</span></div>
-      </div>
-      <div class="btn-group">
-        <a href="https://t.me/rasstroistvbot" target="_blank" class="btn"><i class="fab fa-telegram"></i> Telegram Bot</a>
-        <a href="#" class="btn btn-outline"><i class="fas fa-chart-line"></i> Demo Dashboard</a>
-      </div>
-    </div>
-    <div style="font-size: 6rem; opacity: 0.2; color: #4fc9da; display: none; background: none; box-shadow: none;" class="hero-brand">
-      <i class="fas fa-heartbeat"></i>
-    </div>
-  </div>
-</header>
+<!-- ===== NAV ===== -->
+<div class="container">
+    <nav class="navbar">
+        <div class="logo">OCD-<span>Monitor</span></div>
+        <div class="nav-links">
+            <a href="#problem">Проблема</a>
+            <a href="#solution">Решение</a>
+            <a href="#how">Как работает</a>
+            <a href="#math">Математика</a>
+            <a href="#team">Команда</a>
+            <div id="navAuth">
+                <button class="nav-cta" id="mainAuthBtn">Войти</button>
+            </div>
+            <div id="navUser" style="display:none;" class="nav-user">
+                <span id="navUsername"></span>
+                <button class="logout-btn" id="logoutBtn">Выйти</button>
+            </div>
+        </div>
+    </nav>
+</div>
 
-<!-- PROBLEM & SOLUTION -->
-<section class="section">
-  <div class="container">
-    <div class="section-title"><i class="fas fa-exclamation-triangle"></i> Problem & solution</div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-icon"><i class="fas fa-notes-medical"></i></div>
-        <h3>Obsessive‑Compulsive Disorder</h3>
-        <ul>
-          <li><i class="fas fa-circle"></i> Top‑10 cause of disability (WHO)</li>
-          <li><i class="fas fa-circle"></i> 200,000–400,000 cases in Kazakhstan</li>
-          <li><i class="fas fa-circle"></i> 70% develop depression/anxiety without treatment</li>
-          <li><i class="fas fa-circle"></i> School psychologists are overburdened</li>
-        </ul>
-        <div style="margin-top:18px;"><span class="chip">Market growth +20% yearly</span></div>
-      </div>
-      <div class="card" style="border-color: #c7e2f0;">
-        <div class="card-icon"><i class="fas fa-microchip"></i></div>
-        <h3>OCD‑Monitor platform</h3>
-        <ul>
-          <li><i class="fas fa-check-circle" style="color:#4fc9da;"></i> Hidden Markov Models (HMM)</li>
-          <li><i class="fas fa-check-circle" style="color:#4fc9da;"></i> Kalman filter + Bayesian updating</li>
-          <li><i class="fas fa-check-circle" style="color:#4fc9da;"></i> Viterbi algorithm</li>
-          <li><i class="fas fa-check-circle" style="color:#4fc9da;"></i> Telegram bot &amp; Web app</li>
-        </ul>
-        <div style="margin-top:18px;"><span class="chip">MVP validated on 15 students</span></div>
-      </div>
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-grid">
+            <div class="fade-up visible">
+                <div class="hero-badge">🔬 Математика как инструмент ранней диагностики</div>
+                <h1>Цифровой скрининг<br /><span class="highlight">психического здоровья</span><br />в школах</h1>
+                <p>OCD-Monitor превращает 7 дней ежедневных чек-инов в количественный индекс тревожности. Байес, фильтр Калмана и скрытые марковские модели — для школ, психологов и родителей.</p>
+                <div class="hero-actions">
+                    <a href="#" class="btn-primary" id="heroStartBtn">Начать мониторинг</a>
+                    <a href="#how" class="btn-outline">Как это работает</a>
+                </div>
+                <div class="hero-stats">
+                    <div><span class="number">53.3%</span><span class="label">в группе риска (пилот)</span></div>
+                    <div><span class="number">7</span><span class="label">дней мониторинга</span></div>
+                    <div><span class="number">95%</span><span class="label">доверительный интервал</span></div>
+                </div>
+            </div>
+            <div class="hero-visual fade-right visible">
+                <div class="formula-box">P(A|B) = <span>P(B|A) · P(A)</span> / P(B) &nbsp;·&nbsp; <span>Байесовское обновление</span></div>
+                <div class="formula-box" style="font-size:0.85rem;">x(t+1) = G·x(t) + w(t) &nbsp;·&nbsp; <span>фильтр Калмана</span></div>
+                <div>
+                    <div class="mini-chart">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                        <div class="bar active"></div><div class="bar"></div><div class="bar"></div>
+                    </div>
+                    <div class="chart-label"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span></div>
+                </div>
+                <div style="font-size:0.8rem; color:#6b6b6b; text-align:center; border-top:1px solid #eaeef5; padding-top:12px;">⚡ прогноз состояния на основе 7 дней</div>
+            </div>
+        </div>
     </div>
-
-    <!-- Mathematical foundation -->
-    <div class="math-box">
-      <div style="font-weight:600; font-family: 'Segoe UI', sans-serif; margin-bottom:10px;"><i class="fas fa-square-root-variable"></i> Mathematical core</div>
-      <span class="formula"><strong>Bayes:</strong> P(A|B) = P(B|A)·P(A) / P(B)</span>
-      <span class="formula"><strong>Kalman:</strong> x<sub>t+1</sub> = G<sub>t</sub> x<sub>t</sub> + w<sub>t</sub> , y<sub>t</sub> = F<sub>t</sub> x<sub>t</sub> + v<sub>t</sub></span>
-      <span class="formula"><strong>Viterbi:</strong> δ<sub>t</sub>(j) = max<sub>i</sub>[δ<sub>t-1</sub>(i)A<sub>ij</sub>] · b<sub>j</sub>(y<sub>t</sub>)</span>
-    </div>
-  </div>
 </section>
 
-<!-- MARKET & BUSINESS -->
-<section class="section" style="background: #f4f8ff;">
-  <div class="container">
-    <div class="section-title"><i class="fas fa-chart-pie"></i> Market & business model</div>
-    <div class="grid-2">
-      <div>
-        <div class="card">
-          <h3><i class="fas fa-users"></i> Target audience</h3>
-          <ul>
-            <li><i class="fas fa-school"></i> Schools (students 7–17)</li>
-            <li><i class="fas fa-user-md"></i> Psychologists, parents, pediatricians</li>
-          </ul>
-          <div style="margin:20px 0 8px; font-weight:600;">Kazakhstan market</div>
-          <ul>
-            <li><i class="fas fa-building"></i> ~7,000 schools</li>
-            <li><i class="fas fa-user-graduate"></i> ~3 million students</li>
-            <li><i class="fas fa-user-tie"></i> ~5,000 psychologists</li>
-          </ul>
+<!-- ===== PROBLEM ===== -->
+<section id="problem">
+    <div class="container">
+        <div class="section-label fade-up">Проблема</div>
+        <h2 class="section-title fade-up delay-1">ОКБ — одно из самых недооценённых расстройств</h2>
+        <p class="section-desc fade-up delay-2">1–2% населения Земли живут с ОКБ. В Казахстане — до 400 000 потенциальных случаев. Без лечения у 70% развиваются сопутствующие депрессия и тревога.</p>
+        <div class="problem-grid">
+            <div>
+                <div class="stat-card fade-up delay-1"><div class="number">1–2%</div><div class="stat-label">населения Земли живут с ОКБ</div><div class="stat-source">WHO</div></div>
+                <div class="stat-card fade-up delay-2" style="margin-top:16px;"><div class="number">200–400K</div><div class="stat-label">оценочное число случаев в Казахстане</div><div class="stat-source">Национальная оценка</div></div>
+                <div class="stat-card fade-up delay-3" style="margin-top:16px;"><div class="number">70%</div><div class="stat-label">развивают коморбидную тревогу или депрессию без лечения</div><div class="stat-source">NIMH</div></div>
+            </div>
+            <div>
+                <ul class="problem-list fade-up delay-2">
+                    <li><strong>Нет ранней диагностики</strong> — школьные психологи перегружены</li>
+                    <li><strong>Стигма</strong> — подростки не готовы обращаться за помощью</li>
+                    <li><strong>Цифровой разрыв</strong> — нет доступных скрининговых инструментов</li>
+                    <li><strong>Растущий спрос</strong> — рынок цифрового ментального здоровья растёт на 20% в год</li>
+                </ul>
+                <div class="fade-up delay-3" style="margin-top:24px; background:#f0f4ff; border-radius:12px; padding:16px 20px; border-left:4px solid #2563eb;">
+                    <strong style="font-size:0.9rem;">Прямой экономический убыток</strong>
+                    <div style="font-size:1.4rem; font-weight:700; color:#2563eb;">> 100 млн ₸ / год</div>
+                    <div style="font-size:0.8rem; color:#3b3b3b;">в масштабах одного города — потеря продуктивности, рост кризисных случаев, затраты на лечение</div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div>
-        <div class="card" style="background: #0b1a33; color: white; border: none;">
-          <h3 style="color:white;"><i class="fas fa-coins"></i> TAM / SAM / SOM</h3>
-          <ul style="color:#d6e5f0;">
-            <li><i class="fas fa-globe"></i> <strong>TAM</strong> 3M × $10 = $30M</li>
-            <li><i class="fas fa-city"></i> <strong>SAM</strong> urban schools (50%) = $15M</li>
-            <li><i class="fas fa-bullseye"></i> <strong>SOM</strong> 5% of schools (350) = $3.5M</li>
-          </ul>
-          <div style="margin-top:28px; border-top:1px solid #2a4a6a; padding-top:20px;">
-            <div><i class="fas fa-tag"></i> License: 500,000 ₸ / year</div>
-            <div><i class="fas fa-file-invoice"></i> Premium report: 5,000 ₸</div>
-            <div><i class="fas fa-handshake"></i> Government grant “Digital Kazakhstan”</div>
-          </div>
-        </div>
-      </div>
     </div>
-
-    <!-- Revenue -->
-    <div class="highlight">
-      <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: space-between;">
-        <div><i class="fas fa-calculator" style="font-size:2rem; color:#0b1a33;"></i> <strong>Projected annual revenue:</strong> 100M ₸</div>
-        <div><span class="chip" style="background:#0b1a33; color:white;">ROI 300% in 2 years</span></div>
-        <div><span class="chip">Break‑even: 20 schools</span></div>
-      </div>
-    </div>
-  </div>
 </section>
 
-<!-- TECHNOLOGY & ROADMAP -->
-<section class="section">
-  <div class="container">
-    <div class="section-title"><i class="fas fa-code"></i> Technology & roadmap</div>
-    <div class="grid-2">
-      <div class="card">
-        <h3><i class="fas fa-layer-group"></i> Architecture</h3>
-        <ul>
-          <li><i class="fab fa-telegram"></i> Frontend: Telegram bot + Streamlit</li>
-          <li><i class="fas fa-server"></i> Backend: C++ (computations) + Python (API)</li>
-          <li><i class="fas fa-database"></i> Storage: SQLite → PostgreSQL</li>
-        </ul>
-        <div style="margin-top:20px;">
-          <span class="chip"><i class="fas fa-copyright"></i> Patent pending</span>
-          <span class="chip"><i class="fas fa-flask"></i> 15‑student validation</span>
+<!-- ===== SOLUTION ===== -->
+<section id="solution">
+    <div class="container">
+        <div class="section-label fade-up">Решение</div>
+        <h2 class="section-title fade-up delay-1">Математическая платформа, а не очередной чат-бот</h2>
+        <p class="section-desc fade-up delay-2">Четыре математических движка работают вместе: скрытые марковские модели, фильтр Калмана, байесовское обновление и алгоритм Витерби.</p>
+        <div class="solution-grid">
+            <div class="solution-card scale-in delay-1"><div class="emoji">🧠</div><h4>Скрытые марковские модели</h4><p>Распознаёт латентные состояния — норма, тревога, кризис — по ежедневным сигналам.</p></div>
+            <div class="solution-card scale-in delay-2"><div class="emoji">📈</div><h4>Фильтр Калмана</h4><p>Прогнозирует, как будет эволюционировать тревожность ученика в ближайшие дни.</p></div>
+            <div class="solution-card scale-in delay-3"><div class="emoji">🔄</div><h4>Байесовское обновление</h4><p>Непрерывно адаптирует параметры модели под каждого конкретного пользователя.</p></div>
+            <div class="solution-card scale-in delay-4"><div class="emoji">🎯</div><h4>Алгоритм Витерби</h4><p>Определяет наиболее вероятную последовательность состояний за неделю.</p></div>
+            <div class="solution-card scale-in delay-5" style="grid-column: span 2; background:#0b0b0b; color:#fff; border-color:#0b0b0b;">
+                <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                    <span style="font-size:1.6rem;">📱</span>
+                    <div>
+                        <h4 style="color:#fff;">Telegram-бот + Web-приложение</h4>
+                        <p style="color:#b0b0b0;">Доступно без установки. Результаты — в виде цветового графика, понятного школьному психологу.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="card">
-        <h3><i class="fas fa-road"></i> Roadmap (6 months)</h3>
-        <ul>
-          <li><i class="fas fa-calendar-alt"></i> Months 1‑2: API, dashboard → pilot in 1 school</li>
-          <li><i class="fas fa-calendar-alt"></i> Months 3‑4: CRM integration → 5 schools</li>
-          <li><i class="fas fa-calendar-alt"></i> Months 5‑6: scaling, legal entity → 10 schools + grant</li>
-        </ul>
-      </div>
     </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 32px;">
-      <div class="card" style="text-align:center;">
-        <i class="fas fa-users-cog" style="font-size:2.8rem; color:#1a3a5c;"></i>
-        <h4 style="margin:10px 0 6px;">Team</h4>
-        <p>Қыдырбек Қозыкөрпеш — founder, C++ / Python</p>
-        <p>Қалиева Альмира — scientific advisor</p>
-      </div>
-      <div class="card" style="text-align:center;">
-        <i class="fas fa-hand-holding-usd" style="font-size:2.8rem; color:#1a3a5c;"></i>
-        <h4 style="margin:10px 0 6px;">Investment need</h4>
-        <p><strong>1.5M ₸</strong> for 6 months</p>
-        <p style="font-size:0.9rem;">Development · Marketing · Legal</p>
-      </div>
-    </div>
-  </div>
 </section>
 
-<!-- FINAL CALL -->
-<section style="padding: 48px 0; background: linear-gradient(135deg, #0b1a33 0%, #132b47 100%); color: white;">
-  <div class="container">
-    <div style="display: flex; flex-wrap: wrap; gap: 30px; align-items: center; justify-content: space-between;">
-      <div style="max-width: 700px;">
-        <div style="font-size: 2.4rem; font-weight: 600; display: flex; align-items: center; gap: 16px;">
-          <i class="fas fa-rocket" style="color:#4fc9da;"></i> OCD‑Monitor
+<!-- ===== HOW IT WORKS ===== -->
+<section id="how">
+    <div class="container">
+        <div class="section-label fade-up">Как работает</div>
+        <h2 class="section-title fade-up delay-1">От ежедневного чек-ина к чёткому сигналу</h2>
+        <div class="steps">
+            <div class="step fade-up delay-1"><div class="num">1</div><h4>Ежедневный мониторинг</h4><p>7 дней быстрых чек-инов → числовой индекс тревожности</p></div>
+            <div class="step fade-up delay-2"><div class="num">2</div><h4>Автоматический анализ</h4><p>Модель выдаёт диагноз-сигнал, прогноз и оценку риска кризиса</p></div>
+            <div class="step fade-up delay-3"><div class="num">3</div><h4>Визуализация</h4><p>Цветовой график, который школа может прочитать за секунду</p></div>
+            <div class="step fade-up delay-4"><div class="num">4</div><h4>Доступность</h4><p>Telegram-бот и лёгкое веб-приложение</p></div>
         </div>
-        <p style="font-size:1.1rem; opacity:0.9; margin: 16px 0;">Science‑backed product with proven mathematical model. Socially significant for Kazakh schools. Commercially attractive.</p>
-        <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px;">
-          <span class="chip" style="background: #4fc9da; color:#0b1a33;"><i class="fas fa-check"></i> MVP working</span>
-          <span class="chip" style="background: #4fc9da; color:#0b1a33;"><i class="fas fa-file-alt"></i> Scientific publication</span>
-        </div>
-      </div>
-      <div style="background: rgba(255,255,255,0.06); padding: 24px 32px; border-radius: 60px; border: 1px solid rgba(79,201,218,0.2);">
-        <i class="fas fa-robot" style="font-size: 2.4rem; color:#4fc9da; margin-right: 12px;"></i>
-        <span style="font-weight:500;">Join us!</span>
-      </div>
     </div>
-  </div>
 </section>
 
-<!-- FOOTER with bot & phone -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-logo">
-      <i class="fas fa-brain"></i> OCD-Monitor
-      <span style="margin-left: 16px; font-weight:300; opacity:0.6;">© 2026 · All rights reserved</span>
+<!-- ===== MATH ===== -->
+<section id="math">
+    <div class="container">
+        <div class="section-label fade-up">Математический движок</div>
+        <h2 class="section-title fade-up delay-1">Три формулы превращают субъективные ощущения в объективный сигнал</h2>
+        <div class="math-grid">
+            <div class="math-card fade-left delay-1"><h4>Байесовское обновление</h4><div class="formula">P(A|B) = <span>P(B|A) · P(A)</span> / P(B)</div><p>Преобразует сообщённые симптомы в обновлённую вероятность ОКБ, используя популяционный базовый уровень как априор.</p></div>
+            <div class="math-card fade-right delay-2"><h4>Фильтр Калмана</h4><div class="formula">x(t+1) = G·x(t) + w(t) &nbsp;&nbsp; y(t) = F·x(t) + v(t)</div><p>Прогнозирует завтрашнее скрытое состояние тревоги на основе сегодняшнего состояния и зашумленных наблюдений.</p></div>
+            <div class="math-card fade-up delay-3" style="grid-column: span 2;"><h4>Алгоритм Витерби</h4><div class="formula">δ(t,j) = max[ δ(t−1,i) · A(i,j) ] · b(j, y<sub>t</sub>)</div><p>Восстанавливает наиболее вероятный путь через состояния «норма», «тревога», «кризис» за неделю.</p></div>
+        </div>
     </div>
-    <div class="contact-links">
-      <a href="https://t.me/rasstroistvbot" target="_blank"><i class="fab fa-telegram"></i> @rasstroistvbot</a>
-      <a href="tel:+77474265409"><i class="fas fa-phone"></i> +7 747 426 5409</a>
-      <a href="#"><i class="fas fa-envelope"></i> Contact</a>
-    </div>
-  </div>
-  <div class="container" style="margin-top: 24px; border-top: 1px solid #1f3a57; padding-top: 24px; font-size: 0.85rem; opacity:0.6; flex-wrap: wrap;">
-    <span>Founder: Қыдырбек Қозыкөрпеш Нуржанұлы · Nazarbayev Intellectual School, Almaty</span>
-  </div>
-</footer>
+</section>
 
+<!-- ===== MARKET ===== -->
+<section id="market">
+    <div class="container">
+        <div class="section-label fade-up">Рынок</div>
+        <h2 class="section-title fade-up delay-1">Крупный неохваченный рынок внутри каждой школьной системы</h2>
+        <div class="market-grid">
+            <div class="market-item scale-in delay-1"><div class="number">~7 000</div><div class="label">школ по всему Казахстану</div></div>
+            <div class="market-item scale-in delay-2"><div class="number">~3 млн</div><div class="label">учеников в возрасте 7–17 лет</div></div>
+            <div class="market-item scale-in delay-3"><div class="number">~5 000</div><div class="label">школьных психологов</div></div>
+        </div>
+        <div class="tam-sam-som">
+            <div class="fade-up delay-1"><div class="label">TAM</div><div class="value">$30M</div><div style="font-size:0.8rem; color:#3b3b3b;">3 млн учеников × $10/год</div></div>
+            <div class="fade-up delay-2"><div class="label">SAM</div><div class="value">$15M</div><div style="font-size:0.8rem; color:#3b3b3b;">городские школы — 50% от TAM</div></div>
+            <div class="fade-up delay-3"><div class="label">SOM</div><div class="value">$3.5M</div><div style="font-size:0.8rem; color:#3b3b3b;">5% школ — 350 школ</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TEAM ===== -->
+<section id="team">
+    <div class="container">
+        <div class="section-label fade-up">Команда</div>
+        <h2 class="section-title fade-up delay-1">Научная команда, готовая к масштабированию</h2>
+        <div class="team-grid">
+            <div class="team-card fade-left delay-1"><div class="name">Қыдырбек Қозыкөрпеш Нуржанұлы</div><div class="role">Основатель, разработчик модели</div><p>C++, Python, математическое моделирование</p></div>
+            <div class="team-card fade-right delay-2"><div class="name">Қалиева Альмира Болатханқызы</div><div class="role">Научный руководитель, психолог</div><p>Клиническая психология, школьная диагностика</p></div>
+        </div>
+        <div class="fade-up delay-3" style="margin-top:16px; background:#fafcff; border-radius:12px; padding:16px 20px; border:1px solid #eef2f8;"><strong>Планируемые наймы:</strong> fullstack-разработчик, менеджер по продажам</div>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section id="cta">
+    <div class="container">
+        <div class="cta-box fade-up">
+            <h2>Присоединяйтесь к нам</h2>
+            <p>OCD-Monitor — научно обоснованный, социально значимый и коммерчески привлекательный проект. Мы решаем проблему, о которой говорят, но редко решают цифровыми методами.</p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
+                <a href="https://t.me/ocdsolverbot" target="_blank" class="btn-primary" style="background:#fff; color:#0b0b0b;">Запросить демо</a>
+                <a href="tel:+77474265409" class="btn-outline" style="border-color:#fff; color:#fff;">Связаться с командой</a>
+            </div>
+            <div style="margin-top:24px; font-size:0.8rem; opacity:0.5;">© OCD-Monitor 2026 · Все права защищены</div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<div class="container">
+    <div class="footer">
+        <div>OCD-<span style="font-weight:600; color:#0b0b0b;">Monitor</span></div>
+        <div><a href="#problem">Проблема</a>&nbsp;·&nbsp;<a href="#solution">Решение</a>&nbsp;·&nbsp;<a href="#how">Как работает</a>&nbsp;·&nbsp;<a href="#math">Математика</a>&nbsp;·&nbsp;<a href="#team">Команда</a></div>
+        <div>Назарбаев Зияткерлiк Мектебi, Алматы</div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- ===== МОДАЛЬНОЕ ОКНО: АВТОРИЗАЦИЯ / РЕГИСТРАЦИЯ ===== -->
+<!-- ================================================================ -->
+<div class="modal-overlay" id="authModal">
+    <div class="modal-box">
+        <button class="close" id="closeAuthModal">&times;</button>
+        <!-- Форма входа -->
+        <div id="loginFormDiv">
+            <h2>Добро пожаловать</h2>
+            <p class="subtitle">Войдите в свой аккаунт, чтобы продолжить</p>
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <input type="text" id="loginUsername" placeholder="Имя пользователя" required />
+                <input type="password" id="loginPassword" placeholder="Пароль" required />
+                <button type="submit" class="btn-submit">Войти</button>
+            </form>
+            <div class="divider">или</div>
+            <button class="google-btn" id="googleSignInBtn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20" alt="Google" />
+                Войти через Google
+            </button>
+            <div class="auth-switch">Нет аккаунта? <a id="switchToRegister">Зарегистрироваться</a></div>
+            <div id="authError" class="error-msg"></div>
+        </div>
+        <!-- Форма регистрации -->
+        <div id="registerFormDiv" style="display:none;">
+            <h2>Создать аккаунт</h2>
+            <p class="subtitle">Присоединяйтесь к OCD-Monitor</p>
+            <form id="registerForm" onsubmit="return handleRegister(event)">
+                <input type="text" id="regUsername" placeholder="Имя пользователя" required />
+                <input type="email" id="regEmail" placeholder="Email (необязательно)" />
+                <input type="password" id="regPassword" placeholder="Пароль" required />
+                <button type="submit" class="btn-submit">Зарегистрироваться</button>
+            </form>
+            <div class="divider">или</div>
+            <button class="google-btn" id="googleSignUpBtn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20" alt="Google" />
+                Зарегистрироваться через Google
+            </button>
+            <div class="auth-switch">Уже есть аккаунт? <a id="switchToLogin">Войти</a></div>
+            <div id="regError" class="error-msg"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- ===== МОДАЛЬНОЕ ОКНО: ДАШБОРД ===== -->
+<!-- ================================================================ -->
+<div class="modal-overlay" id="dashboardModal">
+    <div class="modal-box" style="max-width: 600px;">
+        <button class="close" id="closeDashboardModal">&times;</button>
+        <h2>👋 Привет, <span id="dashUsername"></span>!</h2>
+        <p class="subtitle">Ваша панель управления</p>
+        <div class="dash-grid">
+            <div class="dash-card"><div class="label">Осталось попыток</div><div class="value" id="dashAttempts">2</div></div>
+            <div class="dash-card"><div class="label">Подписка</div><div class="value" id="dashSubscription">Нет</div></div>
+            <div class="dash-card"><div class="label">История записей</div><div class="value" id="dashHistoryCount">0</div></div>
+            <div class="dash-card"><div class="label">Консультации</div><div class="value" id="dashConsult">❌</div></div>
+        </div>
+        <div class="dash-actions">
+            <button class="primary" id="dashStartMonitor">🧠 Начать мониторинг</button>
+            <button class="secondary" id="dashShowHistory">📜 История</button>
+            <button class="success" id="dashConsultBtn">💬 Консультация</button>
+        </div>
+        <div id="dashHistoryContainer" style="display:none; max-height:200px; overflow-y:auto; background:#fafcff; border-radius:12px; padding:12px; border:1px solid #eef2f8;"></div>
+        <div id="dashMonitorContainer" style="display:none; margin-top:16px;">
+            <p>Введите уровень тревожности за каждый день (0–10):</p>
+            <div id="dayInputs" style="display:flex; flex-wrap:wrap; gap:8px; margin:12px 0;"></div>
+            <button class="btn-submit" id="computeResultsBtn">📊 Получить результат</button>
+            <div id="monitorResultBox" style="margin-top:12px; background:#f0f4ff; border-radius:12px; padding:16px; white-space:pre-wrap; font-family:monospace; font-size:0.85rem; display:none;"></div>
+            <div id="monitorError" class="error-msg"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- ===== МОДАЛЬНОЕ ОКНО: ОПЛАТА (Kaspi Pay / Kaspi24) ===== -->
+<!-- ================================================================ -->
+<div class="modal-overlay" id="paymentModal">
+    <div class="modal-box" style="max-width: 520px;">
+        <button class="close" id="closePaymentModal">&times;</button>
+        <h2>💎 Оформление подписки</h2>
+        <p class="subtitle">Выберите тариф и способ оплаты</p>
+
+        <!-- Выбор тарифа -->
+        <div class="payment-plans">
+            <div class="plan" data-plan="basic" onclick="selectPlan('basic')">
+                <div class="price">$5</div>
+                <div class="period">/ месяц</div>
+                <div class="features">+5 попыток<br>Базовая поддержка</div>
+            </div>
+            <div class="plan" data-plan="premium" onclick="selectPlan('premium')">
+                <div class="price">$10</div>
+                <div class="period">/ месяц</div>
+                <div class="features">Безлимит<br>Приоритетная поддержка<br>Консультации</div>
+            </div>
+        </div>
+
+        <!-- Выбор способа оплаты -->
+        <p style="font-weight:600; margin-top:8px;">Способ оплаты:</p>
+        <div class="payment-methods">
+            <button class="active" data-method="kaspi" onclick="selectPaymentMethod('kaspi')">
+                <img src="https://kaspi.kz/static/images/icons/logo.svg" width="24" height="24" style="vertical-align:middle;" alt="Kaspi" /> Kaspi Pay
+            </button>
+            <button data-method="kaspi24" onclick="selectPaymentMethod('kaspi24')">
+                <img src="https://kaspi.kz/static/images/icons/logo.svg" width="24" height="24" style="vertical-align:middle;" alt="Kaspi24" /> Kaspi24
+            </button>
+        </div>
+
+        <!-- Детали оплаты -->
+        <div id="paymentDetails" style="display:none; background:#f8faff; border-radius:12px; padding:16px; margin-top:12px;">
+            <p>Тариф: <strong id="selectedPlanName"></strong></p>
+            <p>Сумма: <strong id="selectedPlanPrice"></strong></p>
+            <p>Способ: <strong id="selectedMethodName"></strong></p>
+            <button class="btn-submit" id="confirmPaymentBtn" style="margin-top:12px;">💳 Оплатить</button>
+            <p style="font-size:0.7rem; color:#6b6b6b; margin-top:8px;">Нажав «Оплатить», вы перейдёте к вводу платёжных данных.</p>
+        </div>
+
+        <!-- Статус оплаты -->
+        <div id="paymentStatus" class="payment-status">
+            <div class="icon">⏳</div>
+            <h3>Обработка платежа...</h3>
+            <p>Пожалуйста, подождите</p>
+        </div>
+
+        <div id="paymentSuccess" style="display:none; text-align:center; padding:20px;">
+            <div style="font-size:3rem;">✅</div>
+            <h3>Оплата прошла успешно!</h3>
+            <p>Ваш тариф активирован.</p>
+            <button class="btn-submit" id="paymentDoneBtn" style="margin-top:12px;">Продолжить</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== POPUP ОКНО ДЛЯ ВВОДА ДАННЫХ КАРТЫ (имитация Kaspi) ===== -->
+<div class="payment-popup" id="cardPopup">
+    <div class="popup-box">
+        <button class="close-popup" id="closeCardPopup">&times;</button>
+        <h3>💳 Введите данные карты</h3>
+        <p style="font-size:0.85rem; color:#6b6b6b; margin-bottom:16px;">Для безопасности данные не сохраняются.</p>
+        <input type="text" class="card-input" id="cardNumber" placeholder="Номер карты (16 цифр)" maxlength="19" />
+        <div class="row">
+            <input type="text" class="card-input" id="cardExpiry" placeholder="ММ/ГГ" maxlength="5" />
+            <input type="password" class="card-input" id="cardCvv" placeholder="CVV" maxlength="4" />
+        </div>
+        <input type="text" class="card-input" id="cardHolder" placeholder="Имя владельца" />
+        <button class="pay-btn" id="processCardPayment">💳 Оплатить</button>
+        <p style="font-size:0.75rem; color:#6b6b6b; margin-top:8px;">* Тестовый режим. Реальные деньги не списываются.</p>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- ===== СКРИПТЫ ===== -->
+<!-- ================================================================ -->
+<script>
+    // ================================================================
+    // ХРАНИЛИЩЕ ДАННЫХ (localStorage)
+    // ================================================================
+    const USERS_KEY = 'ocd_users';
+    const SESSION_KEY = 'ocd_session';
+
+    function getUsers() {
+        try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch { return {}; }
+    }
+    function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
+    function getSession() { return localStorage.getItem(SESSION_KEY) || null; }
+    function setSession(username) { localStorage.setItem(SESSION_KEY, username); }
+    function clearSession() { localStorage.removeItem(SESSION_KEY); }
+
+    function getUser(username) {
+        const users = getUsers();
+        return users[username] || null;
+    }
+    function updateUser(username, data) {
+        const users = getUsers();
+        users[username] = data;
+        saveUsers(users);
+    }
+
+    // ================================================================
+    // УПРАВЛЕНИЕ МОДАЛЬНЫМИ ОКНАМИ
+    // ================================================================
+    function openModal(id) {
+        document.getElementById(id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // ================================================================
+    // АВТОРИЗАЦИЯ
+    // ================================================================
+    let currentUser = null;
+
+    function loadSession() {
+        const sess = getSession();
+        if (sess) {
+            const user = getUser(sess);
+            if (user) {
+                currentUser = sess;
+                updateNav();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function updateNav() {
+        if (currentUser) {
+            document.getElementById('navAuth').style.display = 'none';
+            document.getElementById('navUser').style.display = 'flex';
+            document.getElementById('navUsername').textContent = currentUser;
+        } else {
+            document.getElementById('navAuth').style.display = 'block';
+            document.getElementById('navUser').style.display = 'none';
+        }
+    }
+
+    // Переключение между формами
+    document.getElementById('switchToRegister').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('loginFormDiv').style.display = 'none';
+        document.getElementById('registerFormDiv').style.display = 'block';
+        document.getElementById('authError').style.display = 'none';
+    });
+    document.getElementById('switchToLogin').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('loginFormDiv').style.display = 'block';
+        document.getElementById('registerFormDiv').style.display = 'none';
+        document.getElementById('regError').style.display = 'none';
+    });
+
+    // Обработка входа
+    function handleLogin(e) {
+        e.preventDefault();
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        const errorEl = document.getElementById('authError');
+        errorEl.style.display = 'none';
+
+        if (!username || !password) {
+            errorEl.textContent = 'Заполните все поля.';
+            errorEl.style.display = 'block';
+            return false;
+        }
+        const user = getUser(username);
+        if (!user || user.password !== password) {
+            errorEl.textContent = 'Неверное имя пользователя или пароль.';
+            errorEl.style.display = 'block';
+            return false;
+        }
+        currentUser = username;
+        setSession(username);
+        closeModal('authModal');
+        updateNav();
+        updateDashboard();
+        openModal('dashboardModal');
+        return false;
+    }
+
+    // Обработка регистрации
+    function handleRegister(e) {
+        e.preventDefault();
+        const username = document.getElementById('regUsername').value.trim();
+        const password = document.getElementById('regPassword').value.trim();
+        const errorEl = document.getElementById('regError');
+        errorEl.style.display = 'none';
+
+        if (!username || !password) {
+            errorEl.textContent = 'Заполните все поля.';
+            errorEl.style.display = 'block';
+            return false;
+        }
+        const users = getUsers();
+        if (users[username]) {
+            errorEl.textContent = 'Пользователь уже существует.';
+            errorEl.style.display = 'block';
+            return false;
+        }
+        users[username] = {
+            password: password,
+            attemptsUsed: 0,
+            subscription: null,
+            history: [],
+            consultAccess: false
+        };
+        saveUsers(users);
+        currentUser = username;
+        setSession(username);
+        closeModal('authModal');
+        updateNav();
+        updateDashboard();
+        openModal('dashboardModal');
+        return false;
+    }
+
+    // ================================================================
+    // ВХОД ЧЕРЕЗ GOOGLE (реальный OAuth с окном выбора аккаунта)
+    // ================================================================
+    // Замените YOUR_GOOGLE_CLIENT_ID на реальный из Google Cloud Console
+    const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID';
+
+    function initGoogleSignIn() {
+        if (typeof google === 'undefined' || !google.accounts) {
+            console.warn('Google Identity Services не загружены');
+            // Если библиотека не загружена, используем демо-режим
+            return;
+        }
+        try {
+            google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: handleGoogleCredential,
+                cancel_on_tap_outside: false,
+                auto_select: false,
+            });
+            // При клике на нашу кнопку показываем окно выбора аккаунта
+            document.getElementById('googleSignInBtn').onclick = function() {
+                if (GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
+                    // Демо-режим, если Client ID не настроен
+                    demoGoogleLogin();
+                    return;
+                }
+                google.accounts.id.prompt();
+            };
+            document.getElementById('googleSignUpBtn').onclick = function() {
+                if (GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
+                    demoGoogleLogin();
+                    return;
+                }
+                google.accounts.id.prompt();
+            };
+        } catch (e) {
+            console.warn('Ошибка инициализации Google OAuth:', e);
+            // fallback – демо-режим
+            document.getElementById('googleSignInBtn').onclick = demoGoogleLogin;
+            document.getElementById('googleSignUpBtn').onclick = demoGoogleLogin;
+        }
+    }
+
+    function demoGoogleLogin() {
+        const fakeUser = prompt('Демо-режим Google: введите имя пользователя:', 'user_google');
+        if (fakeUser) {
+            const users = getUsers();
+            if (!users[fakeUser]) {
+                users[fakeUser] = {
+                    password: 'google_oauth',
+                    attemptsUsed: 0,
+                    subscription: null,
+                    history: [],
+                    consultAccess: false
+                };
+                saveUsers(users);
+            }
+            currentUser = fakeUser;
+            setSession(fakeUser);
+            closeModal('authModal');
+            updateNav();
+            updateDashboard();
+            openModal('dashboardModal');
+        }
+    }
+
+    function handleGoogleCredential(response) {
+        try {
+            const payload = JSON.parse(atob(response.credential.split('.')[1]));
+            const email = payload.email;
+            const name = payload.name || email.split('@')[0];
+            let username = name.replace(/[^a-zA-Z0-9_]/g, '_').toLowerCase();
+            // Если такой пользователь есть, используем его, иначе создаём
+            const users = getUsers();
+            if (!users[username]) {
+                users[username] = {
+                    password: 'google_oauth',
+                    attemptsUsed: 0,
+                    subscription: null,
+                    history: [],
+                    consultAccess: false,
+                    email: email,
+                    googleId: payload.sub
+                };
+                saveUsers(users);
+            }
+            currentUser = username;
+            setSession(username);
+            closeModal('authModal');
+            updateNav();
+            updateDashboard();
+            openModal('dashboardModal');
+        } catch (e) {
+            console.error('Ошибка обработки Google токена:', e);
+            document.getElementById('authError').textContent = 'Ошибка входа через Google. Попробуйте ещё раз.';
+            document.getElementById('authError').style.display = 'block';
+        }
+    }
+
+    // ================================================================
+    // ВЫХОД
+    // ================================================================
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+        currentUser = null;
+        clearSession();
+        updateNav();
+        closeModal('dashboardModal');
+        closeModal('paymentModal');
+        // Также закрываем попап карты, если открыт
+        document.getElementById('cardPopup').classList.remove('active');
+    });
+
+    // ================================================================
+    // КНОПКИ ОТКРЫТИЯ МОДАЛОК
+    // ================================================================
+    document.getElementById('mainAuthBtn').addEventListener('click', () => {
+        if (currentUser) {
+            updateDashboard();
+            openModal('dashboardModal');
+        } else {
+            document.getElementById('loginFormDiv').style.display = 'block';
+            document.getElementById('registerFormDiv').style.display = 'none';
+            document.getElementById('authError').style.display = 'none';
+            openModal('authModal');
+        }
+    });
+
+    document.getElementById('heroStartBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!currentUser) {
+            document.getElementById('loginFormDiv').style.display = 'block';
+            document.getElementById('registerFormDiv').style.display = 'none';
+            openModal('authModal');
+        } else {
+            updateDashboard();
+            openModal('dashboardModal');
+        }
+    });
+
+    // Закрытие модалок
+    document.getElementById('closeAuthModal').addEventListener('click', () => closeModal('authModal'));
+    document.getElementById('closeDashboardModal').addEventListener('click', () => closeModal('dashboardModal'));
+    document.getElementById('closePaymentModal').addEventListener('click', () => closeModal('paymentModal'));
+    document.getElementById('closeCardPopup').addEventListener('click', () => {
+        document.getElementById('cardPopup').classList.remove('active');
+    });
+
+    // ================================================================
+    // ДАШБОРД
+    // ================================================================
+    function getAttemptsLeft(user) {
+        if (user.subscription === 'premium') return Infinity;
+        if (user.subscription === 'basic') {
+            const total = 2 + 5;
+            return Math.max(0, total - user.attemptsUsed);
+        }
+        return Math.max(0, 2 - user.attemptsUsed);
+    }
+
+    function updateDashboard() {
+        if (!currentUser) return;
+        const user = getUser(currentUser);
+        if (!user) return;
+        document.getElementById('dashUsername').textContent = currentUser;
+        const attempts = getAttemptsLeft(user);
+        document.getElementById('dashAttempts').textContent = attempts === Infinity ? '∞' : attempts;
+        document.getElementById('dashSubscription').textContent = user.subscription ? user.subscription.toUpperCase() : 'Нет';
+        document.getElementById('dashHistoryCount').textContent = (user.history || []).length;
+        const consultAccess = user.subscription === 'premium' || user.consultAccess;
+        document.getElementById('dashConsult').textContent = consultAccess ? '✅ Доступно' : '❌ Недоступно';
+
+        const startBtn = document.getElementById('dashStartMonitor');
+        if (attempts <= 0) {
+            startBtn.textContent = '🔒 Оформить подписку';
+            startBtn.onclick = () => openModal('paymentModal');
+        } else {
+            startBtn.textContent = '🧠 Начать мониторинг';
+            startBtn.onclick = startMonitor;
+        }
+        document.getElementById('dashHistoryContainer').style.display = 'none';
+        document.getElementById('dashMonitorContainer').style.display = 'none';
+    }
+
+    // ================================================================
+    // МОНИТОРИНГ
+    // ================================================================
+    function startMonitor() {
+        const container = document.getElementById('dayInputs');
+        container.innerHTML = '';
+        for (let i = 1; i <= 7; i++) {
+            const label = document.createElement('label');
+            label.style.display = 'flex';
+            label.style.flexDirection = 'column';
+            label.style.alignItems = 'center';
+            label.style.fontSize = '0.8rem';
+            label.innerHTML = `День ${i} <input type="number" min="0" max="10" step="0.1" id="day${i}" value="5" style="width:60px; text-align:center; padding:6px; border-radius:8px; border:1px solid #d0d0d0;" />`;
+            container.appendChild(label);
+        }
+        document.getElementById('dashMonitorContainer').style.display = 'block';
+        document.getElementById('monitorResultBox').style.display = 'none';
+        document.getElementById('monitorError').style.display = 'none';
+        document.getElementById('dashHistoryContainer').style.display = 'none';
+    }
+
+    document.getElementById('computeResultsBtn').addEventListener('click', function() {
+        const days = [];
+        for (let i = 1; i <= 7; i++) {
+            const val = parseFloat(document.getElementById('day' + i).value);
+            if (isNaN(val) || val < 0 || val > 10) {
+                document.getElementById('monitorError').textContent = 'Введите числа от 0 до 10 для всех дней.';
+                document.getElementById('monitorError').style.display = 'block';
+                return;
+            }
+            days.push(val);
+        }
+        const n = days.length;
+        const mean = days.reduce((a,b) => a+b, 0) / n;
+        const variance = days.reduce((s,x) => s + (x-mean)**2, 0) / (n-1);
+        const stdDev = Math.sqrt(variance);
+        const z = 1.96;
+        const margin = z * stdDev / Math.sqrt(n);
+        const ciLow = mean - margin;
+        const ciHigh = mean + margin;
+        const prior = 0.02;
+        const likelihood = 0.6;
+        const evidence = 0.6;
+        const posterior = (likelihood * prior) / evidence;
+        const last = days[days.length-1];
+        let diagnosis = '';
+        if (last < ciLow) diagnosis = '✅ Норма (положительная динамика)';
+        else if (last > ciHigh) diagnosis = '⚠️ Тревожный сигнал – рекомендуется консультация';
+        else diagnosis = '🟡 В пределах нормы – продолжайте наблюдение';
+
+        const resultText =
+`📊 Результаты 7-дневного мониторинга
+Среднее: ${mean.toFixed(2)}
+Ст. отклонение: ${stdDev.toFixed(2)}
+95% ДИ: [${ciLow.toFixed(2)} ; ${ciHigh.toFixed(2)}]
+Байесовская вероятность ОКБ: ${(posterior*100).toFixed(2)}%
+Диагноз: ${diagnosis}
+Значения: ${days.map(d => d.toFixed(1)).join(', ')}`;
+
+        const resultBox = document.getElementById('monitorResultBox');
+        resultBox.textContent = resultText;
+        resultBox.style.display = 'block';
+        document.getElementById('monitorError').style.display = 'none';
+
+        const user = getUser(currentUser);
+        if (user) {
+            user.attemptsUsed = (user.attemptsUsed || 0) + 1;
+            if (!user.history) user.history = [];
+            user.history.push({
+                date: new Date().toLocaleString(),
+                result: resultText,
+                days: days
+            });
+            updateUser(currentUser, user);
+            updateDashboard();
+            if (getAttemptsLeft(user) <= 0) {
+                setTimeout(() => {
+                    alert('Вы использовали все бесплатные попытки. Оформите подписку.');
+                    openModal('paymentModal');
+                }, 500);
+            }
+        }
+        this.disabled = true;
+        setTimeout(() => { this.disabled = false; }, 1000);
+    });
+
+    // ================================================================
+    // ИСТОРИЯ
+    // ================================================================
+    document.getElementById('dashShowHistory').addEventListener('click', function() {
+        const container = document.getElementById('dashHistoryContainer');
+        const user = getUser(currentUser);
+        if (!user || !user.history || user.history.length === 0) {
+            container.innerHTML = '<p style="color:#6b6b6b;">История пуста.</p>';
+        } else {
+            container.innerHTML = user.history.map((entry, idx) => {
+                return `<div class="history-item" style="border-bottom:1px solid #f0f2f5; padding:8px 0; font-size:0.85rem;">
+                    <strong>#${idx+1}</strong> ${entry.date}<br>
+                    <span style="font-size:0.8rem; color:#3b3b3b;">${entry.result.split('\n').slice(0,2).join(' ')}…</span>
+                </div>`;
+            }).join('');
+        }
+        container.style.display = container.style.display === 'none' ? 'block' : 'none';
+        document.getElementById('dashMonitorContainer').style.display = 'none';
+    });
+
+    // ================================================================
+    // КОНСУЛЬТАЦИЯ (Telegram)
+    // ================================================================
+    document.getElementById('dashConsultBtn').addEventListener('click', function() {
+        const user = getUser(currentUser);
+        if (!user) return;
+        const hasAccess = user.subscription === 'premium' || user.consultAccess;
+        if (!hasAccess) {
+            alert('Доступ к консультациям только по подписке Premium. Оформите подписку.');
+            openModal('paymentModal');
+            return;
+        }
+        window.open('https://t.me/ocdsolverbot', '_blank');
+    });
+
+    // ================================================================
+    // ОПЛАТА (открытие попапа с картой)
+    // ================================================================
+    let selectedPlan = null;
+    let selectedMethod = 'kaspi';
+
+    function selectPlan(plan) {
+        selectedPlan = plan;
+        document.querySelectorAll('.payment-plans .plan').forEach(el => el.classList.remove('selected'));
+        document.querySelector(`.payment-plans .plan[data-plan="${plan}"]`).classList.add('selected');
+        updatePaymentDetails();
+    }
+
+    function selectPaymentMethod(method) {
+        selectedMethod = method;
+        document.querySelectorAll('.payment-methods button').forEach(el => el.classList.remove('active'));
+        document.querySelector(`.payment-methods button[data-method="${method}"]`).classList.add('active');
+        updatePaymentDetails();
+    }
+
+    function updatePaymentDetails() {
+        if (!selectedPlan) return;
+        const price = selectedPlan === 'basic' ? '$5' : '$10';
+        const name = selectedPlan === 'basic' ? 'Basic' : 'Premium';
+        const methodName = selectedMethod === 'kaspi' ? 'Kaspi Pay' : 'Kaspi24';
+        document.getElementById('selectedPlanName').textContent = name;
+        document.getElementById('selectedPlanPrice').textContent = price;
+        document.getElementById('selectedMethodName').textContent = methodName;
+        document.getElementById('paymentDetails').style.display = 'block';
+        document.getElementById('paymentStatus').style.display = 'none';
+        document.getElementById('paymentSuccess').style.display = 'none';
+    }
+
+    document.getElementById('confirmPaymentBtn').addEventListener('click', function() {
+        if (!selectedPlan) {
+            alert('Пожалуйста, выберите тариф.');
+            return;
+        }
+        // Открываем попап с картой
+        document.getElementById('cardPopup').classList.add('active');
+    });
+
+    // Обработка оплаты через карту
+    document.getElementById('processCardPayment').addEventListener('click', function() {
+        const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+        const expiry = document.getElementById('cardExpiry').value;
+        const cvv = document.getElementById('cardCvv').value;
+        const holder = document.getElementById('cardHolder').value.trim();
+
+        // Простейшая валидация
+        if (cardNumber.length < 16 || expiry.length < 5 || cvv.length < 3 || !holder) {
+            alert('Пожалуйста, заполните все поля корректно.');
+            return;
+        }
+
+        // Имитация обработки
+        this.disabled = true;
+        this.textContent = '⏳ Обработка...';
+        setTimeout(() => {
+            // Закрываем попап
+            document.getElementById('cardPopup').classList.remove('active');
+            // Активируем подписку
+            const user = getUser(currentUser);
+            if (user) {
+                user.subscription = selectedPlan;
+                if (selectedPlan === 'premium') {
+                    user.consultAccess = true;
+                }
+                updateUser(currentUser, user);
+                updateDashboard();
+            }
+            // Показываем успех в модалке оплаты
+            document.getElementById('paymentDetails').style.display = 'none';
+            document.getElementById('paymentSuccess').style.display = 'block';
+            this.disabled = false;
+            this.textContent = '💳 Оплатить';
+            // Очищаем поля карты
+            document.getElementById('cardNumber').value = '';
+            document.getElementById('cardExpiry').value = '';
+            document.getElementById('cardCvv').value = '';
+            document.getElementById('cardHolder').value = '';
+        }, 1500);
+    });
+
+    document.getElementById('paymentDoneBtn').addEventListener('click', function() {
+        closeModal('paymentModal');
+        updateDashboard();
+    });
+
+    // ================================================================
+    // ИНИЦИАЛИЗАЦИЯ
+    // ================================================================
+    loadSession();
+    updateNav();
+
+    // Инициализация Google OAuth после загрузки библиотеки
+    if (typeof google !== 'undefined' && google.accounts) {
+        initGoogleSignIn();
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof google !== 'undefined' && google.accounts) {
+                initGoogleSignIn();
+            } else {
+                // Если библиотека не загрузилась, используем демо-режим
+                document.getElementById('googleSignInBtn').onclick = demoGoogleLogin;
+                document.getElementById('googleSignUpBtn').onclick = demoGoogleLogin;
+            }
+        });
+    }
+
+    // Анимации при скролле
+    (function() {
+        const elements = document.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+        elements.forEach(el => observer.observe(el));
+    })();
+
+    console.log('OCD-Monitor loaded. Telegram: @ocdsolverbot');
+</script>
 </body>
 </html>
