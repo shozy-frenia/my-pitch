@@ -102,7 +102,7 @@
       </div>
       <div class="plan" data-plan="premium" onclick="selectPlan('premium')">
         <div class="price">$10</div><div class="period">/ month</div>
-        <div class="features">Unlimited<br>Priority support<br>Consultations</div>
+        <div class="features">Unlimited<br>Priority support<br>Consultations<br>🤖 AI Assistant 24/7</div>
       </div>
     </div>
 
@@ -186,15 +186,13 @@
           invoiceId: `sub-${currentUser}-${Date.now()}`,
           skin: 'mini',
           data: {
-            // Передаём данные о пользователе и плане
             user: currentUser,
             plan: selectedPlan,
             planName: planName,
-            // === НАСТРОЙКА ПОДПИСКИ (рекуррентных платежей) ===
             cloudPayments: {
               recurrent: {
-                interval: 'Month', // Ежемесячная подписка
-                period: 1,         // Каждый месяц
+                interval: 'Month',
+                period: 1,
                 customerReceipt: {
                   Items: [{
                     label: `NeuroCheck.ai — ${planName} subscription`,
@@ -221,12 +219,14 @@
         // Callback при успешной оплате
         function(options) {
           console.log('✅ Payment success:', options);
-          // Активируем подписку в localStorage
           const userData = getUser(currentUser);
           if (userData) {
             userData.subscription = selectedPlan;
-            if (selectedPlan === 'premium') userData.consultAccess = true;
-            // Сохраняем transactionId для истории
+            if (selectedPlan === 'premium') {
+              userData.consultAccess = true;
+              // Добавляем флаг для AI-доступа
+              userData.aiAccess = true;
+            }
             if (!userData.transactions) userData.transactions = [];
             userData.transactions.push({
               date: new Date().toISOString(),
@@ -272,7 +272,6 @@
       el.style.display = 'block';
     }
 
-    // Автовыбор плана
     selectPlan('basic');
   </script>
 </body>
