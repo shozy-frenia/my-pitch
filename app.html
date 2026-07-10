@@ -78,6 +78,14 @@
     .btn-outline { background: transparent; }
     .btn-outline:hover { background: var(--panel); }
 
+    /* Стиль для AI-кнопки */
+    .btn-ai {
+      background: linear-gradient(135deg, #6C3CE1, #A855F7);
+      color: white;
+      border: none;
+    }
+    .btn-ai:hover { background: linear-gradient(135deg, #5B2BC4, #9333EA); }
+
     .actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
 
     .day-inputs { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
@@ -175,6 +183,8 @@
       <button class="btn btn-primary" id="dashStartMonitor">🧠 Start monitoring</button>
       <button class="btn btn-outline" id="dashShowHistory">📜 History</button>
       <button class="btn btn-success" id="dashConsultBtn">💬 Consultation</button>
+      <!-- Новая кнопка AI Assistant (скрыта по умолчанию) -->
+      <button class="btn btn-ai" id="dashAiBtn" style="display:none;">🤖 AI Assistant</button>
     </div>
 
     <!-- History container -->
@@ -238,13 +248,12 @@
 
   // ===== Helpers =====
   function getAttemptsLeft(u) {
-    // === ИЗМЕНЕНИЕ: БЕСПЛАТНЫХ ПОПЫТОК ТЕПЕРЬ 5 (БЫЛО 2) ===
     if (u.subscription === 'premium') return Infinity;
     if (u.subscription === 'basic') {
-      const total = 2 + 5; // 2 базовых + 5 от подписки (можно оставить или тоже увеличить)
+      const total = 2 + 5;
       return Math.max(0, total - u.attemptsUsed);
     }
-    return Math.max(0, 5 - u.attemptsUsed); // было 2, стало 5
+    return Math.max(0, 5 - u.attemptsUsed);
   }
 
   // ===== UI Updates =====
@@ -268,6 +277,16 @@
       startBtn.textContent = '🧠 Start monitoring';
       startBtn.onclick = startMonitor;
     }
+
+    // Управление AI-кнопкой
+    const aiBtn = document.getElementById('dashAiBtn');
+    if (u.subscription === 'premium') {
+      aiBtn.style.display = 'inline-block';
+      aiBtn.onclick = () => { window.location.href = 'ai.html'; };
+    } else {
+      aiBtn.style.display = 'none';
+    }
+
     document.getElementById('dashHistoryContainer').style.display = 'none';
     document.getElementById('dashMonitorContainer').style.display = 'none';
   }
@@ -364,7 +383,6 @@ Values: ${days.map(d => d.toFixed(1)).join(', ')}`;
       </div>`;
     }).join('');
 
-    // Add click handlers
     container.querySelectorAll('.history-item').forEach(el => {
       el.addEventListener('click', function() {
         const idx = parseInt(this.dataset.index);
@@ -389,7 +407,6 @@ Values: ${days.map(d => d.toFixed(1)).join(', ')}`;
     document.getElementById('dashMonitorContainer').style.display = 'none';
   });
 
-  // Close history modal
   document.getElementById('closeHistoryModal').addEventListener('click', function() {
     document.getElementById('historyDetailModal').classList.remove('active');
     document.body.style.overflow = '';
