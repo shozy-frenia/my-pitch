@@ -144,10 +144,10 @@
       <div class="icon">✅</div>
       <h3>Payment successful!</h3>
       <p>Your subscription is active.</p>
-      <a href="app.html" class="btn" style="display:inline-block; width:auto; margin-top:12px; padding:10px 24px;">Go to Dashboard</a>
+      <a href="/my-pitch/app.html" class="btn" style="display:inline-block; width:auto; margin-top:12px; padding:10px 24px;">Go to Dashboard</a>
     </div>
 
-    <a href="app.html" class="back-link">← Back to dashboard</a>
+    <a href="/my-pitch/app.html" class="back-link">← Back to dashboard</a>
   </div>
 
   <script>
@@ -173,7 +173,7 @@
     const currentUser = getSession();
     if (!currentUser) {
       alert('You are not logged in. Please log in first.');
-      window.location.href = 'login.html';
+      window.location.href = '/my-pitch/login.html';
     }
 
     let selectedPlan = null;
