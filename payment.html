@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Subscribe — OCD-Monitor</title>
+  <title>Subscribe — NeuroCheck.ai</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- CloudPayments Widget -->
+  <script src="https://widget.cloudpayments.ru/bundles/cloudpayments.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -54,24 +56,6 @@
     .payment-plans .plan .period { font-size: 12px; color: #8A8D95; }
     .payment-plans .plan .features { font-size: 12px; margin-top: 6px; color: #565A64; }
 
-    .payment-methods { display: flex; gap: 12px; margin: 12px 0; }
-    .payment-methods button {
-      flex: 1; padding: 10px; border: 2px solid #DFDDD3; background: #FAFAF7;
-      font-weight: 500; cursor: pointer; transition: .15s; font-family: 'IBM Plex Sans';
-    }
-    .payment-methods button:hover { border-color: #3B3FA0; }
-    .payment-methods button.active { border-color: #3B3FA0; background: #EAE9F6; }
-
-    .payment-details { background: #F1F0E9; padding: 16px; margin: 12px 0; border: 1px solid #DFDDD3; display: none; }
-    .payment-details p { margin: 4px 0; }
-
-    .card-fields input {
-      width: 100%; padding: 10px; border: 1px solid #DFDDD3; background: #FAFAF7;
-      margin-bottom: 12px; font-size: 14px; font-family: 'IBM Plex Sans';
-    }
-    .card-fields .row { display: flex; gap: 12px; }
-    .card-fields .row input { flex: 1; }
-
     .btn {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 13px;
@@ -94,16 +78,20 @@
     }
     .back-link:hover { color: #14171F; }
 
-    .success-msg {
+    .status-msg {
       display: none; text-align: center; padding: 20px;
-      background: #EAE9F6; border: 1px solid #3B3FA0; margin-top: 16px;
+      margin-top: 16px;
+      border-radius: 4px;
     }
-    .success-msg .icon { font-size: 48px; margin-bottom: 8px; }
+    .status-msg.loading { display: block; background: #EAE9F6; border: 1px solid #3B3FA0; }
+    .status-msg.success { display: block; background: #E6F4EA; border: 1px solid #2FA88E; }
+    .status-msg.error { display: block; background: #FDE8E5; border: 1px solid #B84438; }
+    .status-msg .icon { font-size: 36px; margin-bottom: 8px; }
   </style>
 </head>
 <body>
   <div class="payment-box">
-    <div class="brand"><span class="brand-mark"></span>OCD‑Monitor</div>
+    <div class="brand"><span class="brand-mark"></span>NeuroCheck.ai</div>
     <h1>💎 Subscribe</h1>
     <p class="sub">Choose your plan and complete payment</p>
 
@@ -118,39 +106,18 @@
       </div>
     </div>
 
-    <p style="font-weight:600; margin-top:8px;">Payment method:</p>
-    <div class="payment-methods">
-      <button class="active" data-method="kaspi" onclick="selectMethod('kaspi')">Kaspi Pay</button>
-      <button data-method="kaspi24" onclick="selectMethod('kaspi24')">Kaspi24</button>
-    </div>
-
-    <div class="payment-details" id="paymentDetails">
-      <p>Plan: <strong id="selectedPlanName"></strong></p>
-      <p>Amount: <strong id="selectedPlanPrice"></strong></p>
-      <p>Method: <strong id="selectedMethodName"></strong></p>
-    </div>
-
-    <div class="card-fields" id="cardFields">
-      <input type="text" id="cardNumber" placeholder="Card number" maxlength="19" value="4400 4303 1258 3492" />
-      <div class="row">
-        <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" value="12/26" />
-        <input type="password" id="cardCvv" placeholder="CVV" maxlength="4" value="123" />
-      </div>
-      <input type="text" id="cardHolder" placeholder="Cardholder name" value="Test User" />
-    </div>
-
-    <button class="btn" id="payBtn">💳 Pay</button>
-    <div class="success-msg" id="successMsg">
-      <div class="icon">✅</div>
-      <h3>Payment successful!</h3>
-      <p>Your subscription is active.</p>
-      <a href="/my-pitch/app.html" class="btn" style="display:inline-block; width:auto; margin-top:12px; padding:10px 24px;">Go to Dashboard</a>
-    </div>
+    <button class="btn" id="payBtn">💳 Pay with CloudPayments</button>
+    <div id="statusMsg" class="status-msg"></div>
 
     <a href="/my-pitch/app.html" class="back-link">← Back to dashboard</a>
   </div>
 
   <script>
+    // ===== Конфигурация =====
+    // ⚠️ ЗАМЕНИ НА СВОИ КЛЮЧИ ИЗ ЛИЧНОГО КАБИНЕТА CLOUDPAYMENTS
+    const CLOUD_PAYMENTS_PUBLIC_ID = 'pk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'; // ТВОЙ PUBLIC ID
+    const CLOUD_PAYMENTS_API_URL = 'https://api.cloudpayments.ru';
+
     // ===== localStorage =====
     const USERS_KEY = 'ocd_users';
     const SESSION_KEY = 'ocd_session';
@@ -177,68 +144,135 @@
     }
 
     let selectedPlan = null;
-    let selectedMethod = 'kaspi';
 
     function selectPlan(plan) {
       selectedPlan = plan;
       document.querySelectorAll('.payment-plans .plan').forEach(el => el.classList.remove('selected'));
       document.querySelector(`.payment-plans .plan[data-plan="${plan}"]`).classList.add('selected');
-      updateDetails();
     }
 
-    function selectMethod(method) {
-      selectedMethod = method;
-      document.querySelectorAll('.payment-methods button').forEach(el => el.classList.remove('active'));
-      document.querySelector(`.payment-methods button[data-method="${method}"]`).classList.add('active');
-      updateDetails();
-    }
-
-    function updateDetails() {
-      if (!selectedPlan) return;
-      const price = selectedPlan === 'basic' ? '$5' : '$10';
-      const name = selectedPlan === 'basic' ? 'Basic' : 'Premium';
-      const methodName = selectedMethod === 'kaspi' ? 'Kaspi Pay' : 'Kaspi24';
-      document.getElementById('selectedPlanName').textContent = name;
-      document.getElementById('selectedPlanPrice').textContent = price;
-      document.getElementById('selectedMethodName').textContent = methodName;
-      document.getElementById('paymentDetails').style.display = 'block';
-    }
-
+    // ===== ОСНОВНАЯ ФУНКЦИЯ ОПЛАТЫ =====
     document.getElementById('payBtn').addEventListener('click', function() {
-      if (!selectedPlan) { alert('Please select a plan.'); return; }
-
-      // Validate card fields
-      const card = document.getElementById('cardNumber').value.replace(/\s/g, '');
-      const expiry = document.getElementById('cardExpiry').value;
-      const cvv = document.getElementById('cardCvv').value;
-      const holder = document.getElementById('cardHolder').value.trim();
-      if (card.length < 16 || expiry.length < 5 || cvv.length < 3 || !holder) {
-        alert('Please fill in all card details correctly.');
+      if (!selectedPlan) {
+        showStatus('Please select a plan.', 'error');
         return;
       }
 
-      this.disabled = true;
-      this.textContent = '⏳ Processing...';
+      const user = getUser(currentUser);
+      if (!user) {
+        showStatus('User not found. Please log in again.', 'error');
+        return;
+      }
 
-      // Simulate payment
-      setTimeout(() => {
-        // Update subscription
-        const user = getUser(currentUser);
-        if (user) {
-          user.subscription = selectedPlan;
-          if (selectedPlan === 'premium') user.consultAccess = true;
-          updateUser(currentUser, user);
-        }
+      const planName = selectedPlan === 'basic' ? 'Basic' : 'Premium';
+      const planPrice = selectedPlan === 'basic' ? 5.00 : 10.00;
+      const userEmail = user.email || currentUser + '@neurocheck.ai';
 
-        // Show success
-        document.getElementById('paymentDetails').style.display = 'none';
-        document.getElementById('cardFields').style.display = 'none';
-        this.style.display = 'none';
-        document.getElementById('successMsg').style.display = 'block';
-      }, 1500);
+      showStatus('⏳ Opening payment window...', 'loading');
+
+      try {
+        // Создаём виджет CloudPayments
+        const widget = new cp.CloudPayments({
+          language: 'en-US'
+        });
+
+        // Вызываем оплату с подпиской (рекуррентный платёж)
+        widget.charge({
+          publicId: CLOUD_PAYMENTS_PUBLIC_ID,
+          description: `NeuroCheck.ai — ${planName} subscription`,
+          amount: planPrice,
+          currency: 'USD',
+          accountId: currentUser,
+          invoiceId: `sub-${currentUser}-${Date.now()}`,
+          skin: 'mini',
+          data: {
+            // Передаём данные о пользователе и плане
+            user: currentUser,
+            plan: selectedPlan,
+            planName: planName,
+            // === НАСТРОЙКА ПОДПИСКИ (рекуррентных платежей) ===
+            cloudPayments: {
+              recurrent: {
+                interval: 'Month', // Ежемесячная подписка
+                period: 1,         // Каждый месяц
+                customerReceipt: {
+                  Items: [{
+                    label: `NeuroCheck.ai — ${planName} subscription`,
+                    price: planPrice,
+                    quantity: 1.00,
+                    amount: planPrice,
+                    vat: null,
+                    method: 4,
+                    object: 4
+                  }],
+                  taxationSystem: 1,
+                  email: userEmail,
+                  amounts: {
+                    electronic: planPrice,
+                    advancePayment: 0.00,
+                    credit: 0.00,
+                    provision: 0.00
+                  }
+                }
+              }
+            }
+          }
+        },
+        // Callback при успешной оплате
+        function(options) {
+          console.log('✅ Payment success:', options);
+          // Активируем подписку в localStorage
+          const userData = getUser(currentUser);
+          if (userData) {
+            userData.subscription = selectedPlan;
+            if (selectedPlan === 'premium') userData.consultAccess = true;
+            // Сохраняем transactionId для истории
+            if (!userData.transactions) userData.transactions = [];
+            userData.transactions.push({
+              date: new Date().toISOString(),
+              transactionId: options.transactionId || 'unknown',
+              plan: selectedPlan,
+              amount: planPrice
+            });
+            updateUser(currentUser, userData);
+          }
+          showStatus('✅ Payment successful! Your subscription is active.', 'success');
+          setTimeout(() => {
+            window.location.href = '/my-pitch/app.html';
+          }, 2000);
+        },
+        // Callback при ошибке или отмене
+        function(reason, options) {
+          console.error('❌ Payment failed:', reason, options);
+          if (reason === 'User closed widget') {
+            showStatus('Payment was cancelled. You can try again.', 'error');
+          } else {
+            showStatus(`Payment failed: ${reason || 'Unknown error'}`, 'error');
+          }
+        });
+      } catch (err) {
+        console.error('❌ Widget error:', err);
+        showStatus(`Error: ${err.message}`, 'error');
+      }
     });
 
-    // Auto-select basic plan on load
+    function showStatus(message, type) {
+      const el = document.getElementById('statusMsg');
+      el.className = 'status-msg';
+      if (type === 'loading') {
+        el.className = 'status-msg loading';
+        el.innerHTML = `<div class="icon">⏳</div><p>${message}</p>`;
+      } else if (type === 'success') {
+        el.className = 'status-msg success';
+        el.innerHTML = `<div class="icon">✅</div><p>${message}</p>`;
+      } else if (type === 'error') {
+        el.className = 'status-msg error';
+        el.innerHTML = `<div class="icon">❌</div><p>${message}</p>`;
+      }
+      el.style.display = 'block';
+    }
+
+    // Автовыбор плана
     selectPlan('basic');
   </script>
 </body>
