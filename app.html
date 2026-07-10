@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard — OCD-Monitor</title>
+  <title>Dashboard — NeuroCheck.ai</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -153,7 +153,7 @@
   <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 0; border-bottom:1px solid var(--line); margin-bottom:20px;">
     <div class="brand" style="display:flex; align-items:center; gap:10px; font-family:'Space Grotesk'; font-weight:700; font-size:18px;">
       <span style="width:22px; height:22px; border-radius:50%; background:conic-gradient(#2FA88E 0 40%, #C97A1F 40% 72%, #B84438 72% 100%);"></span>
-      OCD‑Monitor
+      NeuroCheck.ai
     </div>
     <div>
       <span id="userDisplay" style="font-weight:500; margin-right:12px;"></span>
@@ -166,7 +166,7 @@
     <h2>👋 Hello, <span id="dashUsername"></span>!</h2>
     <p class="sub">Your dashboard</p>
     <div class="grid-2">
-      <div class="stat-box"><div class="label">Attempts left</div><div class="value" id="dashAttempts">2</div></div>
+      <div class="stat-box"><div class="label">Attempts left</div><div class="value" id="dashAttempts">5</div></div>
       <div class="stat-box"><div class="label">Subscription</div><div class="value" id="dashSubscription">None</div></div>
       <div class="stat-box"><div class="label">History entries</div><div class="value" id="dashHistoryCount">0</div></div>
       <div class="stat-box"><div class="label">Consultations</div><div class="value" id="dashConsult">❌</div></div>
@@ -238,12 +238,13 @@
 
   // ===== Helpers =====
   function getAttemptsLeft(u) {
+    // === ИЗМЕНЕНИЕ: БЕСПЛАТНЫХ ПОПЫТОК ТЕПЕРЬ 5 (БЫЛО 2) ===
     if (u.subscription === 'premium') return Infinity;
     if (u.subscription === 'basic') {
-      const total = 2 + 5;
+      const total = 2 + 5; // 2 базовых + 5 от подписки (можно оставить или тоже увеличить)
       return Math.max(0, total - u.attemptsUsed);
     }
-    return Math.max(0, 2 - u.attemptsUsed);
+    return Math.max(0, 5 - u.attemptsUsed); // было 2, стало 5
   }
 
   // ===== UI Updates =====
