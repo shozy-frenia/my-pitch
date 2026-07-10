@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subscribe — OCD-Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: #FAFAF7;
+      color: #14171F;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .payment-box {
+      background: #FAFAF7;
+      border: 1px solid #DFDDD3;
+      padding: 48px 40px;
+      max-width: 480px;
+      width: 100%;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: #14171F;
+      margin-bottom: 24px;
+    }
+    .brand-mark {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: conic-gradient(#2FA88E 0 40%, #C97A1F 40% 72%, #B84438 72% 100%);
+      flex: none;
+    }
+    h1 { font-family: 'Space Grotesk'; font-weight: 600; font-size: 28px; letter-spacing: -0.01em; }
+    .sub { color: #565A64; margin-bottom: 24px; font-size: 14px; }
+
+    .payment-plans { display: flex; gap: 16px; margin: 16px 0; }
+    .payment-plans .plan {
+      flex: 1; border: 2px solid #DFDDD3; padding: 16px; text-align: center;
+      cursor: pointer; transition: .15s;
+      background: #FAFAF7;
+    }
+    .payment-plans .plan:hover { border-color: #3B3FA0; }
+    .payment-plans .plan.selected { border-color: #3B3FA0; background: #EAE9F6; }
+    .payment-plans .plan .price { font-size: 24px; font-weight: 700; font-family: 'Space Grotesk'; color: #2A2D78; }
+    .payment-plans .plan .period { font-size: 12px; color: #8A8D95; }
+    .payment-plans .plan .features { font-size: 12px; margin-top: 6px; color: #565A64; }
+
+    .payment-methods { display: flex; gap: 12px; margin: 12px 0; }
+    .payment-methods button {
+      flex: 1; padding: 10px; border: 2px solid #DFDDD3; background: #FAFAF7;
+      font-weight: 500; cursor: pointer; transition: .15s; font-family: 'IBM Plex Sans';
+    }
+    .payment-methods button:hover { border-color: #3B3FA0; }
+    .payment-methods button.active { border-color: #3B3FA0; background: #EAE9F6; }
+
+    .payment-details { background: #F1F0E9; padding: 16px; margin: 12px 0; border: 1px solid #DFDDD3; display: none; }
+    .payment-details p { margin: 4px 0; }
+
+    .card-fields input {
+      width: 100%; padding: 10px; border: 1px solid #DFDDD3; background: #FAFAF7;
+      margin-bottom: 12px; font-size: 14px; font-family: 'IBM Plex Sans';
+    }
+    .card-fields .row { display: flex; gap: 12px; }
+    .card-fields .row input { flex: 1; }
+
+    .btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 14px;
+      border: 1px solid #14171F;
+      background: #14171F;
+      color: #FAFAF7;
+      cursor: pointer;
+      transition: .15s;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .btn:hover { background: #2A2D78; border-color: #2A2D78; }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .back-link {
+      display: block; text-align: center; margin-top: 16px;
+      color: #565A64; font-size: 13px; text-decoration: none;
+    }
+    .back-link:hover { color: #14171F; }
+
+    .success-msg {
+      display: none; text-align: center; padding: 20px;
+      background: #EAE9F6; border: 1px solid #3B3FA0; margin-top: 16px;
+    }
+    .success-msg .icon { font-size: 48px; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div class="payment-box">
+    <div class="brand"><span class="brand-mark"></span>OCD‑Monitor</div>
+    <h1>💎 Subscribe</h1>
+    <p class="sub">Choose your plan and complete payment</p>
+
+    <div class="payment-plans">
+      <div class="plan" data-plan="basic" onclick="selectPlan('basic')">
+        <div class="price">$5</div><div class="period">/ month</div>
+        <div class="features">+5 attempts<br>Basic support</div>
+      </div>
+      <div class="plan" data-plan="premium" onclick="selectPlan('premium')">
+        <div class="price">$10</div><div class="period">/ month</div>
+        <div class="features">Unlimited<br>Priority support<br>Consultations</div>
+      </div>
+    </div>
+
+    <p style="font-weight:600; margin-top:8px;">Payment method:</p>
+    <div class="payment-methods">
+      <button class="active" data-method="kaspi" onclick="selectMethod('kaspi')">Kaspi Pay</button>
+      <button data-method="kaspi24" onclick="selectMethod('kaspi24')">Kaspi24</button>
+    </div>
+
+    <div class="payment-details" id="paymentDetails">
+      <p>Plan: <strong id="selectedPlanName"></strong></p>
+      <p>Amount: <strong id="selectedPlanPrice"></strong></p>
+      <p>Method: <strong id="selectedMethodName"></strong></p>
+    </div>
+
+    <div class="card-fields" id="cardFields">
+      <input type="text" id="cardNumber" placeholder="Card number" maxlength="19" value="4400 4303 1258 3492" />
+      <div class="row">
+        <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" value="12/26" />
+        <input type="password" id="cardCvv" placeholder="CVV" maxlength="4" value="123" />
+      </div>
+      <input type="text" id="cardHolder" placeholder="Cardholder name" value="Test User" />
+    </div>
+
+    <button class="btn" id="payBtn">💳 Pay</button>
+    <div class="success-msg" id="successMsg">
+      <div class="icon">✅</div>
+      <h3>Payment successful!</h3>
+      <p>Your subscription is active.</p>
+      <a href="app.html" class="btn" style="display:inline-block; width:auto; margin-top:12px; padding:10px 24px;">Go to Dashboard</a>
+    </div>
+
+    <a href="app.html" class="back-link">← Back to dashboard</a>
+  </div>
+
+  <script>
+    // ===== localStorage =====
+    const USERS_KEY = 'ocd_users';
+    const SESSION_KEY = 'ocd_session';
+
+    function getUsers() {
+      try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch { return {}; }
+    }
+    function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
+    function getSession() { return localStorage.getItem(SESSION_KEY) || null; }
+    function getUser(username) {
+      const users = getUsers();
+      return users[username] || null;
+    }
+    function updateUser(username, data) {
+      const users = getUsers();
+      users[username] = data;
+      saveUsers(users);
+    }
+
+    const currentUser = getSession();
+    if (!currentUser) {
+      alert('You are not logged in. Please log in first.');
+      window.location.href = 'login.html';
+    }
+
+    let selectedPlan = null;
+    let selectedMethod = 'kaspi';
+
+    function selectPlan(plan) {
+      selectedPlan = plan;
+      document.querySelectorAll('.payment-plans .plan').forEach(el => el.classList.remove('selected'));
+      document.querySelector(`.payment-plans .plan[data-plan="${plan}"]`).classList.add('selected');
+      updateDetails();
+    }
+
+    function selectMethod(method) {
+      selectedMethod = method;
+      document.querySelectorAll('.payment-methods button').forEach(el => el.classList.remove('active'));
+      document.querySelector(`.payment-methods button[data-method="${method}"]`).classList.add('active');
+      updateDetails();
+    }
+
+    function updateDetails() {
+      if (!selectedPlan) return;
+      const price = selectedPlan === 'basic' ? '$5' : '$10';
+      const name = selectedPlan === 'basic' ? 'Basic' : 'Premium';
+      const methodName = selectedMethod === 'kaspi' ? 'Kaspi Pay' : 'Kaspi24';
+      document.getElementById('selectedPlanName').textContent = name;
+      document.getElementById('selectedPlanPrice').textContent = price;
+      document.getElementById('selectedMethodName').textContent = methodName;
+      document.getElementById('paymentDetails').style.display = 'block';
+    }
+
+    document.getElementById('payBtn').addEventListener('click', function() {
+      if (!selectedPlan) { alert('Please select a plan.'); return; }
+
+      // Validate card fields
+      const card = document.getElementById('cardNumber').value.replace(/\s/g, '');
+      const expiry = document.getElementById('cardExpiry').value;
+      const cvv = document.getElementById('cardCvv').value;
+      const holder = document.getElementById('cardHolder').value.trim();
+      if (card.length < 16 || expiry.length < 5 || cvv.length < 3 || !holder) {
+        alert('Please fill in all card details correctly.');
+        return;
+      }
+
+      this.disabled = true;
+      this.textContent = '⏳ Processing...';
+
+      // Simulate payment
+      setTimeout(() => {
+        // Update subscription
+        const user = getUser(currentUser);
+        if (user) {
+          user.subscription = selectedPlan;
+          if (selectedPlan === 'premium') user.consultAccess = true;
+          updateUser(currentUser, user);
+        }
+
+        // Show success
+        document.getElementById('paymentDetails').style.display = 'none';
+        document.getElementById('cardFields').style.display = 'none';
+        this.style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+      }, 1500);
+    });
+
+    // Auto-select basic plan on load
+    selectPlan('basic');
+  </script>
+</body>
+</html>
