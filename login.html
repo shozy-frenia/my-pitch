@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in — OCD-Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: #FAFAF7;
+      color: #14171F;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .auth-box {
+      background: #FAFAF7;
+      border: 1px solid #DFDDD3;
+      padding: 48px 40px;
+      max-width: 420px;
+      width: 100%;
+    }
+    .auth-box h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 28px;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+    .auth-box .sub {
+      color: #565A64;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+    .auth-box input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #DFDDD3;
+      background: #FAFAF7;
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      outline: none;
+      transition: .15s;
+    }
+    .auth-box input:focus {
+      border-color: #3B3FA0;
+      box-shadow: 0 0 0 2px #EAE9F6;
+    }
+    .auth-box .btn {
+      width: 100%;
+      padding: 14px;
+      background: #14171F;
+      color: #FAFAF7;
+      border: none;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: .15s;
+    }
+    .auth-box .btn:hover { background: #2A2D78; }
+    .auth-box .switch {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #565A64;
+    }
+    .auth-box .switch a {
+      color: #3B3FA0;
+      cursor: pointer;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .auth-box .switch a:hover { text-decoration: underline; }
+    .auth-box .error {
+      color: #B84438;
+      font-size: 13px;
+      margin-top: 8px;
+      display: none;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: #14171F;
+      margin-bottom: 24px;
+    }
+    .brand-mark {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: conic-gradient(#2FA88E 0 40%, #C97A1F 40% 72%, #B84438 72% 100%);
+      flex: none;
+    }
+    .google-btn {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #DFDDD3;
+      background: #FAFAF7;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: .15s;
+      font-family: 'IBM Plex Sans', sans-serif;
+      margin-top: 8px;
+    }
+    .google-btn:hover { background: #ECEAE1; }
+    .divider {
+      display: flex; align-items: center; gap: 16px; margin: 16px 0;
+      color: #8A8D95; font-size: 12px;
+    }
+    .divider::before, .divider::after {
+      content: ""; flex: 1; height: 1px; background: #DFDDD3;
+    }
+    .g_id_signin {
+      width: 100% !important;
+    }
+    .g_id_signin > div {
+      width: 100% !important;
+      justify-content: center !important;
+    }
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      color: #565A64;
+    }
+    .loading.active { display: block; }
+    .spinner {
+      width: 32px;
+      height: 32px;
+      margin: 0 auto 12px;
+      border: 3px solid #DFDDD3;
+      border-top: 3px solid #3B3FA0;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<div class="auth-box">
+  <div class="brand">
+    <span class="brand-mark"></span>
+    OCD‑Monitor
+  </div>
+
+  <!-- Login / Register with Google -->
+  <div id="authForm">
+    <h1>Welcome</h1>
+    <p class="sub">Sign in with Google to continue</p>
+
+    <div class="divider">or</div>
+
+    <div id="googleButton"></div>
+
+    <div class="switch">
+      <a href="#" onclick="demoLogin()">Try demo login</a>
+    </div>
+
+    <div id="authError" class="error"></div>
+  </div>
+
+  <!-- Loading state -->
+  <div class="loading" id="loadingState">
+    <div class="spinner"></div>
+    <p>Signing in...</p>
+  </div>
+
+  <!-- Hidden form for demo login -->
+  <div id="demoForm" style="display:none; margin-top:16px;">
+    <p style="font-size:13px; color:#565A64; margin-bottom:12px;">Enter any username to continue:</p>
+    <form onsubmit="return demoLoginSubmit(event)">
+      <input type="text" id="demoUsername" placeholder="Username" value="demo_user" />
+      <button type="submit" class="btn">Continue</button>
+    </form>
+    <div class="switch"><a href="#" onclick="document.getElementById('demoForm').style.display='none'; document.getElementById('authForm').style.display='block';">← Back</a></div>
+  </div>
+</div>
+
+<script>
+  // ===== localStorage =====
+  const USERS_KEY = 'ocd_users';
+  const SESSION_KEY = 'ocd_session';
+
+  function getUsers() {
+    try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch { return {}; }
+  }
+  function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
+  function setSession(username) { localStorage.setItem(SESSION_KEY, username); }
+
+  // ===== Google OAuth =====
+  const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID'; // Replace with your real Client ID
+
+  function initGoogleSignIn() {
+    if (typeof google === 'undefined' || !google.accounts) {
+      console.warn('Google Identity Services not loaded');
+      return;
+    }
+
+    try {
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredential,
+        cancel_on_tap_outside: false,
+        auto_select: false,
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById('googleButton'),
+        {
+          type: 'standard',
+          theme: 'outline',
+          size: 'large',
+          width: 340,
+          text: 'signin_with',
+          logo_alignment: 'center'
+        }
+      );
+
+      // Also show prompt if user is already signed in
+      // google.accounts.id.prompt(); // Uncomment to auto-prompt
+    } catch (e) {
+      console.error('Google init error:', e);
+      document.getElementById('authError').textContent = 'Google sign-in is not available. Please use demo login.';
+      document.getElementById('authError').style.display = 'block';
+    }
+  }
+
+  function handleGoogleCredential(response) {
+    showLoading(true);
+    try {
+      // Decode JWT payload
+      const payload = JSON.parse(atob(response.credential.split('.')[1]));
+      const email = payload.email;
+      const name = payload.name || email.split('@')[0];
+      let username = name.replace(/[^a-zA-Z0-9_]/g, '_').toLowerCase();
+
+      // Check if user already exists, if not create
+      const users = getUsers();
+      if (!users[username]) {
+        users[username] = {
+          password: 'google_oauth',
+          attemptsUsed: 0,
+          subscription: null,
+          history: [],
+          consultAccess: false,
+          email: email,
+          googleId: payload.sub,
+          displayName: payload.name || username
+        };
+        saveUsers(users);
+      }
+
+      // Set session and redirect
+      setSession(username);
+      showLoading(false);
+      window.location.href = 'app.html';
+    } catch (e) {
+      console.error('Google auth error:', e);
+      showLoading(false);
+      document.getElementById('authError').textContent = 'Google sign-in failed. Please try again or use demo login.';
+      document.getElementById('authError').style.display = 'block';
+    }
+  }
+
+  // ===== Demo Login (fallback) =====
+  function demoLogin() {
+    event.preventDefault();
+    document.getElementById('authForm').style.display = 'none';
+    document.getElementById('demoForm').style.display = 'block';
+  }
+
+  function demoLoginSubmit(e) {
+    e.preventDefault();
+    const username = document.getElementById('demoUsername').value.trim();
+    if (!username) {
+      alert('Please enter a username.');
+      return false;
+    }
+
+    const users = getUsers();
+    if (!users[username]) {
+      users[username] = {
+        password: 'demo',
+        attemptsUsed: 0,
+        subscription: null,
+        history: [],
+        consultAccess: false
+      };
+      saveUsers(users);
+    }
+
+    setSession(username);
+    window.location.href = 'app.html';
+    return false;
+  }
+
+  // ===== UI Helpers =====
+  function showLoading(show) {
+    if (show) {
+      document.getElementById('authForm').style.display = 'none';
+      document.getElementById('demoForm').style.display = 'none';
+      document.getElementById('loadingState').classList.add('active');
+    } else {
+      document.getElementById('loadingState').classList.remove('active');
+      document.getElementById('authForm').style.display = 'block';
+    }
+  }
+
+  // ===== Init =====
+  // Check if already logged in
+  const session = localStorage.getItem(SESSION_KEY);
+  if (session) {
+    const users = getUsers();
+    if (users[session]) {
+      window.location.href = 'app.html';
+      throw new Error('Redirecting');
+    }
+  }
+
+  // Initialize Google Sign-In
+  if (typeof google !== 'undefined' && google.accounts) {
+    initGoogleSignIn();
+  } else {
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof google !== 'undefined' && google.accounts) {
+        initGoogleSignIn();
+      } else {
+        document.getElementById('authError').textContent = 'Google sign-in is not available. Please use demo login.';
+        document.getElementById('authError').style.display = 'block';
+      }
+    });
+  }
+</script>
+</body>
+</html>
