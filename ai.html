@@ -18,7 +18,7 @@
       flex-direction: column;
     }
     .chat-header {
-      background: var(--ink, #14171F);
+      background: #14171F;
       color: #FAFAF7;
       padding: 16px 24px;
       display: flex;
@@ -65,7 +65,7 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
-      background: var(--paper, #FAFAF7);
+      background: #FAFAF7;
     }
     .message {
       max-width: 80%;
@@ -230,8 +230,9 @@
       errorMsg.style.display = 'none';
 
       try {
-        // 🔥 ВАШ РЕАЛЬНЫЙ URL ИЗ VERCEL
+        // ✅ ПРАВИЛЬНЫЙ URL
         const PROXY_URL = 'https://openai-proxy-76rl.vercel.app/api/proxy';
+
         const response = await fetch(PROXY_URL, {
           method: 'POST',
           headers: {
