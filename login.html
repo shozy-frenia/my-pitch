@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign in with Google — OCD-Monitor</title>
+  <title>Sign in — OCD-Monitor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -24,7 +23,7 @@
       background: #FAFAF7;
       border: 1px solid #DFDDD3;
       padding: 48px 40px;
-      max-width: 440px;
+      max-width: 420px;
       width: 100%;
       text-align: center;
     }
@@ -53,25 +52,39 @@
       background: conic-gradient(#2FA88E 0 40%, #C97A1F 40% 72%, #B84438 72% 100%);
       flex: none;
     }
-    .google-btn-wrapper {
-      display: flex;
-      justify-content: center;
-      margin: 8px 0;
-      min-height: 50px;
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: #14171F;
+      color: #FAFAF7;
+      border: none;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: .15s;
+      text-decoration: none;
+      text-align: center;
+      margin-bottom: 12px;
     }
+    .btn:hover { background: #2A2D78; }
+    .btn-google {
+      background: #FFFFFF;
+      color: #14171F;
+      border: 1px solid #DFDDD3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-google:hover { background: #F0F0F0; border-color: #3B3FA0; }
     .divider {
       display: flex; align-items: center; gap: 16px; margin: 20px 0;
       color: #8A8D95; font-size: 12px;
     }
     .divider::before, .divider::after {
       content: ""; flex: 1; height: 1px; background: #DFDDD3;
-    }
-    .error {
-      color: #B84438;
-      font-size: 13px;
-      margin-top: 12px;
-      display: none;
-      text-align: center;
     }
     .back-link {
       display: inline-block;
@@ -81,31 +94,12 @@
       text-decoration: none;
     }
     .back-link:hover { color: #3B3FA0; }
-    .loading {
-      display: none;
-      text-align: center;
-      padding: 20px;
+    .btn-disabled {
+      background: #ECEAE1;
+      color: #8A8D95;
+      cursor: not-allowed;
     }
-    .loading.active { display: block; }
-    .spinner {
-      width: 32px;
-      height: 32px;
-      margin: 0 auto 12px;
-      border: 3px solid #DFDDD3;
-      border-top: 3px solid #3B3FA0;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .demo-link {
-      display: block;
-      margin-top: 8px;
-      color: #3B3FA0;
-      font-size: 13px;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .demo-link:hover { text-decoration: underline; }
+    .btn-disabled:hover { background: #ECEAE1; }
   </style>
 </head>
 <body>
@@ -116,206 +110,22 @@
     OCD‑Monitor
   </div>
 
-  <div id="authForm">
-    <h1>Welcome</h1>
-    <p class="sub">Sign in with Google to continue</p>
+  <h1>Sign in</h1>
+  <p class="sub">Choose how you want to continue</p>
 
-    <!-- Здесь будет кнопка Google -->
-    <div class="google-btn-wrapper" id="googleButton"></div>
+  <!-- Кнопка входа через Google -->
+  <a href="login_google.html" class="btn btn-google">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20" alt="Google" />
+    Sign in with Google
+  </a>
 
-    <div class="divider">or</div>
+  <div class="divider">or</div>
 
-    <a href="#" class="demo-link" onclick="demoLogin()">Try demo login →</a>
-
-    <div id="authError" class="error"></div>
-  </div>
-
-  <div class="loading" id="loadingState">
-    <div class="spinner"></div>
-    <p>Signing in...</p>
-  </div>
-
-  <div id="demoForm" style="display:none; margin-top:16px;">
-    <p style="font-size:13px; color:#565A64; margin-bottom:12px;">Enter any username to continue:</p>
-    <form onsubmit="return demoLoginSubmit(event)">
-      <input type="text" id="demoUsername" placeholder="Username" value="demo_user" style="width:100%; padding:12px 14px; border:1px solid #DFDDD3; background:#FAFAF7; margin-bottom:12px; font-size:14px; font-family:'IBM Plex Sans';" />
-      <button type="submit" style="width:100%; padding:14px; background:#14171F; color:#FAFAF7; border:none; font-family:'IBM Plex Mono'; font-size:13px; font-weight:500; cursor:pointer;">Continue</button>
-    </form>
-    <a href="#" class="back-link" onclick="document.getElementById('demoForm').style.display='none'; document.getElementById('authForm').style.display='block';">← Back</a>
-  </div>
+  <!-- Обычный вход (заглушка) -->
+  <a href="#" class="btn btn-disabled">Email & password (coming soon)</a>
 
   <a href="index.html" class="back-link">← Back to home</a>
 </div>
 
-<script>
-  // ===== localStorage =====
-  const USERS_KEY = 'ocd_users';
-  const SESSION_KEY = 'ocd_session';
-
-  function getUsers() {
-    try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch { return {}; }
-  }
-  function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
-  function setSession(username) { localStorage.setItem(SESSION_KEY, username); }
-
-  // ===== Google OAuth =====
-  // ⚠️ ВАЖНО: Этот Client ID должен совпадать с настройками в Google Cloud
-  const GOOGLE_CLIENT_ID = '739852469984-g8damplp70oc2ahkr8maf8muss0b6dh1.apps.googleusercontent.com';
-
-  function initGoogleSignIn() {
-    const googleButton = document.getElementById('googleButton');
-    if (!googleButton) {
-      console.error('Google button container not found');
-      return;
-    }
-
-    if (typeof google === 'undefined' || !google.accounts) {
-      console.warn('Google API not loaded yet, retrying...');
-      setTimeout(initGoogleSignIn, 500);
-      return;
-    }
-
-    console.log('✅ Google API loaded, initializing...');
-
-    try {
-      google.accounts.id.initialize({
-        client_id: GOOGLE_CLIENT_ID,
-        callback: handleGoogleCredential,
-        cancel_on_tap_outside: false,
-        auto_select: false,
-      });
-
-      google.accounts.id.renderButton(
-        googleButton,
-        {
-          type: 'standard',
-          theme: 'outline',
-          size: 'large',
-          width: 340,
-          text: 'signin_with',
-          logo_alignment: 'center'
-        }
-      );
-
-      console.log('✅ Google button rendered');
-    } catch (e) {
-      console.error('Google init error:', e);
-      document.getElementById('authError').textContent = 'Google sign-in is not available. Please use demo login.';
-      document.getElementById('authError').style.display = 'block';
-    }
-  }
-
-  function handleGoogleCredential(response) {
-    showLoading(true);
-    try {
-      const payload = JSON.parse(atob(response.credential.split('.')[1]));
-      console.log('✅ Google auth success:', payload.email);
-
-      const email = payload.email;
-      const name = payload.name || email.split('@')[0];
-      let username = name.replace(/[^a-zA-Z0-9_]/g, '_').toLowerCase();
-
-      const users = getUsers();
-      if (!users[username]) {
-        users[username] = {
-          password: 'google_oauth',
-          attemptsUsed: 0,
-          subscription: null,
-          history: [],
-          consultAccess: false,
-          email: email,
-          googleId: payload.sub,
-          displayName: payload.name || username
-        };
-        saveUsers(users);
-      }
-
-      setSession(username);
-      showLoading(false);
-      window.location.href = 'app.html';
-    } catch (e) {
-      console.error('Google auth error:', e);
-      showLoading(false);
-      document.getElementById('authError').textContent = 'Authentication failed. Please try again.';
-      document.getElementById('authError').style.display = 'block';
-    }
-  }
-
-  function demoLogin() {
-    event.preventDefault();
-    document.getElementById('authForm').style.display = 'none';
-    document.getElementById('demoForm').style.display = 'block';
-  }
-
-  function demoLoginSubmit(e) {
-    e.preventDefault();
-    const username = document.getElementById('demoUsername').value.trim();
-    if (!username) {
-      alert('Please enter a username.');
-      return false;
-    }
-
-    const users = getUsers();
-    if (!users[username]) {
-      users[username] = {
-        password: 'demo',
-        attemptsUsed: 0,
-        subscription: null,
-        history: [],
-        consultAccess: false
-      };
-      saveUsers(users);
-    }
-
-    setSession(username);
-    window.location.href = 'app.html';
-    return false;
-  }
-
-  function showLoading(show) {
-    if (show) {
-      document.getElementById('authForm').style.display = 'none';
-      document.getElementById('demoForm').style.display = 'none';
-      document.getElementById('loadingState').classList.add('active');
-    } else {
-      document.getElementById('loadingState').classList.remove('active');
-      document.getElementById('authForm').style.display = 'block';
-    }
-  }
-
-  // ===== Init =====
-  // Check if already logged in
-  const session = localStorage.getItem(SESSION_KEY);
-  if (session) {
-    const users = getUsers();
-    if (users[session]) {
-      console.log('✅ Already logged in as:', session);
-      window.location.href = 'app.html';
-    }
-  }
-
-  // Initialize Google Sign-In
-  console.log('🚀 Starting Google Sign-In initialization...');
-
-  if (typeof google !== 'undefined' && google.accounts) {
-    initGoogleSignIn();
-  } else {
-    document.addEventListener('DOMContentLoaded', function() {
-      if (typeof google !== 'undefined' && google.accounts) {
-        initGoogleSignIn();
-      } else {
-        setTimeout(function() {
-          if (typeof google !== 'undefined' && google.accounts) {
-            initGoogleSignIn();
-          } else {
-            console.error('❌ Google API failed to load');
-            document.getElementById('authError').textContent = 'Google sign-in is not available. Please use demo login.';
-            document.getElementById('authError').style.display = 'block';
-          }
-        }, 1000);
-      }
-    });
-  }
-</script>
 </body>
 </html>
