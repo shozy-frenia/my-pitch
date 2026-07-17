@@ -7,8 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <!-- CloudPayments Widget -->
-  <script src="https://widget.cloudpayments.ru/bundles/cloudpayments.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -25,7 +23,7 @@
       background: #FAFAF7;
       border: 1px solid #DFDDD3;
       padding: 48px 40px;
-      max-width: 480px;
+      max-width: 500px;
       width: 100%;
     }
     .brand {
@@ -56,6 +54,35 @@
     .payment-plans .plan .period { font-size: 12px; color: #8A8D95; }
     .payment-plans .plan .features { font-size: 12px; margin-top: 6px; color: #565A64; }
 
+    .crypto-address {
+      background: #F0F0EA;
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      word-break: break-all;
+      margin: 16px 0 12px;
+      border: 1px solid #DFDDD3;
+    }
+    .copy-btn {
+      background: none;
+      border: 1px solid #14171F;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      background: #fff;
+      border-radius: 4px;
+    }
+    .copy-btn:hover { background: #EAE9F6; }
+
+    .qr-container {
+      text-align: center;
+      margin: 12px 0 20px;
+    }
+    .qr-container img { border: 1px solid #DFDDD3; border-radius: 8px; }
+
     .btn {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 13px;
@@ -68,9 +95,16 @@
       transition: .15s;
       width: 100%;
       margin-top: 8px;
+      border-radius: 4px;
     }
     .btn:hover { background: #2A2D78; border-color: #2A2D78; }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-outline {
+      background: transparent;
+      color: #14171F;
+      border-color: #DFDDD3;
+    }
+    .btn-outline:hover { background: #F0F0EA; border-color: #14171F; }
 
     .back-link {
       display: block; text-align: center; margin-top: 16px;
@@ -79,200 +113,150 @@
     .back-link:hover { color: #14171F; }
 
     .status-msg {
-      display: none; text-align: center; padding: 20px;
+      display: none; text-align: center; padding: 16px;
       margin-top: 16px;
       border-radius: 4px;
+      border: 1px solid transparent;
     }
-    .status-msg.loading { display: block; background: #EAE9F6; border: 1px solid #3B3FA0; }
-    .status-msg.success { display: block; background: #E6F4EA; border: 1px solid #2FA88E; }
-    .status-msg.error { display: block; background: #FDE8E5; border: 1px solid #B84438; }
-    .status-msg .icon { font-size: 36px; margin-bottom: 8px; }
+    .status-msg.success { display: block; background: #E6F4EA; border-color: #2FA88E; }
+    .status-msg.error { display: block; background: #FDE8E5; border-color: #B84438; }
+    .status-msg.info { display: block; background: #F0F0EA; border-color: #565A64; }
   </style>
 </head>
 <body>
-  <div class="payment-box">
-    <div class="brand"><span class="brand-mark"></span>NeuroCheck.ai</div>
-    <h1>💎 Subscribe</h1>
-    <p class="sub">Choose your plan and complete payment</p>
+<div class="payment-box">
+  <div class="brand"><span class="brand-mark"></span>NeuroCheck.ai</div>
+  <h1>💎 Subscribe</h1>
+  <p class="sub">Choose your plan and complete payment via <strong>USDT (TRC20)</strong></p>
 
-    <div class="payment-plans">
-      <div class="plan" data-plan="basic" onclick="selectPlan('basic')">
-        <div class="price">$5</div><div class="period">/ month</div>
-        <div class="features">+5 attempts<br>Basic support</div>
-      </div>
-      <div class="plan" data-plan="premium" onclick="selectPlan('premium')">
-        <div class="price">$10</div><div class="period">/ month</div>
-        <div class="features">Unlimited<br>Priority support<br>Consultations<br>🤖 AI Assistant 24/7</div>
-      </div>
+  <div class="payment-plans">
+    <div class="plan" data-plan="basic" onclick="selectPlan('basic')">
+      <div class="price">$5</div><div class="period">/ month</div>
+      <div class="features">+5 attempts<br>Basic support</div>
     </div>
-
-    <button class="btn" id="payBtn">💳 Pay with CloudPayments</button>
-    <div id="statusMsg" class="status-msg"></div>
-
-    <a href="/my-pitch/app.html" class="back-link">← Back to dashboard</a>
+    <div class="plan" data-plan="premium" onclick="selectPlan('premium')">
+      <div class="price">$10</div><div class="period">/ month</div>
+      <div class="features">Unlimited<br>Priority support<br>Consultations<br>🤖 AI 24/7</div>
+    </div>
   </div>
 
-  <script>
-    // ===== Конфигурация =====
-    // ⚠️ ЗАМЕНИ НА СВОИ КЛЮЧИ ИЗ ЛИЧНОГО КАБИНЕТА CLOUDPAYMENTS
-    const CLOUD_PAYMENTS_PUBLIC_ID = 'pk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'; // ТВОЙ PUBLIC ID
-    const CLOUD_PAYMENTS_API_URL = 'https://api.cloudpayments.ru';
+  <!-- Блок с крипто-адресом -->
+  <div style="margin-top: 20px;">
+    <label style="font-weight: 600; font-size: 14px;">📍 Send USDT (TRC20) to:</label>
+    <div class="crypto-address" id="addressDisplay">TJ7eMchCewAy1pjUy4nFJ7wQjdrhXZJ78C</div>
+    <button class="copy-btn" onclick="copyAddress()">📋 Copy address</button>
 
-    // ===== localStorage =====
-    const USERS_KEY = 'ocd_users';
-    const SESSION_KEY = 'ocd_session';
+    <div class="qr-container">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?data=TJ7eMchCewAy1pjUy4nFJ7wQjdrhXZJ78C&size=180x180&margin=10" alt="QR code for USDT" />
+    </div>
+  </div>
 
-    function getUsers() {
-      try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch { return {}; }
-    }
-    function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
-    function getSession() { return localStorage.getItem(SESSION_KEY) || null; }
-    function getUser(username) {
-      const users = getUsers();
-      return users[username] || null;
-    }
-    function updateUser(username, data) {
-      const users = getUsers();
-      users[username] = data;
-      saveUsers(users);
-    }
+  <button class="btn" id="paidBtn">✅ I have paid — activate my subscription</button>
+  <div id="statusMsg" class="status-msg"></div>
 
-    const currentUser = getSession();
-    if (!currentUser) {
-      alert('You are not logged in. Please log in first.');
-      window.location.href = '/my-pitch/login.html';
-    }
+  <a href="/my-pitch/app.html" class="back-link">← Back to dashboard</a>
+</div>
 
-    let selectedPlan = null;
+<script>
+  // ===== localStorage =====
+  const USERS_KEY = 'ocd_users';
+  const SESSION_KEY = 'ocd_session';
 
-    function selectPlan(plan) {
-      selectedPlan = plan;
-      document.querySelectorAll('.payment-plans .plan').forEach(el => el.classList.remove('selected'));
-      document.querySelector(`.payment-plans .plan[data-plan="${plan}"]`).classList.add('selected');
-    }
+  function getUsers() {
+    try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch { return {}; }
+  }
+  function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
+  function getSession() { return localStorage.getItem(SESSION_KEY) || null; }
+  function getUser(username) {
+    const users = getUsers();
+    return users[username] || null;
+  }
+  function updateUser(username, data) {
+    const users = getUsers();
+    users[username] = data;
+    saveUsers(users);
+  }
 
-    // ===== ОСНОВНАЯ ФУНКЦИЯ ОПЛАТЫ =====
-    document.getElementById('payBtn').addEventListener('click', function() {
-      if (!selectedPlan) {
-        showStatus('Please select a plan.', 'error');
-        return;
-      }
+  const currentUser = getSession();
+  if (!currentUser) {
+    alert('You are not logged in. Please log in first.');
+    window.location.href = '/my-pitch/login.html';
+  }
 
-      const user = getUser(currentUser);
-      if (!user) {
-        showStatus('User not found. Please log in again.', 'error');
-        return;
-      }
+  let selectedPlan = null;
 
-      const planName = selectedPlan === 'basic' ? 'Basic' : 'Premium';
-      const planPrice = selectedPlan === 'basic' ? 5.00 : 10.00;
-      const userEmail = user.email || currentUser + '@neurocheck.ai';
+  function selectPlan(plan) {
+    selectedPlan = plan;
+    document.querySelectorAll('.payment-plans .plan').forEach(el => el.classList.remove('selected'));
+    document.querySelector(`.payment-plans .plan[data-plan="${plan}"]`).classList.add('selected');
+  }
 
-      showStatus('⏳ Opening payment window...', 'loading');
-
-      try {
-        // Создаём виджет CloudPayments
-        const widget = new cp.CloudPayments({
-          language: 'en-US'
-        });
-
-        // Вызываем оплату с подпиской (рекуррентный платёж)
-        widget.charge({
-          publicId: CLOUD_PAYMENTS_PUBLIC_ID,
-          description: `NeuroCheck.ai — ${planName} subscription`,
-          amount: planPrice,
-          currency: 'USD',
-          accountId: currentUser,
-          invoiceId: `sub-${currentUser}-${Date.now()}`,
-          skin: 'mini',
-          data: {
-            user: currentUser,
-            plan: selectedPlan,
-            planName: planName,
-            cloudPayments: {
-              recurrent: {
-                interval: 'Month',
-                period: 1,
-                customerReceipt: {
-                  Items: [{
-                    label: `NeuroCheck.ai — ${planName} subscription`,
-                    price: planPrice,
-                    quantity: 1.00,
-                    amount: planPrice,
-                    vat: null,
-                    method: 4,
-                    object: 4
-                  }],
-                  taxationSystem: 1,
-                  email: userEmail,
-                  amounts: {
-                    electronic: planPrice,
-                    advancePayment: 0.00,
-                    credit: 0.00,
-                    provision: 0.00
-                  }
-                }
-              }
-            }
-          }
-        },
-        // Callback при успешной оплате
-        function(options) {
-          console.log('✅ Payment success:', options);
-          const userData = getUser(currentUser);
-          if (userData) {
-            userData.subscription = selectedPlan;
-            if (selectedPlan === 'premium') {
-              userData.consultAccess = true;
-              // Добавляем флаг для AI-доступа
-              userData.aiAccess = true;
-            }
-            if (!userData.transactions) userData.transactions = [];
-            userData.transactions.push({
-              date: new Date().toISOString(),
-              transactionId: options.transactionId || 'unknown',
-              plan: selectedPlan,
-              amount: planPrice
-            });
-            updateUser(currentUser, userData);
-          }
-          showStatus('✅ Payment successful! Your subscription is active.', 'success');
-          setTimeout(() => {
-            window.location.href = '/my-pitch/app.html';
-          }, 2000);
-        },
-        // Callback при ошибке или отмене
-        function(reason, options) {
-          console.error('❌ Payment failed:', reason, options);
-          if (reason === 'User closed widget') {
-            showStatus('Payment was cancelled. You can try again.', 'error');
-          } else {
-            showStatus(`Payment failed: ${reason || 'Unknown error'}`, 'error');
-          }
-        });
-      } catch (err) {
-        console.error('❌ Widget error:', err);
-        showStatus(`Error: ${err.message}`, 'error');
-      }
+  function copyAddress() {
+    const addr = document.getElementById('addressDisplay').innerText;
+    navigator.clipboard.writeText(addr).then(() => {
+      showStatus('✅ Address copied to clipboard!', 'success');
+    }).catch(() => {
+      // fallback
+      const range = document.createRange();
+      range.selectNode(document.getElementById('addressDisplay'));
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      document.execCommand('copy');
+      showStatus('✅ Address copied!', 'success');
     });
+  }
 
-    function showStatus(message, type) {
-      const el = document.getElementById('statusMsg');
-      el.className = 'status-msg';
-      if (type === 'loading') {
-        el.className = 'status-msg loading';
-        el.innerHTML = `<div class="icon">⏳</div><p>${message}</p>`;
-      } else if (type === 'success') {
-        el.className = 'status-msg success';
-        el.innerHTML = `<div class="icon">✅</div><p>${message}</p>`;
-      } else if (type === 'error') {
-        el.className = 'status-msg error';
-        el.innerHTML = `<div class="icon">❌</div><p>${message}</p>`;
-      }
-      el.style.display = 'block';
+  document.getElementById('paidBtn').addEventListener('click', function() {
+    if (!selectedPlan) {
+      showStatus('Please select a plan first.', 'error');
+      return;
     }
 
-    selectPlan('basic');
-  </script>
+    const user = getUser(currentUser);
+    if (!user) {
+      showStatus('User not found. Please log in again.', 'error');
+      return;
+    }
+
+    // Обновляем подписку вручную (доверительная модель)
+    user.subscription = selectedPlan;
+    if (selectedPlan === 'premium') {
+      user.consultAccess = true;
+      user.aiAccess = true;
+    }
+    if (!user.transactions) user.transactions = [];
+    user.transactions.push({
+      date: new Date().toISOString(),
+      method: 'USDT (TRC20)',
+      plan: selectedPlan,
+      amount: selectedPlan === 'basic' ? 5 : 10
+    });
+    updateUser(currentUser, user);
+
+    showStatus('🎉 Subscription activated! Thank you for your payment.', 'success');
+    setTimeout(() => {
+      window.location.href = '/my-pitch/app.html';
+    }, 2500);
+  });
+
+  function showStatus(message, type) {
+    const el = document.getElementById('statusMsg');
+    el.className = 'status-msg';
+    if (type === 'success') {
+      el.className = 'status-msg success';
+      el.innerHTML = `<strong>✅ ${message}</strong>`;
+    } else if (type === 'error') {
+      el.className = 'status-msg error';
+      el.innerHTML = `<strong>❌ ${message}</strong>`;
+    } else {
+      el.className = 'status-msg info';
+      el.innerHTML = `<strong>ℹ️ ${message}</strong>`;
+    }
+    el.style.display = 'block';
+  }
+
+  // Выбираем Basic по умолчанию
+  selectPlan('basic');
+</script>
 </body>
 </html>
