@@ -1,438 +1,1176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard — NeuroCheck.ai</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    /* ===== base styles ===== */
-    :root {
-      --paper: #FAFAF7;
-      --panel: #F1F0E9;
-      --panel-2: #ECEAE1;
-      --ink: #14171F;
-      --ink-soft: #565A64;
-      --ink-faint: #8A8D95;
-      --line: #DFDDD3;
-      --accent: #3B3FA0;
-      --accent-ink: #2A2D78;
-      --accent-soft: #EAE9F6;
-      --state-normal: #2FA88E;
-      --state-anxious: #C97A1F;
-      --state-crisis: #B84438;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'IBM Plex Sans', sans-serif;
-      background: var(--paper);
-      color: var(--ink);
-      padding: 20px;
-      line-height: 1.5;
-    }
-    .container { max-width: 720px; margin: 0 auto; }
-    .card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      padding: 28px 24px;
-      margin-bottom: 20px;
-    }
-    .card h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 600;
-      font-size: 24px;
-      letter-spacing: -0.01em;
-      margin-bottom: 4px;
-    }
-    .card .sub { color: var(--ink-soft); font-size: 14px; margin-bottom: 20px; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
-    .stat-box {
-      border: 1px solid var(--line);
-      padding: 16px;
-      background: var(--paper);
-    }
-    .stat-box .label { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-faint); font-family: 'IBM Plex Mono'; }
-    .stat-box .value { font-size: 22px; font-weight: 600; font-family: 'Space Grotesk'; margin-top: 4px; }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — NeuroCheck.ai</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+        /* ===== base styles ===== */
+        :root {
+            --paper: #FAFAF7;
+            --panel: #F1F0E9;
+            --panel-2: #ECEAE1;
+            --ink: #14171F;
+            --ink-soft: #565A64;
+            --ink-faint: #8A8D95;
+            --line: #DFDDD3;
+            --accent: #3B3FA0;
+            --accent-ink: #2A2D78;
+            --accent-soft: #EAE9F6;
+            --state-normal: #2FA88E;
+            --state-anxious: #C97A1F;
+            --state-crisis: #B84438;
 
-    .btn {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 10px 20px;
-      border: 1px solid var(--ink);
-      background: transparent;
-      color: var(--ink);
-      cursor: pointer;
-      transition: .15s;
-      display: inline-block;
-      text-decoration: none;
-    }
-    .btn-primary { background: var(--ink); color: var(--paper); }
-    .btn-primary:hover { background: var(--accent-ink); border-color: var(--accent-ink); }
-    .btn-success { background: var(--state-normal); color: var(--paper); border-color: var(--state-normal); }
-    .btn-success:hover { background: #1e7a66; }
-    .btn-danger { background: var(--state-crisis); color: var(--paper); border-color: var(--state-crisis); }
-    .btn-danger:hover { background: #8a2e24; }
-    .btn-outline { background: transparent; }
-    .btn-outline:hover { background: var(--panel); }
+            /* new accent gradient */
+            --gradient-primary: linear-gradient(135deg, #3B3FA0 0%, #6C3CE1 100%);
+            --gradient-glow: radial-gradient(circle at 30% 20%, rgba(107, 60, 225, 0.08), transparent 70%);
+            --shadow-card: 0 8px 32px rgba(20, 23, 31, 0.06), 0 2px 8px rgba(20, 23, 31, 0.03);
+            --shadow-hover: 0 16px 48px rgba(20, 23, 31, 0.10), 0 4px 12px rgba(20, 23, 31, 0.04);
+            --radius-card: 20px;
+            --radius-sm: 12px;
+            --transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
 
-    /* Стиль для AI-кнопки */
-    .btn-ai {
-      background: linear-gradient(135deg, #6C3CE1, #A855F7);
-      color: white;
-      border: none;
-    }
-    .btn-ai:hover { background: linear-gradient(135deg, #5B2BC4, #9333EA); }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    .actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            padding: 24px 20px 40px;
+            line-height: 1.5;
+            min-height: 100vh;
+            background-image: var(--gradient-glow), radial-gradient(circle at 80% 80%, rgba(47, 168, 142, 0.04), transparent 60%);
+            background-attachment: fixed;
+        }
 
-    .day-inputs { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-    .day-inputs label { display: flex; flex-direction: column; align-items: center; font-size: 12px; }
-    .day-inputs input { width: 56px; text-align: center; padding: 6px; border: 1px solid var(--line); background: var(--paper); font-family: 'IBM Plex Sans'; }
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            animation: fadeUp 0.5s ease both;
+        }
 
-    .result-box {
-      margin-top: 12px;
-      background: var(--panel);
-      padding: 16px;
-      white-space: pre-wrap;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 13px;
-      border: 1px solid var(--line);
-      display: none;
-    }
-    .error-msg { color: var(--state-crisis); font-size: 13px; margin-top: 8px; display: none; }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .history-item {
-      border-bottom: 1px solid var(--line);
-      padding: 10px 0;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.1s;
-    }
-    .history-item:hover { background: var(--panel-2); }
-    .history-item:last-child { border-bottom: none; }
-    .history-item .date { font-size: 12px; color: var(--ink-faint); }
-    .history-item .preview { color: var(--ink-soft); font-size: 13px; }
+        /* ===== header ===== */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0 20px;
+            margin-bottom: 28px;
+            border-bottom: 1px solid var(--line);
+            position: relative;
+        }
 
-    /* Modal for history details */
-    .modal-overlay {
-      display: none;
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(20,23,31,0.6); backdrop-filter: blur(6px);
-      z-index: 999; justify-content: center; align-items: center;
-    }
-    .modal-overlay.active { display: flex; }
-    .modal-box {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      max-width: 600px; width: 90%; padding: 32px;
-      position: relative;
-      animation: modalIn 0.3s ease;
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.96); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    .modal-box .close {
-      position: absolute; top: 12px; right: 16px;
-      font-size: 24px; cursor: pointer; background: none; border: none; color: var(--ink-soft);
-    }
-    .modal-box .close:hover { color: var(--ink); }
-    .modal-box h2 { font-family: 'Space Grotesk'; font-weight: 600; font-size: 24px; margin-bottom: 4px; }
-    .modal-box .sub { color: var(--ink-soft); font-size: 14px; margin-bottom: 20px; }
-    .modal-box pre {
-      background: var(--panel);
-      padding: 16px;
-      white-space: pre-wrap;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 13px;
-      border: 1px solid var(--line);
-    }
-  </style>
+        .dashboard-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: conic-gradient(#2FA88E 0% 40%, #C97A1F 40% 72%, #B84438 72% 100%);
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(47, 168, 142, 0.25);
+            transition: var(--transition);
+        }
+
+        .brand-icon:hover {
+            transform: rotate(12deg) scale(1.05);
+        }
+
+        .brand span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--ink-soft);
+            background: var(--panel);
+            padding: 6px 14px 6px 10px;
+            border-radius: 40px;
+            border: 1px solid var(--line);
+        }
+
+        .user-badge .avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .btn-logout {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 6px 16px;
+            border: 1px solid var(--line);
+            background: transparent;
+            color: var(--ink-soft);
+            cursor: pointer;
+            border-radius: 40px;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-logout:hover {
+            background: var(--panel-2);
+            color: var(--ink);
+            border-color: var(--ink-soft);
+        }
+
+        /* ===== card ===== */
+        .card {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-card);
+            padding: 32px 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            opacity: 0.6;
+        }
+
+        .card h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 26px;
+            letter-spacing: -0.02em;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card h2 .wave {
+            display: inline-block;
+            animation: wave 2.5s infinite ease-in-out;
+            transform-origin: 70% 70%;
+        }
+
+        @keyframes wave {
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+            10% {
+                transform: rotate(14deg);
+            }
+            20% {
+                transform: rotate(-8deg);
+            }
+            30% {
+                transform: rotate(14deg);
+            }
+            40% {
+                transform: rotate(-4deg);
+            }
+            50% {
+                transform: rotate(10deg);
+            }
+            60%,
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        .card .sub {
+            color: var(--ink-soft);
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card .sub .dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--state-normal);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.4;
+                transform: scale(0.8);
+            }
+        }
+
+        /* ===== stats grid ===== */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 18px 0 20px;
+        }
+
+        .stat-box {
+            border: 1px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 18px 16px;
+            background: var(--paper);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-box:hover {
+            border-color: var(--accent-soft);
+            background: var(--panel);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(59, 63, 160, 0.06);
+        }
+
+        .stat-box .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--ink-faint);
+            font-family: 'IBM Plex Mono', monospace;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stat-box .label .icon {
+            font-size: 13px;
+        }
+
+        .stat-box .value {
+            font-size: 24px;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            margin-top: 4px;
+            letter-spacing: -0.01em;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+
+        .stat-box .value.infinity {
+            font-size: 28px;
+        }
+
+        .stat-box .value .badge {
+            font-size: 13px;
+            font-weight: 500;
+            background: var(--panel-2);
+            color: var(--ink-soft);
+            padding: 2px 10px;
+            border-radius: 40px;
+            -webkit-text-fill-color: var(--ink-soft);
+            margin-left: 6px;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        .stat-box .value .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+            -webkit-text-fill-color: initial;
+        }
+
+        .stat-box .value .status-dot.green {
+            background: var(--state-normal);
+        }
+        .stat-box .value .status-dot.red {
+            background: var(--state-crisis);
+        }
+
+        /* ===== buttons ===== */
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 18px 0 0;
+        }
+
+        .btn {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 10px 22px;
+            border-radius: 40px;
+            border: 1px solid var(--line);
+            background: transparent;
+            color: var(--ink);
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn-primary {
+            background: var(--ink);
+            color: var(--paper);
+            border-color: var(--ink);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-ink);
+            border-color: var(--accent-ink);
+            box-shadow: 0 4px 16px rgba(20, 23, 31, 0.20);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--state-normal);
+            color: var(--paper);
+            border-color: var(--state-normal);
+        }
+
+        .btn-success:hover {
+            background: #1e7a66;
+            border-color: #1e7a66;
+            box-shadow: 0 4px 16px rgba(47, 168, 142, 0.30);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--state-crisis);
+            color: var(--paper);
+            border-color: var(--state-crisis);
+        }
+
+        .btn-danger:hover {
+            background: #8a2e24;
+            border-color: #8a2e24;
+            box-shadow: 0 4px 16px rgba(184, 68, 56, 0.30);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border-color: var(--line);
+        }
+
+        .btn-outline:hover {
+            background: var(--panel);
+            border-color: var(--ink-soft);
+            transform: translateY(-2px);
+        }
+
+        .btn-ai {
+            background: linear-gradient(135deg, #6C3CE1, #A855F7);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 20px rgba(107, 60, 225, 0.30);
+        }
+
+        .btn-ai:hover {
+            background: linear-gradient(135deg, #5B2BC4, #9333EA);
+            box-shadow: 0 6px 28px rgba(107, 60, 225, 0.40);
+            transform: translateY(-2px);
+        }
+
+        .btn-ai::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 40px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .btn-ai:hover::after {
+            opacity: 1;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ===== day inputs ===== */
+        .day-inputs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 14px 0 16px;
+        }
+
+        .day-inputs label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--ink-soft);
+            gap: 4px;
+            background: var(--panel);
+            padding: 8px 10px 10px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line);
+            transition: var(--transition);
+            min-width: 64px;
+        }
+
+        .day-inputs label:hover {
+            border-color: var(--accent-soft);
+            background: var(--paper);
+        }
+
+        .day-inputs label:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 63, 160, 0.10);
+        }
+
+        .day-inputs label .day-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--ink-faint);
+        }
+
+        .day-inputs input {
+            width: 52px;
+            text-align: center;
+            padding: 6px 4px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink);
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .day-inputs input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 63, 160, 0.08);
+        }
+
+        .day-inputs input::-webkit-inner-spin-button {
+            opacity: 0.5;
+        }
+
+        /* ===== result box ===== */
+        .result-box {
+            margin-top: 14px;
+            background: var(--panel);
+            padding: 20px 18px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            display: none;
+            white-space: pre-wrap;
+            word-break: break-word;
+            position: relative;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+
+        .result-box::before {
+            content: '📊';
+            position: absolute;
+            top: -10px;
+            left: 16px;
+            background: var(--panel);
+            padding: 0 8px;
+            font-size: 14px;
+        }
+
+        .error-msg {
+            color: var(--state-crisis);
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+            padding: 10px 14px;
+            background: rgba(184, 68, 56, 0.06);
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--state-crisis);
+        }
+
+        /* ===== history ===== */
+        .history-container {
+            display: none;
+            max-height: 240px;
+            overflow-y: auto;
+            background: var(--panel);
+            padding: 8px 4px 4px 0;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line);
+            margin-top: 14px;
+            scroll-behavior: smooth;
+        }
+
+        .history-container::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .history-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .history-container::-webkit-scrollbar-thumb {
+            background: var(--line);
+            border-radius: 10px;
+        }
+
+        .history-item {
+            border-bottom: 1px solid var(--line);
+            padding: 12px 14px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 8px;
+            margin: 0 4px;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-item:hover {
+            background: var(--paper);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .history-item .date {
+            font-size: 12px;
+            color: var(--ink-faint);
+            font-weight: 400;
+        }
+
+        .history-item .preview {
+            color: var(--ink-soft);
+            font-size: 13px;
+            display: block;
+            margin-top: 2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .history-item .badge-idx {
+            display: inline-block;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 0 8px;
+            border-radius: 20px;
+            margin-right: 6px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .history-empty {
+            color: var(--ink-soft);
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* ===== modal ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 23, 31, 0.50);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-box {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-card);
+            max-width: 600px;
+            width: 92%;
+            padding: 32px 28px;
+            position: relative;
+            animation: modalSlide 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 24px 64px rgba(20, 23, 31, 0.20);
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: scale(0.94) translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-box .close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 26px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--ink-soft);
+            transition: var(--transition);
+            line-height: 1;
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+
+        .modal-box .close:hover {
+            color: var(--ink);
+            background: var(--panel);
+            transform: rotate(90deg);
+        }
+
+        .modal-box h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 24px;
+            letter-spacing: -0.02em;
+            margin-bottom: 2px;
+        }
+
+        .modal-box .sub {
+            color: var(--ink-soft);
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .modal-box pre {
+            background: var(--panel);
+            padding: 18px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line);
+            white-space: pre-wrap;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
+        /* ===== responsive ===== */
+        @media (max-width: 600px) {
+            body {
+                padding: 12px 12px 32px;
+            }
+
+            .card {
+                padding: 22px 16px;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-box .value {
+                font-size: 20px;
+            }
+
+            .actions {
+                gap: 8px;
+            }
+
+            .btn {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+
+            .dashboard-header {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .brand {
+                font-size: 17px;
+            }
+
+            .header-actions {
+                margin-left: auto;
+            }
+
+            .modal-box {
+                padding: 24px 16px;
+                width: 96%;
+            }
+
+            .day-inputs label {
+                min-width: 54px;
+                padding: 6px 6px 8px;
+            }
+
+            .day-inputs input {
+                width: 44px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .stat-box {
+                padding: 12px 10px;
+            }
+
+            .stat-box .value {
+                font-size: 18px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-  <!-- header -->
-  <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 0; border-bottom:1px solid var(--line); margin-bottom:20px;">
-    <div class="brand" style="display:flex; align-items:center; gap:10px; font-family:'Space Grotesk'; font-weight:700; font-size:18px;">
-      <span style="width:22px; height:22px; border-radius:50%; background:conic-gradient(#2FA88E 0 40%, #C97A1F 40% 72%, #B84438 72% 100%);"></span>
-      NeuroCheck.ai
+    <div class="container">
+        <!-- header -->
+        <div class="dashboard-header">
+            <div class="brand">
+                <span class="brand-icon"></span>
+                <span>NeuroCheck.ai</span>
+            </div>
+            <div class="header-actions">
+                <div class="user-badge">
+                    <span class="avatar" id="avatarLetter">U</span>
+                    <span id="userDisplay">User</span>
+                </div>
+                <a href="login.html" class="btn-logout">Log out</a>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="card">
+            <h2>
+                <span class="wave">👋</span>
+                Hello, <span id="dashUsername">User</span>!
+            </h2>
+            <p class="sub">
+                <span class="dot"></span>
+                Your dashboard
+            </p>
+
+            <div class="grid-2">
+                <div class="stat-box">
+                    <div class="label"><span class="icon">🎯</span> Attempts left</div>
+                    <div class="value" id="dashAttempts">5</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label"><span class="icon">⭐</span> Subscription</div>
+                    <div class="value" id="dashSubscription">None</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label"><span class="icon">📜</span> History entries</div>
+                    <div class="value" id="dashHistoryCount">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label"><span class="icon">💬</span> Consultations</div>
+                    <div class="value" id="dashConsult">❌</div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" id="dashStartMonitor">🧠 Start monitoring</button>
+                <button class="btn btn-outline" id="dashShowHistory">📜 History</button>
+                <button class="btn btn-success" id="dashConsultBtn">💬 Consultation</button>
+                <button class="btn btn-ai" id="dashAiBtn" style="display:none;">🤖 AI Assistant</button>
+            </div>
+
+            <!-- History container -->
+            <div class="history-container" id="dashHistoryContainer"></div>
+
+            <!-- Monitor container -->
+            <div id="dashMonitorContainer" style="display:none; margin-top:18px;">
+                <p style="font-weight:500; margin-bottom:4px;">Enter anxiety level for each day (0–10):</p>
+                <div class="day-inputs" id="dayInputs"></div>
+                <button class="btn btn-primary" id="computeResultsBtn">📊 Get results</button>
+                <div class="result-box" id="monitorResultBox"></div>
+                <div class="error-msg" id="monitorError"></div>
+            </div>
+        </div>
     </div>
-    <div>
-      <span id="userDisplay" style="font-weight:500; margin-right:12px;"></span>
-      <a href="login.html" class="btn btn-outline" style="font-size:12px; padding:6px 14px;">Log out</a>
-    </div>
-  </div>
 
-  <!-- Dashboard -->
-  <div class="card">
-    <h2>👋 Hello, <span id="dashUsername"></span>!</h2>
-    <p class="sub">Your dashboard</p>
-    <div class="grid-2">
-      <div class="stat-box"><div class="label">Attempts left</div><div class="value" id="dashAttempts">5</div></div>
-      <div class="stat-box"><div class="label">Subscription</div><div class="value" id="dashSubscription">None</div></div>
-      <div class="stat-box"><div class="label">History entries</div><div class="value" id="dashHistoryCount">0</div></div>
-      <div class="stat-box"><div class="label">Consultations</div><div class="value" id="dashConsult">❌</div></div>
-    </div>
-    <div class="actions">
-      <button class="btn btn-primary" id="dashStartMonitor">🧠 Start monitoring</button>
-      <button class="btn btn-outline" id="dashShowHistory">📜 History</button>
-      <button class="btn btn-success" id="dashConsultBtn">💬 Consultation</button>
-      <!-- Новая кнопка AI Assistant (скрыта по умолчанию) -->
-      <button class="btn btn-ai" id="dashAiBtn" style="display:none;">🤖 AI Assistant</button>
+    <!-- Modal for history details -->
+    <div class="modal-overlay" id="historyDetailModal">
+        <div class="modal-box">
+            <button class="close" id="closeHistoryModal">&times;</button>
+            <h2>📄 History details</h2>
+            <p class="sub" id="historyDetailDate"></p>
+            <pre id="historyDetailContent"></pre>
+        </div>
     </div>
 
-    <!-- History container -->
-    <div id="dashHistoryContainer" style="display:none; max-height:200px; overflow-y:auto; background:var(--panel); padding:12px; border:1px solid var(--line); margin-top:12px;"></div>
+    <script>
+        // ===== localStorage =====
+        const USERS_KEY = 'ocd_users';
+        const SESSION_KEY = 'ocd_session';
 
-    <!-- Monitor container -->
-    <div id="dashMonitorContainer" style="display:none; margin-top:16px;">
-      <p>Enter anxiety level for each day (0–10):</p>
-      <div class="day-inputs" id="dayInputs"></div>
-      <button class="btn btn-primary" id="computeResultsBtn">📊 Get results</button>
-      <div class="result-box" id="monitorResultBox"></div>
-      <div class="error-msg" id="monitorError"></div>
-    </div>
-  </div>
-</div>
+        function getUsers() {
+            try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch { return {}; }
+        }
 
-<!-- Modal for history details -->
-<div class="modal-overlay" id="historyDetailModal">
-  <div class="modal-box">
-    <button class="close" id="closeHistoryModal">&times;</button>
-    <h2>📄 History details</h2>
-    <p class="sub" id="historyDetailDate"></p>
-    <pre id="historyDetailContent"></pre>
-  </div>
-</div>
+        function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
 
-<script>
-  // ===== localStorage =====
-  const USERS_KEY = 'ocd_users';
-  const SESSION_KEY = 'ocd_session';
+        function getSession() { return localStorage.getItem(SESSION_KEY) || null; }
 
-  function getUsers() {
-    try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch { return {}; }
-  }
-  function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
-  function getSession() { return localStorage.getItem(SESSION_KEY) || null; }
-  function setSession(username) { localStorage.setItem(SESSION_KEY, username); }
-  function clearSession() { localStorage.removeItem(SESSION_KEY); }
+        function setSession(username) { localStorage.setItem(SESSION_KEY, username); }
 
-  function getUser(username) {
-    const users = getUsers();
-    return users[username] || null;
-  }
-  function updateUser(username, data) {
-    const users = getUsers();
-    users[username] = data;
-    saveUsers(users);
-  }
+        function clearSession() { localStorage.removeItem(SESSION_KEY); }
 
-  // ===== Session =====
-  let currentUser = getSession();
-  if (!currentUser) {
-    window.location.href = 'login.html';
-  }
+        function getUser(username) {
+            const users = getUsers();
+            return users[username] || null;
+        }
 
-  const user = getUser(currentUser);
-  if (!user) {
-    clearSession();
-    window.location.href = 'login.html';
-  }
+        function updateUser(username, data) {
+            const users = getUsers();
+            users[username] = data;
+            saveUsers(users);
+        }
 
-  // ===== Helpers =====
-  function getAttemptsLeft(u) {
-    if (u.subscription === 'premium') return Infinity;
-    if (u.subscription === 'basic') {
-      const total = 2 + 5;
-      return Math.max(0, total - u.attemptsUsed);
-    }
-    return Math.max(0, 5 - u.attemptsUsed);
-  }
+        // ===== Session =====
+        let currentUser = getSession();
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        }
 
-  // ===== UI Updates =====
-  function updateDashboard() {
-    const u = getUser(currentUser);
-    if (!u) return;
-    document.getElementById('dashUsername').textContent = currentUser;
-    document.getElementById('userDisplay').textContent = currentUser;
-    const attempts = getAttemptsLeft(u);
-    document.getElementById('dashAttempts').textContent = attempts === Infinity ? '∞' : attempts;
-    document.getElementById('dashSubscription').textContent = u.subscription ? u.subscription.toUpperCase() : 'None';
-    document.getElementById('dashHistoryCount').textContent = (u.history || []).length;
-    const consultAccess = u.subscription === 'premium' || u.consultAccess;
-    document.getElementById('dashConsult').textContent = consultAccess ? '✅ Available' : '❌ Not available';
+        const user = getUser(currentUser);
+        if (!user) {
+            clearSession();
+            window.location.href = 'login.html';
+        }
 
-    const startBtn = document.getElementById('dashStartMonitor');
-    if (attempts <= 0) {
-      startBtn.textContent = '🔒 Subscribe';
-      startBtn.onclick = () => { window.location.href = 'payment.html'; };
-    } else {
-      startBtn.textContent = '🧠 Start monitoring';
-      startBtn.onclick = startMonitor;
-    }
+        // ===== Helpers =====
+        function getAttemptsLeft(u) {
+            if (u.subscription === 'premium') return Infinity;
+            if (u.subscription === 'basic') {
+                const total = 2 + 5;
+                return Math.max(0, total - u.attemptsUsed);
+            }
+            return Math.max(0, 5 - u.attemptsUsed);
+        }
 
-    // Управление AI-кнопкой
-    const aiBtn = document.getElementById('dashAiBtn');
-    if (u.subscription === 'premium') {
-      aiBtn.style.display = 'inline-block';
-      aiBtn.onclick = () => { window.location.href = 'ai.html'; };
-    } else {
-      aiBtn.style.display = 'none';
-    }
+        // ===== UI Updates =====
+        function updateDashboard() {
+            const u = getUser(currentUser);
+            if (!u) return;
 
-    document.getElementById('dashHistoryContainer').style.display = 'none';
-    document.getElementById('dashMonitorContainer').style.display = 'none';
-  }
+            const displayName = currentUser.charAt(0).toUpperCase() + currentUser.slice(1);
+            document.getElementById('dashUsername').textContent = displayName;
+            document.getElementById('userDisplay').textContent = displayName;
+            document.getElementById('avatarLetter').textContent = currentUser.charAt(0).toUpperCase();
 
-  // ===== Monitoring =====
-  function startMonitor() {
-    const container = document.getElementById('dayInputs');
-    container.innerHTML = '';
-    for (let i = 1; i <= 7; i++) {
-      const label = document.createElement('label');
-      label.innerHTML = `Day ${i} <input type="number" min="0" max="10" step="0.1" id="day${i}" value="5" />`;
-      container.appendChild(label);
-    }
-    document.getElementById('dashMonitorContainer').style.display = 'block';
-    document.getElementById('monitorResultBox').style.display = 'none';
-    document.getElementById('monitorError').style.display = 'none';
-    document.getElementById('dashHistoryContainer').style.display = 'none';
-  }
+            const attempts = getAttemptsLeft(u);
+            const attemptsEl = document.getElementById('dashAttempts');
+            if (attempts === Infinity) {
+                attemptsEl.textContent = '∞';
+                attemptsEl.classList.add('infinity');
+            } else {
+                attemptsEl.textContent = attempts;
+                attemptsEl.classList.remove('infinity');
+            }
 
-  document.getElementById('computeResultsBtn').addEventListener('click', function() {
-    const days = [];
-    for (let i = 1; i <= 7; i++) {
-      const val = parseFloat(document.getElementById('day' + i).value);
-      if (isNaN(val) || val < 0 || val > 10) {
-        document.getElementById('monitorError').textContent = 'Please enter numbers between 0 and 10.';
-        document.getElementById('monitorError').style.display = 'block';
-        return;
-      }
-      days.push(val);
-    }
-    const n = days.length;
-    const mean = days.reduce((a,b) => a+b, 0) / n;
-    const variance = days.reduce((s,x) => s + (x-mean)**2, 0) / (n-1);
-    const stdDev = Math.sqrt(variance);
-    const z = 1.96;
-    const margin = z * stdDev / Math.sqrt(n);
-    const ciLow = mean - margin;
-    const ciHigh = mean + margin;
-    const prior = 0.02;
-    const likelihood = 0.6;
-    const evidence = 0.6;
-    const posterior = (likelihood * prior) / evidence;
-    const last = days[days.length-1];
-    let diagnosis = '';
-    if (last < ciLow) diagnosis = '✅ Normal (positive dynamics)';
-    else if (last > ciHigh) diagnosis = '⚠️ Anxiety signal – consultation recommended';
-    else diagnosis = '🟡 Within normal range – continue monitoring';
+            const subEl = document.getElementById('dashSubscription');
+            if (u.subscription) {
+                subEl.textContent = u.subscription.toUpperCase();
+                subEl.style.background = 'var(--gradient-primary)';
+                subEl.style.webkitBackgroundClip = 'text';
+                subEl.style.webkitTextFillColor = 'transparent';
+                subEl.style.backgroundClip = 'text';
+            } else {
+                subEl.textContent = 'None';
+                subEl.style.background = 'none';
+                subEl.style.webkitTextFillColor = 'var(--ink-soft)';
+            }
 
-    const resultText =
-`📊 7‑day monitoring results
-Mean: ${mean.toFixed(2)}
-Std dev: ${stdDev.toFixed(2)}
-95% CI: [${ciLow.toFixed(2)} ; ${ciHigh.toFixed(2)}]
-Bayesian OCD probability: ${(posterior*100).toFixed(2)}%
-Diagnosis: ${diagnosis}
-Values: ${days.map(d => d.toFixed(1)).join(', ')}`;
+            document.getElementById('dashHistoryCount').textContent = (u.history || []).length;
+            const consultAccess = u.subscription === 'premium' || u.consultAccess;
+            const consultEl = document.getElementById('dashConsult');
+            if (consultAccess) {
+                consultEl.innerHTML = '<span class="status-dot green"></span> Available';
+                consultEl.style.webkitTextFillColor = 'var(--state-normal)';
+            } else {
+                consultEl.innerHTML = '<span class="status-dot red"></span> Not available';
+                consultEl.style.webkitTextFillColor = 'var(--state-crisis)';
+            }
 
-    const resultBox = document.getElementById('monitorResultBox');
-    resultBox.textContent = resultText;
-    resultBox.style.display = 'block';
-    document.getElementById('monitorError').style.display = 'none';
+            const startBtn = document.getElementById('dashStartMonitor');
+            if (attempts <= 0) {
+                startBtn.textContent = '🔒 Subscribe';
+                startBtn.onclick = () => { window.location.href = 'payment.html'; };
+                startBtn.className = 'btn btn-danger';
+            } else {
+                startBtn.textContent = '🧠 Start monitoring';
+                startBtn.onclick = startMonitor;
+                startBtn.className = 'btn btn-primary';
+            }
 
-    const u = getUser(currentUser);
-    if (u) {
-      u.attemptsUsed = (u.attemptsUsed || 0) + 1;
-      if (!u.history) u.history = [];
-      u.history.push({ date: new Date().toLocaleString(), result: resultText, days: days });
-      updateUser(currentUser, u);
-      updateDashboard();
-      if (getAttemptsLeft(u) <= 0) {
-        setTimeout(() => {
-          alert('You have used all free attempts. Please subscribe.');
-          window.location.href = 'payment.html';
-        }, 500);
-      }
-    }
-    this.disabled = true;
-    setTimeout(() => { this.disabled = false; }, 1000);
-  });
+            const aiBtn = document.getElementById('dashAiBtn');
+            if (u.subscription === 'premium') {
+                aiBtn.style.display = 'inline-flex';
+                aiBtn.onclick = () => { window.location.href = 'ai.html'; };
+            } else {
+                aiBtn.style.display = 'none';
+            }
 
-  // ===== History =====
-  function renderHistory() {
-    const container = document.getElementById('dashHistoryContainer');
-    const u = getUser(currentUser);
-    if (!u || !u.history || u.history.length === 0) {
-      container.innerHTML = '<p style="color:var(--ink-soft);">No history yet.</p>';
-      return;
-    }
-    container.innerHTML = u.history.map((entry, idx) => {
-      const preview = entry.result.split('\n').slice(0,2).join(' ') + '…';
-      return `<div class="history-item" data-index="${idx}">
-        <strong>#${idx+1}</strong> <span class="date">${entry.date}</span><br>
-        <span class="preview">${preview}</span>
-      </div>`;
-    }).join('');
+            document.getElementById('dashHistoryContainer').style.display = 'none';
+            document.getElementById('dashMonitorContainer').style.display = 'none';
+        }
 
-    container.querySelectorAll('.history-item').forEach(el => {
-      el.addEventListener('click', function() {
-        const idx = parseInt(this.dataset.index);
-        const entry = u.history[idx];
-        if (!entry) return;
-        document.getElementById('historyDetailDate').textContent = entry.date;
-        document.getElementById('historyDetailContent').textContent = entry.result;
-        document.getElementById('historyDetailModal').classList.add('active');
-        document.body.style.overflow = 'hidden';
-      });
-    });
-  }
+        // ===== Monitoring =====
+        function startMonitor() {
+            const container = document.getElementById('dayInputs');
+            container.innerHTML = '';
+            for (let i = 1; i <= 7; i++) {
+                const label = document.createElement('label');
+                label.innerHTML =
+                    `<span class="day-label">Day ${i}</span><input type="number" min="0" max="10" step="0.1" id="day${i}" value="5" />`;
+                container.appendChild(label);
+            }
+            document.getElementById('dashMonitorContainer').style.display = 'block';
+            document.getElementById('monitorResultBox').style.display = 'none';
+            document.getElementById('monitorError').style.display = 'none';
+            document.getElementById('dashHistoryContainer').style.display = 'none';
+        }
 
-  document.getElementById('dashShowHistory').addEventListener('click', function() {
-    const container = document.getElementById('dashHistoryContainer');
-    if (container.style.display === 'block') {
-      container.style.display = 'none';
-      return;
-    }
-    renderHistory();
-    container.style.display = 'block';
-    document.getElementById('dashMonitorContainer').style.display = 'none';
-  });
+        document.getElementById('computeResultsBtn').addEventListener('click', function() {
+            const days = [];
+            for (let i = 1; i <= 7; i++) {
+                const val = parseFloat(document.getElementById('day' + i).value);
+                if (isNaN(val) || val < 0 || val > 10) {
+                    document.getElementById('monitorError').textContent = 'Please enter numbers between 0 and 10.';
+                    document.getElementById('monitorError').style.display = 'block';
+                    return;
+                }
+                days.push(val);
+            }
+            const n = days.length;
+            const mean = days.reduce((a, b) => a + b, 0) / n;
+            const variance = days.reduce((s, x) => s + (x - mean) ** 2, 0) / (n - 1);
+            const stdDev = Math.sqrt(variance);
+            const z = 1.96;
+            const margin = z * stdDev / Math.sqrt(n);
+            const ciLow = mean - margin;
+            const ciHigh = mean + margin;
+            const prior = 0.02;
+            const likelihood = 0.6;
+            const evidence = 0.6;
+            const posterior = (likelihood * prior) / evidence;
+            const last = days[days.length - 1];
+            let diagnosis = '';
+            if (last < ciLow) diagnosis = '✅ Normal (positive dynamics)';
+            else if (last > ciHigh) diagnosis = '⚠️ Anxiety signal – consultation recommended';
+            else diagnosis = '🟡 Within normal range – continue monitoring';
 
-  document.getElementById('closeHistoryModal').addEventListener('click', function() {
-    document.getElementById('historyDetailModal').classList.remove('active');
-    document.body.style.overflow = '';
-  });
-  document.getElementById('historyDetailModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-      this.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  });
+            const resultText =
+                `📊 7‑day monitoring results\nMean: ${mean.toFixed(2)}\nStd dev: ${stdDev.toFixed(2)}\n95% CI: [${ciLow.toFixed(2)} ; ${ciHigh.toFixed(2)}]\nBayesian OCD probability: ${(posterior*100).toFixed(2)}%\nDiagnosis: ${diagnosis}\nValues: ${days.map(d => d.toFixed(1)).join(', ')}`;
 
-  // ===== Consultation =====
-  document.getElementById('dashConsultBtn').addEventListener('click', function() {
-    const u = getUser(currentUser);
-    if (!u) return;
-    const hasAccess = u.subscription === 'premium' || u.consultAccess;
-    if (!hasAccess) {
-      alert('Consultation access is only available with a Premium subscription.');
-      window.location.href = 'payment.html';
-      return;
-    }
-    window.open('https://t.me/ocdsolverbot', '_blank');
-  });
+            const resultBox = document.getElementById('monitorResultBox');
+            resultBox.textContent = resultText;
+            resultBox.style.display = 'block';
+            document.getElementById('monitorError').style.display = 'none';
 
-  // ===== Init =====
-  updateDashboard();
-</script>
+            const u = getUser(currentUser);
+            if (u) {
+                u.attemptsUsed = (u.attemptsUsed || 0) + 1;
+                if (!u.history) u.history = [];
+                u.history.push({ date: new Date().toLocaleString(), result: resultText, days: days });
+                updateUser(currentUser, u);
+                updateDashboard();
+                if (getAttemptsLeft(u) <= 0) {
+                    setTimeout(() => {
+                        alert('You have used all free attempts. Please subscribe.');
+                        window.location.href = 'payment.html';
+                    }, 500);
+                }
+            }
+            this.disabled = true;
+            setTimeout(() => { this.disabled = false; }, 1000);
+        });
+
+        // ===== History =====
+        function renderHistory() {
+            const container = document.getElementById('dashHistoryContainer');
+            const u = getUser(currentUser);
+            if (!u || !u.history || u.history.length === 0) {
+                container.innerHTML = '<div class="history-empty">📭 No history yet.</div>';
+                return;
+            }
+            container.innerHTML = u.history.map((entry, idx) => {
+                const preview = entry.result.split('\n').slice(0, 2).join(' ') + '…';
+                return `<div class="history-item" data-index="${idx}">
+              <span class="badge-idx">#${idx+1}</span>
+              <span class="date">${entry.date}</span>
+              <span class="preview">${preview}</span>
+            </div>`;
+            }).join('');
+
+            container.querySelectorAll('.history-item').forEach(el => {
+                el.addEventListener('click', function() {
+                    const idx = parseInt(this.dataset.index);
+                    const entry = u.history[idx];
+                    if (!entry) return;
+                    document.getElementById('historyDetailDate').textContent = entry.date;
+                    document.getElementById('historyDetailContent').textContent = entry.result;
+                    document.getElementById('historyDetailModal').classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+        }
+
+        document.getElementById('dashShowHistory').addEventListener('click', function() {
+            const container = document.getElementById('dashHistoryContainer');
+            if (container.style.display === 'block') {
+                container.style.display = 'none';
+                return;
+            }
+            renderHistory();
+            container.style.display = 'block';
+            document.getElementById('dashMonitorContainer').style.display = 'none';
+        });
+
+        document.getElementById('closeHistoryModal').addEventListener('click', function() {
+            document.getElementById('historyDetailModal').classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        document.getElementById('historyDetailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // ===== Consultation =====
+        document.getElementById('dashConsultBtn').addEventListener('click', function() {
+            const u = getUser(currentUser);
+            if (!u) return;
+            const hasAccess = u.subscription === 'premium' || u.consultAccess;
+            if (!hasAccess) {
+                alert('Consultation access is only available with a Premium subscription.');
+                window.location.href = 'payment.html';
+                return;
+            }
+            window.open('https://t.me/ocdsolverbot', '_blank');
+        });
+
+        // ===== Init =====
+        updateDashboard();
+    </script>
 </body>
 </html>
