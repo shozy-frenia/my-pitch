@@ -96,6 +96,11 @@
       width: 100%;
       margin-top: 8px;
       border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
     }
     .btn:hover { background: #2A2D78; border-color: #2A2D78; }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -151,31 +156,20 @@
     </div>
   </div>
 
-  <button class="btn" id="paidBtn">✅ I have paid — activate my subscription</button>
+  <!-- Кнопка оплаты через Trust Wallet (deep link) -->
+  <a href="#" id="payLink" class="btn" target="_blank" rel="noopener noreferrer" onclick="openWallet(event)">
+    💳 Pay with Trust Wallet
+  </a>
+
   <div id="statusMsg" class="status-msg"></div>
 
   <a href="/my-pitch/app.html" class="back-link">← Back to dashboard</a>
 </div>
 
 <script>
-  // ===== localStorage =====
-  const USERS_KEY = 'ocd_users';
+  // ===== localStorage (только для проверки сессии) =====
   const SESSION_KEY = 'ocd_session';
-
-  function getUsers() {
-    try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch { return {}; }
-  }
-  function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
   function getSession() { return localStorage.getItem(SESSION_KEY) || null; }
-  function getUser(username) {
-    const users = getUsers();
-    return users[username] || null;
-  }
-  function updateUser(username, data) {
-    const users = getUsers();
-    users[username] = data;
-    saveUsers(users);
-  }
 
   const currentUser = getSession();
   if (!currentUser) {
@@ -184,11 +178,42 @@
   }
 
   let selectedPlan = null;
+  const ADDRESS = 'TJ7eMchCewAy1pjUy4nFJ7wQjdrhXZJ78C';
 
   function selectPlan(plan) {
     selectedPlan = plan;
     document.querySelectorAll('.payment-plans .plan').forEach(el => el.classList.remove('selected'));
     document.querySelector(`.payment-plans .plan[data-plan="${plan}"]`).classList.add('selected');
+    updatePayLink();
+  }
+
+  function updatePayLink() {
+    const link = document.getElementById('payLink');
+    if (!selectedPlan) {
+      link.style.opacity = '0.5';
+      link.style.pointerEvents = 'none';
+      link.textContent = 'Select a plan first';
+      return;
+    }
+    const amount = selectedPlan === 'basic' ? 5 : 10;
+    // Deep link для Trust Wallet (поддерживает и другие кошельки)
+    const url = `https://link.trustwallet.com/send?address=${ADDRESS}&amount=${amount}&asset=USDT`;
+    link.href = url;
+    link.style.opacity = '1';
+    link.style.pointerEvents = 'auto';
+    link.textContent = `💳 Pay $${amount} with Trust Wallet`;
+  }
+
+  function openWallet(event) {
+    if (!selectedPlan) {
+      event.preventDefault();
+      showStatus('Please select a plan first.', 'error');
+      return;
+    }
+    // Показываем сообщение, что оплата отправлена
+    showStatus('⏳ Opening Trust Wallet... After payment, come back and we will activate your subscription manually within 24 hours.', 'info');
+    // Ссылка откроется в новой вкладке/приложении
+    // Ничего не блокируем
   }
 
   function copyAddress() {
@@ -205,39 +230,6 @@
       showStatus('✅ Address copied!', 'success');
     });
   }
-
-  document.getElementById('paidBtn').addEventListener('click', function() {
-    if (!selectedPlan) {
-      showStatus('Please select a plan first.', 'error');
-      return;
-    }
-
-    const user = getUser(currentUser);
-    if (!user) {
-      showStatus('User not found. Please log in again.', 'error');
-      return;
-    }
-
-    // Обновляем подписку вручную (доверительная модель)
-    user.subscription = selectedPlan;
-    if (selectedPlan === 'premium') {
-      user.consultAccess = true;
-      user.aiAccess = true;
-    }
-    if (!user.transactions) user.transactions = [];
-    user.transactions.push({
-      date: new Date().toISOString(),
-      method: 'USDT (TRC20)',
-      plan: selectedPlan,
-      amount: selectedPlan === 'basic' ? 5 : 10
-    });
-    updateUser(currentUser, user);
-
-    showStatus('🎉 Subscription activated! Thank you for your payment.', 'success');
-    setTimeout(() => {
-      window.location.href = '/my-pitch/app.html';
-    }, 2500);
-  });
 
   function showStatus(message, type) {
     const el = document.getElementById('statusMsg');
