@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subscribe — NeuroCheck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: #FAFAF7;
+      color: #14171F;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .payment-box {
+      background: #FAFAF7;
+      border: 1px solid #DFDDD3;
+      padding: 48px 40px;
+      max-width: 520px;
+      width: 100%;
+    }
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      margin-bottom: 24px;
+    }
+    .brand-link img {
+      height: 32px;
+      width: auto;
+      display: block;
+    }
+    .brand-link span {
+      font-weight: 700;
+      font-size: 18px;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #14171F;
+    }
+    h1 { font-family: 'Space Grotesk'; font-weight: 600; font-size: 28px; letter-spacing: -0.01em; }
+    .sub { color: #565A64; margin-bottom: 24px; font-size: 14px; }
+
+    .payment-plans { display: flex; gap: 16px; margin: 16px 0; }
+    .payment-plans .plan {
+      flex: 1; border: 2px solid #DFDDD3; padding: 16px; text-align: center;
+      cursor: pointer; transition: .15s;
+      background: #FAFAF7;
+    }
+    .payment-plans .plan:hover { border-color: #3B3FA0; }
+    .payment-plans .plan.selected { border-color: #3B3FA0; background: #EAE9F6; }
+    .payment-plans .plan .price { font-size: 24px; font-weight: 700; font-family: 'Space Grotesk'; color: #2A2D78; }
+    .payment-plans .plan .period { font-size: 12px; color: #8A8D95; }
+    .payment-plans .plan .features { font-size: 12px; margin-top: 6px; color: #565A64; }
+
+    .crypto-address {
+      background: #F0F0EA;
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      word-break: break-all;
+      margin: 16px 0 12px;
+      border: 1px solid #DFDDD3;
+    }
+    .copy-btn {
+      background: none;
+      border: 1px solid #14171F;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      background: #fff;
+      border-radius: 4px;
+      transition: .15s;
+    }
+    .copy-btn:hover { background: #EAE9F6; }
+
+    .qr-container {
+      text-align: center;
+      margin: 12px 0 20px;
+    }
+    .qr-container img { border: 1px solid #DFDDD3; border-radius: 8px; }
+
+    .btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 14px;
+      border: 1px solid #14171F;
+      background: #14171F;
+      color: #FAFAF7;
+      cursor: pointer;
+      transition: .15s;
+      width: 100%;
+      margin-top: 8px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .btn:hover { background: #2A2D78; border-color: #2A2D78; }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-outline {
+      background: transparent;
+      color: #14171F;
+      border-color: #DFDDD3;
+    }
+    .btn-outline:hover { background: #F0F0EA; border-color: #14171F; }
+    .btn-telegram {
+      background: #0088cc;
+      border-color: #0088cc;
+    }
+    .btn-telegram:hover { background: #006699; border-color: #006699; }
+
+    .back-link {
+      display: block; text-align: center; margin-top: 16px;
+      color: #565A64; font-size: 13px; text-decoration: none;
+    }
+    .back-link:hover { color: #14171F; }
+
+    .status-msg {
+      display: none; text-align: center; padding: 16px;
+      margin-top: 16px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+    }
+    .status-msg.success { display: block; background: #E6F4EA; border-color: #2FA88E; }
+    .status-msg.error { display: block; background: #FDE8E5; border-color: #B84438; }
+    .status-msg.info { display: block; background: #F0F0EA; border-color: #565A64; }
+
+    .instruction {
+      background: #F8F8F5;
+      border: 1px solid #DFDDD3;
+      padding: 16px;
+      border-radius: 6px;
+      margin: 20px 0 12px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #565A64;
+    }
+    .instruction strong { color: #14171F; }
+  </style>
+</head>
+<body>
+<div class="payment-box">
+  <!-- Логотип NeuroCheck -->
+  <a href="index.html" class="brand-link">
+    <img src="https://i.ibb.co.com/TqY9SfkM/IMG-5606.png" alt="NeuroCheck" />
+    <span>NeuroCheck</span>
+  </a>
+
+  <h1>💎 Subscribe</h1>
+  <p class="sub">Choose your plan and complete payment via <strong>USDT (TRC20)</strong></p>
+
+  <div class="payment-plans">
+    <div class="plan" data-plan="basic" onclick="selectPlan('basic')">
+      <div class="price">$5</div><div class="period">/ month</div>
+      <div class="features">+5 attempts<br>Basic support</div>
+    </div>
+    <div class="plan" data-plan="premium" onclick="selectPlan('premium')">
+      <div class="price">$10</div><div class="period">/ month</div>
+      <div class="features">Unlimited<br>Priority support<br>Consultations<br>🤖 AI 24/7</div>
+    </div>
+  </div>
+
+  <!-- Адрес и QR -->
+  <div style="margin-top: 20px;">
+    <label style="font-weight: 600; font-size: 14px;">📍 Send USDT (TRC20) to:</label>
+    <div class="crypto-address" id="addressDisplay">TJ7eMchCewAy1pjUy4nFJ7wQjdrhXZJ78C</div>
+    <button class="copy-btn" onclick="copyAddress()">📋 Copy address</button>
+
+    <div class="qr-container">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?data=TJ7eMchCewAy1pjUy4nFJ7wQjdrhXZJ78C&size=180x180&margin=10" alt="QR code for USDT" />
+    </div>
+  </div>
+
+  <!-- Инструкция -->
+  <div class="instruction">
+    <strong>📌 After sending USDT:</strong><br />
+    1. Copy your <strong>Transaction ID (TXID)</strong> from your wallet.<br />
+    2. Click the button below and send the TXID to our Telegram bot.<br />
+    3. We will activate your subscription manually within 24 hours.
+  </div>
+
+  <!-- Кнопка "Notify in Telegram" -->
+  <a href="https://t.me/neurocheck_bot" target="_blank" class="btn btn-telegram">
+    ✈️ Notify in Telegram
+  </a>
+
+  <!-- Кнопка "Pay with Trust Wallet" (оставляем для удобства) -->
+  <a href="#" id="payLink" class="btn" target="_blank" rel="noopener noreferrer" onclick="openWallet(event)">
+    💳 Pay with Trust Wallet
+  </a>
+
+  <div id="statusMsg" class="status-msg"></div>
+
+  <a href="/my-pitch/app.html" class="back-link">← Back to dashboard</a>
+</div>
+
+<script>
+  // ===== localStorage (только для проверки сессии) =====
+  const SESSION_KEY = 'ocd_session';
+  function getSession() { return localStorage.getItem(SESSION_KEY) || null; }
+
+  const currentUser = getSession();
+  if (!currentUser) {
+    alert('You are not logged in. Please log in first.');
+    window.location.href = '/my-pitch/login.html';
+  }
+
+  let selectedPlan = null;
+  const ADDRESS = 'TJ7eMchCewAy1pjUy4nFJ7wQjdrhXZJ78C';
+
+  function selectPlan(plan) {
+    selectedPlan = plan;
+    document.querySelectorAll('.payment-plans .plan').forEach(el => el.classList.remove('selected'));
+    document.querySelector(`.payment-plans .plan[data-plan="${plan}"]`).classList.add('selected');
+    updatePayLink();
+  }
+
+  function updatePayLink() {
+    const link = document.getElementById('payLink');
+    if (!selectedPlan) {
+      link.style.opacity = '0.5';
+      link.style.pointerEvents = 'none';
+      link.textContent = 'Select a plan first';
+      return;
+    }
+    const amount = selectedPlan === 'basic' ? 5 : 10;
+    const url = `https://link.trustwallet.com/send?address=${ADDRESS}&amount=${amount}&asset=USDT`;
+    link.href = url;
+    link.style.opacity = '1';
+    link.style.pointerEvents = 'auto';
+    link.textContent = `💳 Pay $${amount} with Trust Wallet`;
+  }
+
+  function openWallet(event) {
+    if (!selectedPlan) {
+      event.preventDefault();
+      showStatus('Please select a plan first.', 'error');
+      return;
+    }
+    showStatus('⏳ Opening Trust Wallet... After payment, send TXID to Telegram.', 'info');
+  }
+
+  function copyAddress() {
+    const addr = document.getElementById('addressDisplay').innerText;
+    navigator.clipboard.writeText(addr).then(() => {
+      showStatus('✅ Address copied to clipboard!', 'success');
+    }).catch(() => {
+      const range = document.createRange();
+      range.selectNode(document.getElementById('addressDisplay'));
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      document.execCommand('copy');
+      showStatus('✅ Address copied!', 'success');
+    });
+  }
+
+  function showStatus(message, type) {
+    const el = document.getElementById('statusMsg');
+    el.className = 'status-msg';
+    if (type === 'success') {
+      el.className = 'status-msg success';
+      el.innerHTML = `<strong>✅ ${message}</strong>`;
+    } else if (type === 'error') {
+      el.className = 'status-msg error';
+      el.innerHTML = `<strong>❌ ${message}</strong>`;
+    } else {
+      el.className = 'status-msg info';
+      el.innerHTML = `<strong>ℹ️ ${message}</strong>`;
+    }
+    el.style.display = 'block';
+  }
+
+  // Выбираем Basic по умолчанию
+  selectPlan('basic');
+</script>
+</body>
+</html>
