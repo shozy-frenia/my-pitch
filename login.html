@@ -146,7 +146,7 @@
 <body>
   <div class="auth-box">
     <!-- Логотип NeuroCheck (картинка + текст) -->
-    <a href="index.html" class="brand-link">
+    <a href="index" class="brand-link">
       <img src="https://i.ibb.co.com/TqY9SfkM/IMG-5606.png" alt="NeuroCheck" />
       <span>NeuroCheck</span>
     </a>
@@ -234,7 +234,7 @@
         return false;
       }
       setSession(username);
-      window.location.href = 'https://shozy-frenia.github.io/my-pitch/app.html';
+      window.location.href = 'https://shozy-frenia.github.io/my-pitch/app';
       return false;
     }
 
@@ -283,7 +283,7 @@
       };
       saveUsers(users);
       setSession(username);
-      window.location.href = 'https://shozy-frenia.github.io/my-pitch/app.html';
+      window.location.href = 'https://shozy-frenia.github.io/my-pitch/app';
       return false;
     }
 
@@ -310,7 +310,7 @@
             let username = email;
             if (users[username]) {
               setSession(username);
-              window.location.href = 'https://shozy-frenia.github.io/my-pitch/app.html';
+              window.location.href = 'https://shozy-frenia.github.io/my-pitch/app';
             } else {
               users[username] = {
                 password: 'google',
@@ -321,7 +321,7 @@
               };
               saveUsers(users);
               setSession(username);
-              window.location.href = 'https://shozy-frenia.github.io/my-pitch/app.html';
+              window.location.href = 'https://shozy-frenia.github.io/my-pitch/app';
             }
           } catch (err) {
             alert('Google sign-in failed: ' + err.message);
