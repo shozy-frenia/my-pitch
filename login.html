@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign in — OCD-Monitor</title>
+  <title>Sign in — NeuroCheck</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -93,18 +93,24 @@
       margin-top: 8px;
       display: none;
     }
-    .brand {
-      display: flex; align-items: center; gap: 10px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 18px;
-      color: #14171F;
+    /* ===== НОВЫЙ ЛОГОТИП ===== */
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
       margin-bottom: 24px;
     }
-    .brand-mark {
-      width: 22px; height: 22px; border-radius: 50%;
-      background: conic-gradient(#2FA88E 0 40%, #C97A1F 40% 72%, #B84438 72% 100%);
-      flex: none;
+    .brand-link img {
+      height: 32px;
+      width: auto;
+      display: block;
+    }
+    .brand-link span {
+      font-weight: 700;
+      font-size: 18px;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #14171F;
     }
     .google-btn {
       width: 100%;
@@ -129,11 +135,21 @@
     .divider::before, .divider::after {
       content: ""; flex: 1; height: 1px; background: #DFDDD3;
     }
+    .password-hint {
+      font-size: 12px;
+      color: #8A8D95;
+      margin-top: -8px;
+      margin-bottom: 12px;
+    }
   </style>
 </head>
 <body>
   <div class="auth-box">
-    <div class="brand"><span class="brand-mark"></span>OCD‑Monitor</div>
+    <!-- Логотип NeuroCheck (картинка + текст) -->
+    <a href="index.html" class="brand-link">
+      <img src="https://i.ibb.co.com/TqY9SfkM/IMG-5606.png" alt="NeuroCheck" />
+      <span>NeuroCheck</span>
+    </a>
 
     <!-- Login form -->
     <div id="loginForm">
@@ -156,11 +172,12 @@
     <!-- Register form -->
     <div id="registerForm" style="display:none;">
       <h1>Create account</h1>
-      <p class="sub">Join OCD-Monitor</p>
+      <p class="sub">Join NeuroCheck</p>
       <form id="registerFormEl" onsubmit="return handleRegister(event)">
         <input type="text" id="regUsername" placeholder="Username" required />
         <input type="email" id="regEmail" placeholder="Email (optional)" />
         <input type="password" id="regPassword" placeholder="Password" required />
+        <div class="password-hint">Must be at least 8 characters and contain one special character (!@#$%^&*)</div>
         <button type="submit" class="btn">Register</button>
       </form>
       <div class="divider">or</div>
@@ -221,6 +238,15 @@
       return false;
     }
 
+    // ===== ВАЛИДАЦИЯ ПАРОЛЯ =====
+    function isPasswordValid(password) {
+      // минимум 8 символов
+      if (password.length < 8) return false;
+      // хотя бы один специальный символ
+      const specialChars = /[!@#$%^&*()_+\-=[\]{};:'",.<>/?\\|`~]/;
+      return specialChars.test(password);
+    }
+
     // Register (username/password)
     function handleRegister(e) {
       e.preventDefault();
@@ -234,6 +260,14 @@
         errorEl.style.display = 'block';
         return false;
       }
+
+      // Проверка пароля
+      if (!isPasswordValid(password)) {
+        errorEl.textContent = 'Password must be at least 8 characters and contain at least one special character (!@#$%^&*).';
+        errorEl.style.display = 'block';
+        return false;
+      }
+
       const users = getUsers();
       if (users[username]) {
         errorEl.textContent = 'Username already exists.';
@@ -256,7 +290,6 @@
     // ===== Google OAuth 2.0 =====
     const CLIENT_ID = '739852469984-g8damplp70oc2ahkr8maf8muss0b6dh1.apps.googleusercontent.com';
 
-    // Функция для получения данных пользователя по access_token
     async function fetchUserInfo(accessToken) {
       const resp = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
         headers: { Authorization: 'Bearer ' + accessToken }
@@ -265,7 +298,6 @@
       return resp.json();
     }
 
-    // Обработка входа через Google (общая для обеих кнопок)
     function signInWithGoogle() {
       const client = google.accounts.oauth2.initTokenClient({
         client_id: CLIENT_ID,
@@ -273,22 +305,15 @@
         callback: async (tokenResponse) => {
           try {
             const userInfo = await fetchUserInfo(tokenResponse.access_token);
-            // Используем email как уникальный идентификатор (можно также использовать sub)
             const email = userInfo.email;
-            const name = userInfo.name || email.split('@')[0]; // fallback
-
-            // Проверяем, существует ли пользователь с таким email (как username)
             const users = getUsers();
-            let username = email; // будем хранить по email
-            // Если уже есть пользователь с таким email, логиним
+            let username = email;
             if (users[username]) {
-              // Пользователь существует
               setSession(username);
               window.location.href = 'https://shozy-frenia.github.io/my-pitch/app.html';
             } else {
-              // Создаём нового пользователя
               users[username] = {
-                password: 'google', // специальный маркер
+                password: 'google',
                 attemptsUsed: 0,
                 subscription: null,
                 history: [],
@@ -310,11 +335,8 @@
       client.requestAccessToken();
     }
 
-    // Привязываем обработчики к кнопкам Google
     document.getElementById('googleSignInBtn').addEventListener('click', signInWithGoogle);
     document.getElementById('googleSignUpBtn').addEventListener('click', signInWithGoogle);
-
-    // Также можно вызвать One Tap автоматически (опционально), но оставим только по кнопке
   </script>
 </body>
 </html>
