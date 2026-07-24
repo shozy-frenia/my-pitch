@@ -154,7 +154,7 @@
 <body>
 <div class="payment-box">
   <!-- Логотип NeuroCheck -->
-  <a href="index.html" class="brand-link">
+  <a href="index" class="brand-link">
     <img src="https://i.ibb.co.com/TqY9SfkM/IMG-5606.png" alt="NeuroCheck" />
     <span>NeuroCheck</span>
   </a>
@@ -204,7 +204,7 @@
 
   <div id="statusMsg" class="status-msg"></div>
 
-  <a href="app.html" class="back-link">← Back to dashboard</a>
+  <a href="app" class="back-link">← Back to dashboard</a>
 </div>
 
 <script>
@@ -215,7 +215,7 @@
   const currentUser = getSession();
   if (!currentUser) {
     alert('You are not logged in. Please log in first.');
-    window.location.href = '/my-pitch/login.html';
+    window.location.href = '/my-pitch/login';
   }
 
   let selectedPlan = null;
