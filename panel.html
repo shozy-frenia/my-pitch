@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin — NeuroCheck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: #FAFAF7;
+            color: #14171F;
+            padding: 30px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .admin-box {
+            background: #FAFAF7;
+            border: 1px solid #DFDDD3;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+        }
+        h1 { font-family: 'Space Grotesk'; font-weight: 600; font-size: 28px; margin-bottom: 8px; }
+        .sub { color: #565A64; margin-bottom: 24px; }
+        .brand-link {
+            display: flex; align-items: center; gap: 8px; text-decoration: none; margin-bottom: 20px;
+        }
+        .brand-link img { height: 32px; width: auto; }
+        .brand-link span { font-weight: 700; font-size: 18px; font-family: 'Space Grotesk', sans-serif; color: #14171F; }
+
+        .password-form { margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap; }
+        .password-form input {
+            padding: 12px 14px; border: 1px solid #DFDDD3; border-radius: 6px; font-size: 14px;
+            flex: 1; min-width: 200px;
+        }
+        .btn {
+            padding: 12px 24px; border: 1px solid #14171F; background: #14171F; color: #FAFAF7;
+            font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500;
+            cursor: pointer; border-radius: 6px; transition: .15s;
+        }
+        .btn:hover { background: #2A2D78; border-color: #2A2D78; }
+        .btn-success { background: #2FA88E; border-color: #2FA88E; }
+        .btn-success:hover { background: #1e7a66; border-color: #1e7a66; }
+        .btn-danger { background: #B84438; border-color: #B84438; }
+        .btn-danger:hover { background: #8a2e24; border-color: #8a2e24; }
+        .btn-outline { background: transparent; color: #14171F; border-color: #DFDDD3; }
+        .btn-outline:hover { background: #F0F0EA; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid #DFDDD3; }
+        th { font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; color: #8A8D95; letter-spacing: 0.06em; }
+        .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .actions .btn { font-size: 11px; padding: 4px 12px; }
+        .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+        .badge-premium { background: #EAE9F6; color: #2A2D78; }
+        .badge-basic { background: #E6F4EA; color: #1e7a66; }
+        .badge-none { background: #FDE8E5; color: #B84438; }
+        .error-msg { color: #B84438; margin-top: 10px; display: none; }
+        .success-msg { color: #2FA88E; margin-top: 10px; display: none; }
+        .info-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="admin-box">
+        <a href="index.html" class="brand-link">
+            <img src="https://i.ibb.co.com/TqY9SfkM/IMG-5606.png" alt="NeuroCheck" />
+            <span>NeuroCheck</span>
+        </a>
+        <h1>🔐 Admin Panel</h1>
+        <p class="sub">Manage user subscriptions manually.</p>
+
+        <div id="loginSection">
+            <div class="password-form">
+                <input type="password" id="adminPassword" placeholder="Enter admin password" />
+                <button class="btn" onclick="loginAdmin()">Unlock</button>
+            </div>
+            <div id="loginError" class="error-msg"></div>
+        </div>
+
+        <div id="adminPanel" style="display:none;">
+            <div class="info-bar">
+                <span style="font-weight:500; color:#565A64;">Total users: <span id="userCount">0</span></span>
+                <button class="btn btn-outline" onclick="refreshUsers()">🔄 Refresh</button>
+            </div>
+            <div id="userListContainer">
+                <table>
+                    <thead><tr><th>Username</th><th>Subscription</th><th>Attempts Used</th><th>Actions</th></tr></thead>
+                    <tbody id="userTableBody"></tbody>
+                </table>
+            </div>
+            <div id="actionMessage" class="success-msg"></div>
+            <div style="margin-top:20px; border-top:1px solid #DFDDD3; padding-top:16px;">
+                <p style="font-size:13px; color:#8A8D95;">⚡ Changes apply immediately. Users will see updated subscription on next dashboard load.</p>
+                <a href="app.html" style="color:#3B3FA0; text-decoration:none; font-weight:500;">← Back to dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ADMIN_PASSWORD = 'admin123';
+    const USERS_KEY = 'ocd_users';
+
+    function getUsers() {
+        try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch { return {}; }
+    }
+    function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
+
+    function loginAdmin() {
+        const pwd = document.getElementById('adminPassword').value;
+        if (pwd === ADMIN_PASSWORD) {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            renderUsers();
+            document.getElementById('loginError').style.display = 'none';
+        } else {
+            const err = document.getElementById('loginError');
+            err.textContent = '❌ Incorrect password.';
+            err.style.display = 'block';
+        }
+    }
+
+    function renderUsers() {
+        const users = getUsers();
+        const tbody = document.getElementById('userTableBody');
+        tbody.innerHTML = '';
+        const usernames = Object.keys(users);
+        document.getElementById('userCount').textContent = usernames.length;
+
+        if (usernames.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#8A8D95;">No users found.</td></tr>';
+            return;
+        }
+
+        usernames.forEach(username => {
+            const user = users[username];
+            const sub = user.subscription || 'None';
+            const attempts = user.attemptsUsed || 0;
+            let badgeClass = 'badge-none';
+            if (sub === 'premium') badgeClass = 'badge-premium';
+            else if (sub === 'basic') badgeClass = 'badge-basic';
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${username}</strong></td>
+                <td><span class="badge ${badgeClass}">${sub.toUpperCase()}</span></td>
+                <td>${attempts}</td>
+                <td class="actions">
+                    <button class="btn btn-success" onclick="activatePlan('${username}', 'basic')">Basic</button>
+                    <button class="btn btn-success" onclick="activatePlan('${username}', 'premium')">Premium</button>
+                    <button class="btn btn-danger" onclick="activatePlan('${username}', null)">None</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function activatePlan(username, plan) {
+        const users = getUsers();
+        if (!users[username]) {
+            showMessage('User not found.', 'error');
+            return;
+        }
+        users[username].subscription = plan;
+        if (plan === 'basic') {
+            users[username].attemptsUsed = 0;
+        }
+        saveUsers(users);
+        renderUsers();
+        const planName = plan ? plan.toUpperCase() : 'None';
+        showMessage(`✅ ${username} → ${planName} activated!`, 'success');
+    }
+
+    function refreshUsers() {
+        renderUsers();
+        showMessage('🔄 Refreshed.', 'success');
+    }
+
+    function showMessage(text, type) {
+        const el = document.getElementById('actionMessage');
+        el.className = 'success-msg';
+        if (type === 'error') {
+            el.style.color = '#B84438';
+            el.textContent = '❌ ' + text;
+        } else {
+            el.style.color = '#2FA88E';
+            el.textContent = text;
+        }
+        el.style.display = 'block';
+        clearTimeout(window.messageTimeout);
+        window.messageTimeout = setTimeout(() => {
+            el.style.display = 'none';
+        }, 3000);
+    }
+
+    document.getElementById('adminPassword').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            loginAdmin();
+        }
+    });
+</script>
+</body>
+</html>
