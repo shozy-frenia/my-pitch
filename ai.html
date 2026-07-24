@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Assistant — NeuroCheck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #F8FAFC 0%, #EDF2F7 100%);
+      color: #1A202C;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* === HEADER === */
+    .chat-header {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(203, 213, 225, 0.5);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .chat-header .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .chat-header .brand img {
+      height: 32px;
+      width: auto;
+      display: block;
+    }
+    .chat-header .brand span {
+      font-weight: 700;
+      font-size: 18px;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #0F172A;
+    }
+    
+    .chat-header .ai-badge {
+      font-weight: 500;
+      font-size: 13px;
+      color: #6C63FF;
+      background: rgba(108, 99, 255, 0.12);
+      padding: 6px 16px;
+      border-radius: 20px;
+      letter-spacing: 0.3px;
+    }
+    
+    .chat-header .back-btn {
+      background: transparent;
+      border: 1.5px solid #CBD5E1;
+      color: #475569;
+      padding: 8px 18px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+    }
+    
+    .chat-header .back-btn:hover {
+      background: #6C63FF;
+      border-color: #6C63FF;
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+    }
+
+    /* === MESSAGES === */
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 28px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: transparent;
+    }
+    
+    .chat-messages::-webkit-scrollbar {
+      width: 6px;
+    }
+    .chat-messages::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 10px;
+    }
+    
+    .message {
+      max-width: 78%;
+      padding: 14px 20px;
+      border-radius: 16px;
+      line-height: 1.6;
+      font-size: 14.5px;
+      font-weight: 400;
+      word-wrap: break-word;
+      animation: fadeSlide 0.35s ease forwards;
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    
+    @keyframes fadeSlide {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .message.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #6C63FF 0%, #5A52D5 100%);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 16px rgba(108, 99, 255, 0.25);
+    }
+    
+    .message.ai {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #1A202C;
+      border-bottom-left-radius: 4px;
+      border: 1px solid rgba(203, 213, 225, 0.4);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    
+    .message .time {
+      font-size: 10px;
+      font-weight: 500;
+      color: #94A3B8;
+      margin-top: 6px;
+      display: block;
+      text-align: right;
+      letter-spacing: 0.2px;
+    }
+    
+    .message.user .time {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* === QUICK BUTTONS === */
+    .quick-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px 28px 4px;
+      justify-content: center;
+    }
+    .quick-btn {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(203, 213, 225, 0.4);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .quick-btn:hover {
+      background: #6C63FF;
+      color: #fff;
+      border-color: #6C63FF;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.25);
+    }
+    .quick-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* === INPUT AREA === */
+    .chat-input-area {
+      display: flex;
+      gap: 12px;
+      padding: 12px 28px 18px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(203, 213, 225, 0.4);
+      flex-shrink: 0;
+      align-items: center;
+    }
+    
+    .chat-input-area input {
+      flex: 1;
+      padding: 14px 20px;
+      border: 2px solid #E2E8F0;
+      border-radius: 30px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: all 0.25s ease;
+      background: #FFFFFF;
+      color: #1A202C;
+    }
+    
+    .chat-input-area input::placeholder {
+      color: #94A3B8;
+      font-weight: 400;
+    }
+    
+    .chat-input-area input:focus {
+      border-color: #6C63FF;
+      box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.12);
+    }
+    
+    .chat-input-area button {
+      padding: 14px 30px;
+      background: linear-gradient(135deg, #6C63FF 0%, #5A52D5 100%);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(108, 99, 255, 0.25);
+      letter-spacing: 0.2px;
+    }
+    
+    .chat-input-area button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(108, 99, 255, 0.35);
+    }
+    
+    .chat-input-area button:active {
+      transform: translateY(0);
+    }
+    
+    .chat-input-area button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* === TYPING INDICATOR === */
+    .typing-indicator {
+      display: none;
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      padding: 12px 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(203, 213, 225, 0.3);
+      font-size: 14px;
+      color: #64748B;
+      font-weight: 500;
+      animation: pulse 1.8s infinite;
+      margin-left: 28px;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: scale(0.98); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    
+    .error-msg {
+      color: #EF4444;
+      font-size: 13px;
+      font-weight: 500;
+      text-align: center;
+      padding: 8px 16px;
+      background: rgba(239, 68, 68, 0.08);
+      border-radius: 12px;
+      display: none;
+      margin: 0 28px;
+      border: 1px solid rgba(239, 68, 68, 0.15);
+    }
+
+    /* === PRIVACY NOTICE === */
+    .privacy-notice {
+      text-align: center;
+      font-size: 11px;
+      color: #94A3B8;
+      padding: 6px 28px 10px;
+      background: rgba(255,255,255,0.3);
+      backdrop-filter: blur(4px);
+      border-top: 1px solid rgba(203, 213, 225, 0.2);
+      flex-shrink: 0;
+    }
+    .privacy-notice strong {
+      color: #64748B;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 640px) {
+      .chat-header {
+        padding: 10px 16px;
+      }
+      .chat-header .brand img {
+        height: 26px;
+      }
+      .chat-header .brand span {
+        font-size: 16px;
+      }
+      .chat-messages {
+        padding: 16px 16px 8px;
+      }
+      .message {
+        max-width: 90%;
+        font-size: 13.5px;
+        padding: 12px 16px;
+      }
+      .quick-buttons {
+        padding: 6px 16px 2px;
+        gap: 6px;
+      }
+      .quick-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+      .chat-input-area {
+        padding: 10px 16px 14px;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .chat-input-area input {
+        font-size: 13px;
+        padding: 12px 16px;
+        min-width: 0;
+      }
+      .chat-input-area button {
+        padding: 12px 20px;
+        font-size: 13px;
+        flex: 1;
+        min-width: 80px;
+      }
+      .chat-header .ai-badge {
+        font-size: 11px;
+        padding: 4px 12px;
+      }
+      .chat-header .back-btn {
+        padding: 6px 12px;
+        font-size: 11px;
+      }
+      .typing-indicator {
+        margin-left: 16px;
+        font-size: 13px;
+        padding: 10px 16px;
+      }
+      .error-msg {
+        margin: 0 16px;
+        font-size: 12px;
+      }
+      .privacy-notice {
+        font-size: 10px;
+        padding: 4px 16px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <div class="chat-header">
+    <a href="index.html" class="brand">
+      <img src="https://i.ibb.co.com/TqY9SfkM/IMG-5606.png" alt="NeuroCheck" />
+      <span>NeuroCheck</span>
+    </a>
+    <span class="ai-badge">🤖 AI Assistant</span>
+    <button class="back-btn" onclick="window.location.href='app.html'">← Back</button>
+  </div>
+
+  <!-- CHAT MESSAGES -->
+  <div class="chat-messages" id="chatMessages"></div>
+
+  <!-- QUICK BUTTONS -->
+  <div class="quick-buttons" id="quickButtons">
+    <button class="quick-btn" data-prompt="I feel anxious and can't calm down.">😰 Мне тревожно</button>
+    <button class="quick-btn" data-prompt="I have trouble sleeping at night.">😴 Проблемы со сном</button>
+    <button class="quick-btn" data-prompt="I need some encouragement and support.">💪 Нужна поддержка</button>
+    <button class="quick-btn" data-prompt="I feel overwhelmed and stressed.">🌀 Перегружен(а)</button>
+  </div>
+
+  <!-- TYPING INDICATOR -->
+  <div class="typing-indicator" id="typingIndicator">🤖 AI is thinking...</div>
+  <div class="error-msg" id="errorMsg"></div>
+
+  <!-- INPUT AREA -->
+  <div class="chat-input-area">
+    <input type="text" id="userInput" placeholder="Share what's on your mind..." />
+    <button id="sendBtn">Send</button>
+  </div>
+
+  <!-- PRIVACY NOTICE -->
+  <div class="privacy-notice">
+    <strong>🔒 Confidential</strong> — your conversations are private and not stored. For emergency, contact a professional.
+  </div>
+
+  <script>
+    // ===== Проверка доступа (только Premium) =====
+    const SESSION_KEY = 'ocd_session';
+    const USERS_KEY = 'ocd_users';
+
+    function getSession() { return localStorage.getItem(SESSION_KEY) || null; }
+    function getUsers() {
+      try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch { return {}; }
+    }
+    function getUser(username) {
+      const users = getUsers();
+      return users[username] || null;
+    }
+
+    const currentUser = getSession();
+    if (!currentUser) {
+      alert('Please log in first.');
+      window.location.href = 'login.html';
+    }
+    const user = getUser(currentUser);
+    if (!user || user.subscription !== 'premium') {
+      alert('AI Assistant is only available for Premium subscribers.');
+      window.location.href = 'app.html';
+    }
+
+    // ===== DOM элементы =====
+    const messagesContainer = document.getElementById('chatMessages');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const typingIndicator = document.getElementById('typingIndicator');
+    const errorMsg = document.getElementById('errorMsg');
+    const quickBtns = document.querySelectorAll('.quick-btn');
+
+    // ===== Персонализация: приветствие =====
+    const username = currentUser.charAt(0).toUpperCase() + currentUser.slice(1);
+    const welcomeMessage = `✨ Hello, ${username}! I'm your AI mental health companion. How are you feeling today? Remember, I'm here to listen and support you — you're not alone.`;
+    addMessage(welcomeMessage, 'ai', true);
+
+    // ===== Быстрые кнопки =====
+    quickBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const prompt = this.dataset.prompt;
+        userInput.value = prompt;
+        sendMessage();
+      });
+    });
+
+    // ===== Отправка сообщения =====
+    async function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      addMessage(text, 'user');
+      userInput.value = '';
+      sendBtn.disabled = true;
+
+      typingIndicator.style.display = 'block';
+      errorMsg.style.display = 'none';
+
+      try {
+        const PROXY_URL = 'https://openai-proxy-76rl.vercel.app/api/proxy';
+
+        const response = await fetch(PROXY_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: [
+              {
+                role: 'system',
+                content: 'You are a warm, empathetic mental health companion. Always be supportive, kind, and practical. Never diagnose. If someone is in crisis, gently suggest professional help.'
+              },
+              { role: 'user', content: text }
+            ],
+            model: 'bbl/gemini-3.5-flash'
+          })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to get response');
+        }
+
+        const data = await response.json();
+        const reply = data.choices[0].message.content;
+
+        typingIndicator.style.display = 'none';
+        addMessage(reply, 'ai');
+
+      } catch (err) {
+        typingIndicator.style.display = 'none';
+        errorMsg.textContent = '❌ ' + err.message;
+        errorMsg.style.display = 'block';
+        console.error(err);
+      } finally {
+        sendBtn.disabled = false;
+        userInput.focus();
+      }
+    }
+
+    function addMessage(text, sender, isWelcome = false) {
+      const div = document.createElement('div');
+      div.className = `message ${sender}`;
+      const now = new Date();
+      const timeStr = isWelcome ? 'Just now' : now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      div.innerHTML = `${text} <span class="time">${timeStr}</span>`;
+      messagesContainer.appendChild(div);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // ===== Обработчики =====
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    userInput.focus();
+  </script>
+</body>
+</html>
