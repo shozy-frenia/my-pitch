@@ -410,7 +410,7 @@
 <div class="chat-header">
   <div style="display:flex; align-items:center; gap:10px;">
     <button class="menu-toggle" id="menuToggle">☰</button>
-    <a href="index.html" class="brand">
+    <a href="index" class="brand">
       <img src="https://i.ibb.co.com/TqY9SfkM/IMG-5606.png" alt="NeuroCheck" />
       <span>NeuroCheck</span>
     </a>
@@ -491,7 +491,7 @@
   const currentUser = getSession();
   if (!currentUser) {
     alert('Please log in first.');
-    window.location.href = 'login.html';
+    window.location.href = 'login';
   }
 
   // Асинхронная проверка пользователя из Firebase
@@ -506,7 +506,7 @@
     } catch (err) {
       console.error(err);
       alert('Error checking subscription. Please try again.');
-      window.location.href = 'app.html';
+      window.location.href = 'app';
     }
   })();
 
