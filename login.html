@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
-    /* все стили оставь как у тебя — они не меняются */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'IBM Plex Sans', sans-serif;
@@ -143,7 +142,6 @@
       <span>NeuroCheck</span>
     </a>
 
-    <!-- Login form -->
     <div id="loginForm">
       <h1>Welcome back</h1>
       <p class="sub">Sign in to your account</p>
@@ -161,7 +159,6 @@
       <div id="loginError" class="error"></div>
     </div>
 
-    <!-- Register form -->
     <div id="registerForm" style="display:none;">
       <h1>Create account</h1>
       <p class="sub">Join NeuroCheck</p>
@@ -182,12 +179,10 @@
     </div>
   </div>
 
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <script>
-    // ===== ВАШ КОНФИГ (скопирован из консоли) =====
     const firebaseConfig = {
       apiKey: "AIzaSyDJrLi9Z5u8UYN4vnGTyCwJGPTTtAeiLZw",
       authDomain: "neurocheck-db.firebaseapp.com",
@@ -204,7 +199,11 @@
     const USERS_REF = 'users';
     const SESSION_KEY = 'ocd_session';
 
-    // ---------- Firebase функции ----------
+    // 🔥 Email-ді Firebase үшін қауіпсіз username-ге айналдырады
+    function encodeEmail(email) {
+      return email.replace(/\./g, ',').replace(/@/g, '_');
+    }
+
     async function getUserData(username) {
       const snapshot = await db.ref(`${USERS_REF}/${username}`).once('value');
       return snapshot.val();
@@ -228,7 +227,6 @@
       await db.ref(`${USERS_REF}/${username}`).update(data);
     }
 
-    // ---------- Вспомогательные ----------
     function setSession(username) {
       localStorage.setItem(SESSION_KEY, username);
     }
@@ -237,7 +235,6 @@
       return pwd.length >= 8 && /[!@#$%^&*()_+\-=[\]{};:'",.<>/?\\|`~]/.test(pwd);
     }
 
-    // ---------- Переключение форм ----------
     document.getElementById('switchToRegister').addEventListener('click', function(e) {
       e.preventDefault();
       document.getElementById('loginForm').style.display = 'none';
@@ -249,7 +246,6 @@
       document.getElementById('registerForm').style.display = 'none';
     });
 
-    // ---------- Логин ----------
     async function handleLogin(e) {
       e.preventDefault();
       const username = document.getElementById('loginUsername').value.trim();
@@ -271,11 +267,10 @@
       }
 
       setSession(username);
-      window.location.href = 'app.html'; // или твой реальный путь
+      window.location.href = 'app';
       return false;
     }
 
-    // ---------- Регистрация ----------
     async function handleRegister(e) {
       e.preventDefault();
       const username = document.getElementById('regUsername').value.trim();
@@ -308,7 +303,7 @@
       return false;
     }
 
-    // ---------- Google OAuth (оставляем как было, но сохраняем в Firebase) ----------
+    // ---------- GOOGLE OAuth (түзетілген) ----------
     const CLIENT_ID = '234672274220-mbeqthu6a3hbhvo4nns6spcdr3d8j42f.apps.googleusercontent.com';
 
     async function fetchUserInfo(accessToken) {
@@ -327,14 +322,16 @@
           try {
             const userInfo = await fetchUserInfo(tokenResponse.access_token);
             const email = userInfo.email;
-            let username = email;
+            
+            // 🔥 Email-ді қауіпсіз username-ге түрлендір
+            const username = encodeEmail(email);
+
             let user = await getUserData(username);
             if (!user) {
-              // создаём нового пользователя с паролем 'google'
               await createUser(username, 'google', email);
             }
             setSession(username);
-            window.location.href = 'app.html';
+            window.location.href = 'app';
           } catch (err) {
             alert('Google sign-in failed: ' + err.message);
           }
