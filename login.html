@@ -271,23 +271,36 @@
     }
 
     async function handleRegister(e) {
-      e.preventDefault();
-      const username = document.getElementById('regUsername').value.trim();
-      const password = document.getElementById('regPassword').value.trim();
-      const errorEl = document.getElementById('regError');
-      errorEl.style.display = 'none';
+  e.preventDefault();
+  const username = document.getElementById('regUsername').value.trim();
+  const password = document.getElementById('regPassword').value.trim();
+  const errorEl = document.getElementById('regError');
+  errorEl.style.display = 'none';
 
-      if (!username || !password) {
-        errorEl.textContent = 'Please fill in all fields.';
-        errorEl.style.display = 'block';
-        return false;
-      }
+  if (!username || !password) {
+    errorEl.textContent = 'Please fill in all fields.';
+    errorEl.style.display = 'block';
+    return false;
+  }
 
-      if (!isPasswordValid(password)) {
-        errorEl.textContent = 'Password must be at least 8 characters and contain one special character.';
-        errorEl.style.display = 'block';
-        return false;
-      }
+  if (!isPasswordValid(password)) {
+    errorEl.textContent = 'Password must be at least 8 characters and contain one special character.';
+    errorEl.style.display = 'block';
+    return false;
+  }
+
+  const existing = await getUserData(username);
+  if (existing) {
+    errorEl.textContent = 'Username already exists.';
+    errorEl.style.display = 'block';
+    return false;
+  }
+
+  await createUser(username, password);
+  setSession(username);
+  window.location.href = 'app'; // ← ТҮЗЕТІЛДІ!
+  return false;
+}
 
       const existing = await getUserData(username);
       if (existing) {
