@@ -710,7 +710,7 @@
                     <span class="avatar" id="avatarLetter">U</span>
                     <span id="userDisplay">User</span>
                 </div>
-                <a href="/login" class="btn-logout">Log out</a>
+                <a href="login" class="btn-logout">Log out</a>
             </div>
         </div>
 
@@ -842,7 +842,7 @@
         // ---------- Проверка ----------
         let currentUser = getSession();
         if (!currentUser) {
-            window.location.href = 'login'; // ← исправлено
+            window.location.href = 'login';
         }
 
         // Глобальная переменная для данных пользователя
@@ -1126,7 +1126,7 @@
             const startBtn = document.getElementById('dashStartMonitor');
             if (attempts <= 0) {
                 startBtn.textContent = '🔒 Subscribe';
-                startBtn.onclick = () => { window.location.href = '/payment'; };
+                startBtn.onclick = () => { window.location.href = 'payments'; };
                 startBtn.className = 'btn btn-danger';
             } else {
                 startBtn.textContent = '🧠 Start monitoring';
@@ -1137,7 +1137,7 @@
             const aiBtn = document.getElementById('dashAiBtn');
             if (userData.subscription === 'premium') {
                 aiBtn.style.display = 'inline-flex';
-                aiBtn.onclick = () => { window.location.href = 'ai.html'; }; // ← ИСПРАВЛЕНО
+                aiBtn.onclick = () => { window.location.href = 'ai'; };
             } else {
                 aiBtn.style.display = 'none';
             }
@@ -1209,7 +1209,7 @@
                 if (getAttemptsLeft(userData) <= 0) {
                     setTimeout(() => {
                         alert('You have used all free attempts. Please subscribe.');
-                        window.location.href = '/payment';
+                        window.location.href = 'payments';
                     }, 500);
                 }
             }
@@ -1268,7 +1268,7 @@
             }
         });
 
-        // ===== CONSULTATION (исправлен путь) =====
+        // ===== CONSULTATION =====
         document.getElementById('dashConsultBtn').addEventListener('click', function() {
             if (!userData) return;
             const hasAccess = userData.subscription === 'premium' || userData.consultAccess;
