@@ -842,7 +842,7 @@
         // ---------- Проверка ----------
         let currentUser = getSession();
         if (!currentUser) {
-            window.location.href = 'login.html'; // ← исправлено
+            window.location.href = 'login'; // ← исправлено
         }
 
         // Глобальная переменная для данных пользователя
@@ -1080,7 +1080,7 @@
             userData = await getUserData(currentUser);
             if (!userData) {
                 clearSession();
-                window.location.href = 'login.html';
+                window.location.href = 'login';
                 return;
             }
 
@@ -1274,7 +1274,7 @@
             const hasAccess = userData.subscription === 'premium' || userData.consultAccess;
             if (!hasAccess) {
                 alert('Consultation access is only available with a Premium subscription.');
-                window.location.href = 'payments.html';
+                window.location.href = 'payments';
                 return;
             }
             window.open('https://t.me/ocdsolverbot', '_blank');
