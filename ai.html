@@ -417,7 +417,7 @@
   </div>
   <div class="header-actions">
     <span class="ai-badge">🤖 AI Assistant</span>
-    <button class="back-btn" onclick="window.location.href='app.html'">← Back</button>
+    <button class="back-btn" onclick="window.location.href='app'">← Back</button>
   </div>
 </div>
 
@@ -501,7 +501,7 @@
       const userData = snapshot.val();
       if (!userData || userData.subscription !== 'premium') {
         alert('AI Assistant is only available for Premium subscribers.');
-        window.location.href = 'app.html';
+        window.location.href = 'app';
       }
     } catch (err) {
       console.error(err);
