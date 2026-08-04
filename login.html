@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in — NeuroCheck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: #FAFAF7;
+            color: #14171F;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .auth-box {
+            background: #FAFAF7;
+            border: 1px solid #DFDDD3;
+            padding: 48px 40px;
+            max-width: 420px;
+            width: 100%;
+        }
+        .auth-box h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 28px;
+            letter-spacing: -0.01em;
+            margin-bottom: 8px;
+        }
+        .auth-box .sub {
+            color: #565A64;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+        .auth-box input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #DFDDD3;
+            background: #FAFAF7;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            outline: none;
+            transition: .15s;
+        }
+        .auth-box input:focus {
+            border-color: #3B3FA0;
+            box-shadow: 0 0 0 2px #EAE9F6;
+        }
+        .auth-box .btn {
+            width: 100%;
+            padding: 14px;
+            background: #14171F;
+            color: #FAFAF7;
+            border: none;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: .15s;
+        }
+        .auth-box .btn:hover {
+            background: #2A2D78;
+        }
+        .auth-box .switch {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 13px;
+            color: #565A64;
+        }
+        .auth-box .switch a {
+            color: #3B3FA0;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .auth-box .switch a:hover {
+            text-decoration: underline;
+        }
+        .auth-box .error {
+            color: #B84438;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+        .brand-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            margin-bottom: 24px;
+        }
+        .brand-link img {
+            height: 32px;
+            width: auto;
+            display: block;
+        }
+        .brand-link span {
+            font-weight: 700;
+            font-size: 18px;
+            font-family: 'Space Grotesk', sans-serif;
+            color: #14171F;
+        }
+        .google-btn {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #DFDDD3;
+            background: #FAFAF7;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: .15s;
+            font-family: 'IBM Plex Sans', sans-serif;
+            margin-top: 8px;
+        }
+        .google-btn:hover {
+            background: #ECEAE1;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 16px 0;
+            color: #8A8D95;
+            font-size: 12px;
+        }
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #DFDDD3;
+        }
+        .password-hint {
+            font-size: 12px;
+            color: #8A8D95;
+            margin-top: -8px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-box">
+        <a href="https://neurocheck.space" class="brand-link">
+            <img src="https://i.ibb.co.com/TqY9SfkM/IMG-5606.png" alt="NeuroCheck" />
+            <span>NeuroCheck</span>
+        </a>
+
+        <div id="loginForm">
+            <h1>Welcome back</h1>
+            <p class="sub">Sign in to your account</p>
+            <form id="loginFormEl" onsubmit="return handleLogin(event)">
+                <input type="text" id="loginUsername" placeholder="Username" required />
+                <input type="password" id="loginPassword" placeholder="Password" required />
+                <button type="submit" class="btn">Sign in</button>
+            </form>
+            <div class="divider">or</div>
+            <button class="google-btn" id="googleSignInBtn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20" alt="Google" />
+                Sign in with Google
+            </button>
+            <div class="switch">Don't have an account? <a id="switchToRegister">Create one</a></div>
+            <div id="loginError" class="error"></div>
+        </div>
+
+        <div id="registerForm" style="display:none;">
+            <h1>Create account</h1>
+            <p class="sub">Join NeuroCheck</p>
+            <form id="registerFormEl" onsubmit="return handleRegister(event)">
+                <input type="text" id="regUsername" placeholder="Username" required />
+                <input type="email" id="regEmail" placeholder="Email (optional)" />
+                <input type="password" id="regPassword" placeholder="Password" required />
+                <div class="password-hint">Must be at least 8 characters and contain one special character (!@#$%^&*)</div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+            <div class="divider">or</div>
+            <button class="google-btn" id="googleSignUpBtn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20" alt="Google" />
+                Sign up with Google
+            </button>
+            <div class="switch">Already have an account? <a id="switchToLogin">Sign in</a></div>
+            <div id="regError" class="error"></div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js">
+    </script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDJrLi9Z5u8UYN4vnGTyCwJGPTTtAeiLZw",
+            authDomain: "neurocheck-db.firebaseapp.com",
+            databaseURL: "https://neurocheck-db-default-rtdb.firebaseio.com",
+            projectId: "neurocheck-db",
+            storageBucket: "neurocheck-db.firebasestorage.app",
+            messagingSenderId: "234672274220",
+            appId: "1:234672274220:web:e111c390f79779cf1aca89",
+            measurementId: "G-7E6MM9TKLP"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        const USERS_REF = 'users';
+        const SESSION_KEY = 'ocd_session';
+
+        function encodeEmail(email) {
+            return email.replace(/\./g, ',').replace(/@/g, '_');
+        }
+
+        async function getUserData(username) {
+            const snapshot = await db.ref(`${USERS_REF}/${username}`).once('value');
+            return snapshot.val();
+        }
+
+        async function createUser(username, password, email = '') {
+            const userData = {
+                password: password,
+                email: email,
+                attemptsUsed: 0,
+                subscription: null,
+                history: [],
+                consultAccess: false,
+                createdAt: Date.now()
+            };
+            await db.ref(`${USERS_REF}/${username}`).set(userData);
+            return userData;
+        }
+
+        async function updateUser(username, data) {
+            await db.ref(`${USERS_REF}/${username}`).update(data);
+        }
+
+        function setSession(username) {
+            localStorage.setItem(SESSION_KEY, username);
+        }
+
+        function isPasswordValid(pwd) {
+            return pwd.length >= 8 && /[!@#$%^&*()_+\-=[\]{};:'",.<>/?\\|`~]/.test(pwd);
+        }
+
+        document.getElementById('switchToRegister').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        });
+        document.getElementById('switchToLogin').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+        });
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const errorEl = document.getElementById('loginError');
+            errorEl.style.display = 'none';
+
+            if (!username || !password) {
+                errorEl.textContent = 'Please fill in all fields.';
+                errorEl.style.display = 'block';
+                return false;
+            }
+
+            const user = await getUserData(username);
+            if (!user || user.password !== password) {
+                errorEl.textContent = 'Invalid username or password.';
+                errorEl.style.display = 'block';
+                return false;
+            }
+
+            setSession(username);
+            window.location.href = 'app';
+            return false;
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const username = document.getElementById('regUsername').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+            const errorEl = document.getElementById('regError');
+            errorEl.style.display = 'none';
+
+            if (!username || !password) {
+                errorEl.textContent = 'Please fill in all fields.';
+                errorEl.style.display = 'block';
+                return false;
+            }
+
+            if (!isPasswordValid(password)) {
+                errorEl.textContent = 'Password must be at least 8 characters and contain one special character.';
+                errorEl.style.display = 'block';
+                return false;
+            }
+
+            const existing = await getUserData(username);
+            if (existing) {
+                errorEl.textContent = 'Username already exists.';
+                errorEl.style.display = 'block';
+                return false;
+            }
+
+            await createUser(username, password);
+            setSession(username);
+            window.location.href = 'app';
+            return false;
+        }
+
+        const CLIENT_ID = '234672274220-mbeqthu6a3hbhvo4nns6spcdr3d8j42f.apps.googleusercontent.com';
+
+        async function fetchUserInfo(accessToken) {
+            const resp = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                headers: { Authorization: 'Bearer ' + accessToken }
+            });
+            if (!resp.ok) throw new Error('Failed to fetch user info');
+            return resp.json();
+        }
+
+        function signInWithGoogle() {
+            const client = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+                callback: async (tokenResponse) => {
+                    try {
+                        const userInfo = await fetchUserInfo(tokenResponse.access_token);
+                        const email = userInfo.email;
+                        const username = encodeEmail(email);
+
+                        let user = await getUserData(username);
+                        if (!user) {
+                            await createUser(username, 'google', email);
+                        }
+                        setSession(username);
+                        window.location.href = 'app';
+                    } catch (err) {
+                        alert('Google sign-in failed: ' + err.message);
+                    }
+                },
+                error_callback: (error) => {
+                    console.error('Google OAuth error:', error);
+                    alert('Google sign-in was cancelled or failed.');
+                }
+            });
+            client.requestAccessToken();
+        }
+
+        document.getElementById('googleSignInBtn').addEventListener('click', signInWithGoogle);
+        document.getElementById('googleSignUpBtn').addEventListener('click', signInWithGoogle);
+    </script>
+</body>
+</html>
