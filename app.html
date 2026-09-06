@@ -80,7 +80,6 @@
             font-size: 18px;
             color: var(--ink);
         }
-        .brand img { height: 32px; width: auto; display: block; }
         .brand span {
             background: var(--gradient-primary);
             -webkit-background-clip: text;
@@ -694,6 +693,23 @@
             .stat-box { padding: 12px 10px; }
             .stat-box .value { font-size: 18px; }
         }
+    
+        /* Brand mark is inline so it never depends on an image host. */
+        .brand-mark {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: #3B3FA0;
+            display: grid;
+            place-items: center;
+            flex: none;
+        }
+
+        .brand-mark svg {
+            width: 20px;
+            height: 20px;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -702,7 +718,7 @@
         <!-- header -->
         <div class="dashboard-header">
             <a href="/" class="brand">
-                <img src="https://i.ibb.co.com/TqY9SfkM/IMG-5606.png" alt="NeuroCheck" />
+                <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M4 22 L10 14 L15 18 L21 7 L28 20" stroke="#FAFAF7" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 <span>NeuroCheck</span>
             </a>
             <div class="header-actions">

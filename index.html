@@ -2015,6 +2015,12 @@
         /* ============================================================
            14. CLOSING + FOOTER
            ============================================================ */
+        /* In dark mode the page ground is already near-black, so the closing
+           band lifts instead of darkening to stay a distinct section. */
+        html[data-theme="dark"] .closing {
+            background: #171B26;
+        }
+
         .closing {
             background: #0F1119;
             color: #ECEDF2;
