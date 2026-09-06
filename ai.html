@@ -6,14 +6,14 @@
   <title>AI Assistant — NeuroCheck</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     /* ===== ВЕСЬ ТВОЙ CSS (без изменений) ===== */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(145deg, #F8FAFC 0%, #EDF2F7 100%);
-      color: #1A202C;
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: linear-gradient(145deg, #FAFAF7 0%, #F2F1EA 100%);
+      color: #14171F;
       height: 100vh;
       display: flex;
       flex-direction: column;
@@ -37,12 +37,16 @@
       gap: 8px;
       text-decoration: none;
     }
-    .chat-header .brand img { height: 30px; width: auto; }
+        .chat-header .brand-mark {
+      width: 26px; height: 26px; border-radius: 7px; background: #3B3FA0;
+      display: grid; place-items: center; flex: none;
+    }
+    .chat-header .brand-mark svg { width: 17px; height: 17px; display: block; }
     .chat-header .brand span {
       font-weight: 700;
       font-size: 17px;
       font-family: 'Space Grotesk', sans-serif;
-      color: #0F172A;
+      color: #14171F;
     }
     .chat-header .header-actions {
       display: flex;
@@ -52,15 +56,15 @@
     .chat-header .ai-badge {
       font-weight: 500;
       font-size: 12px;
-      color: #6C63FF;
-      background: rgba(108, 99, 255, 0.12);
+      color: #3B3FA0;
+      background: rgba(59, 63, 160, 0.12);
       padding: 4px 14px;
       border-radius: 20px;
     }
     .chat-header .back-btn {
       background: transparent;
-      border: 1.5px solid #CBD5E1;
-      color: #475569;
+      border: 1.5px solid #DFDCD1;
+      color: #4E525E;
       padding: 6px 14px;
       font-family: 'IBM Plex Mono', monospace;
       font-size: 11px;
@@ -70,23 +74,23 @@
       transition: all 0.25s ease;
     }
     .chat-header .back-btn:hover {
-      background: #6C63FF;
-      border-color: #6C63FF;
+      background: #3B3FA0;
+      border-color: #3B3FA0;
       color: #fff;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(59, 63, 160, 0.3);
     }
     .menu-toggle {
       background: none;
       border: none;
       font-size: 24px;
       cursor: pointer;
-      color: #475569;
+      color: #4E525E;
       padding: 0 8px;
       transition: 0.2s;
       display: none;
     }
-    .menu-toggle:hover { color: #6C63FF; }
+    .menu-toggle:hover { color: #3B3FA0; }
     .app-container {
       display: flex;
       flex: 1;
@@ -115,10 +119,10 @@
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 600;
       font-size: 16px;
-      color: #0F172A;
+      color: #14171F;
     }
     .sidebar-header .new-chat-btn {
-      background: #6C63FF;
+      background: #3B3FA0;
       border: none;
       color: #fff;
       padding: 6px 14px;
@@ -129,7 +133,7 @@
       transition: 0.2s;
     }
     .sidebar-header .new-chat-btn:hover {
-      background: #5A52D5;
+      background: #2A2D78;
       transform: scale(1.03);
     }
     .chat-list {
@@ -138,7 +142,7 @@
       padding: 8px 12px;
     }
     .chat-list::-webkit-scrollbar { width: 4px; }
-    .chat-list::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+    .chat-list::-webkit-scrollbar-thumb { background: #DFDCD1; border-radius: 10px; }
     .chat-item {
       padding: 12px 14px;
       border-radius: 12px;
@@ -149,17 +153,17 @@
       position: relative;
     }
     .chat-item:hover {
-      background: rgba(108, 99, 255, 0.06);
-      border-color: rgba(108, 99, 255, 0.15);
+      background: rgba(59, 63, 160, 0.06);
+      border-color: rgba(59, 63, 160, 0.15);
     }
     .chat-item.active {
-      background: rgba(108, 99, 255, 0.10);
-      border-color: #6C63FF;
+      background: rgba(59, 63, 160, 0.10);
+      border-color: #3B3FA0;
     }
     .chat-item .chat-title {
       font-weight: 500;
       font-size: 14px;
-      color: #1A202C;
+      color: #14171F;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -170,11 +174,11 @@
       align-items: center;
       margin-top: 4px;
     }
-    .chat-item .chat-date { font-size: 11px; color: #94A3B8; }
+    .chat-item .chat-date { font-size: 11px; color: #838794; }
     .chat-item .delete-btn {
       background: none;
       border: none;
-      color: #94A3B8;
+      color: #838794;
       cursor: pointer;
       font-size: 14px;
       padding: 0 4px;
@@ -182,9 +186,9 @@
       opacity: 0;
     }
     .chat-item:hover .delete-btn { opacity: 1; }
-    .chat-item .delete-btn:hover { color: #EF4444; transform: scale(1.2); }
+    .chat-item .delete-btn:hover { color: #AE3A2E; transform: scale(1.2); }
     .empty-chats {
-      color: #94A3B8;
+      color: #838794;
       text-align: center;
       padding: 30px 10px;
       font-size: 14px;
@@ -204,7 +208,7 @@
       gap: 12px;
     }
     .chat-messages::-webkit-scrollbar { width: 6px; }
-    .chat-messages::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: #DFDCD1; border-radius: 10px; }
     .message {
       max-width: 78%;
       padding: 12px 18px;
@@ -222,10 +226,10 @@
     }
     .message.user {
       align-self: flex-end;
-      background: linear-gradient(135deg, #6C63FF 0%, #5A52D5 100%);
+      background: linear-gradient(135deg, #3B3FA0 0%, #2A2D78 100%);
       color: #fff;
       border-bottom-right-radius: 4px;
-      box-shadow: 0 4px 16px rgba(108, 99, 255, 0.2);
+      box-shadow: 0 4px 16px rgba(59, 63, 160, 0.2);
     }
     .message.ai {
       align-self: flex-start;
@@ -234,12 +238,12 @@
       border: 1px solid rgba(203, 213, 225, 0.4);
       border-bottom-left-radius: 4px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      color: #1A202C;
+      color: #14171F;
     }
     .message .time {
       font-size: 10px;
       font-weight: 500;
-      color: #94A3B8;
+      color: #838794;
       margin-top: 6px;
       display: block;
       text-align: right;
@@ -260,15 +264,15 @@
       border-radius: 30px;
       font-size: 12px;
       font-weight: 500;
-      color: #334155;
+      color: #4E525E;
       cursor: pointer;
       transition: 0.2s;
-      font-family: 'Inter', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
     }
     .quick-btn:hover {
-      background: #6C63FF;
+      background: #3B3FA0;
       color: #fff;
-      border-color: #6C63FF;
+      border-color: #3B3FA0;
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(108,99,255,0.25);
     }
@@ -285,21 +289,21 @@
     .chat-input-area input {
       flex: 1;
       padding: 12px 18px;
-      border: 2px solid #E2E8F0;
+      border: 2px solid #DFDCD1;
       border-radius: 30px;
       font-size: 14px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       outline: none;
       transition: 0.25s;
       background: #fff;
     }
     .chat-input-area input:focus {
-      border-color: #6C63FF;
+      border-color: #3B3FA0;
       box-shadow: 0 0 0 4px rgba(108,99,255,0.12);
     }
     .chat-input-area button {
       padding: 12px 26px;
-      background: linear-gradient(135deg, #6C63FF, #5A52D5);
+      background: linear-gradient(135deg, #3B3FA0, #2A2D78);
       color: #fff;
       border: none;
       border-radius: 30px;
@@ -328,7 +332,7 @@
       border-radius: 16px;
       border: 1px solid rgba(203,213,225,0.3);
       font-size: 13px;
-      color: #64748B;
+      color: #838794;
       font-weight: 500;
       animation: pulse 1.8s infinite;
       margin-left: 24px;
@@ -338,7 +342,7 @@
       50% { opacity: 1; transform: scale(1); }
     }
     .error-msg {
-      color: #EF4444;
+      color: #AE3A2E;
       font-size: 13px;
       text-align: center;
       padding: 6px 16px;
@@ -351,7 +355,7 @@
     .privacy-notice {
       text-align: center;
       font-size: 11px;
-      color: #94A3B8;
+      color: #838794;
       padding: 4px 20px 8px;
       background: rgba(255,255,255,0.3);
       backdrop-filter: blur(4px);
@@ -382,7 +386,7 @@
         z-index: 99;
       }
       .overlay.active { display: block; }
-      .chat-header .brand img { height: 26px; }
+      .chat-header .brand-mark { width: 23px; height: 23px; }
       .chat-header .brand span { font-size: 15px; }
       .chat-messages { padding: 14px 16px 8px; }
       .message { max-width: 90%; font-size: 13px; padding: 10px 14px; }
@@ -411,12 +415,12 @@
   <div style="display:flex; align-items:center; gap:10px;">
     <button class="menu-toggle" id="menuToggle">☰</button>
     <a href="index" class="brand">
-      <img src="https://i.ibb.co.com/TqY9SfkM/IMG-5606.png" alt="NeuroCheck" />
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M4 22 L10 14 L15 18 L21 7 L28 20" stroke="#FAFAF7" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <span>NeuroCheck</span>
     </a>
   </div>
   <div class="header-actions">
-    <span class="ai-badge">🤖 AI Assistant</span>
+    <span class="ai-badge">AI Assistant</span>
     <button class="back-btn" onclick="window.location.href='app'">← Back</button>
   </div>
 </div>
@@ -426,7 +430,7 @@
   <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <h3>📋 History</h3>
+      <h3>History</h3>
       <button class="new-chat-btn" id="newChatBtn">+ New</button>
     </div>
     <div class="chat-list" id="chatList">
@@ -439,13 +443,13 @@
     <div class="chat-messages" id="chatMessages"></div>
 
     <div class="quick-buttons" id="quickButtons">
-      <button class="quick-btn" data-prompt="I feel anxious and can't calm down.">😰 Тревога</button>
-      <button class="quick-btn" data-prompt="I have trouble sleeping at night.">😴 Сон</button>
-      <button class="quick-btn" data-prompt="I need some encouragement and support.">💪 Поддержка</button>
-      <button class="quick-btn" data-prompt="I feel overwhelmed and stressed.">🌀 Стресс</button>
+      <button class="quick-btn" data-prompt="I feel anxious and can't calm down.">Anxiety</button>
+      <button class="quick-btn" data-prompt="I have trouble sleeping at night.">Sleep</button>
+      <button class="quick-btn" data-prompt="I need some encouragement and support.">Support</button>
+      <button class="quick-btn" data-prompt="I feel overwhelmed and stressed.">Stress</button>
     </div>
 
-    <div class="typing-indicator" id="typingIndicator">🤖 AI is thinking...</div>
+    <div class="typing-indicator" id="typingIndicator">AI is thinking...</div>
     <div class="error-msg" id="errorMsg"></div>
 
     <div class="chat-input-area">
@@ -454,7 +458,7 @@
     </div>
 
     <div class="privacy-notice">
-      <strong>🔒 Confidential</strong> — your conversations are private and not stored permanently. For emergencies, contact a professional.
+      <strong>Confidential</strong> — your conversations are private and not stored permanently. For emergencies, contact a professional.
     </div>
   </div>
 </div>
@@ -546,7 +550,7 @@
       messages: [
         {
           role: 'ai',
-          content: `✨ Hello, ${username}! I'm your AI mental health companion. How are you feeling today? Remember, I'm here to listen and support you — you're not alone.`,
+          content: `Hello, ${username}! I'm your AI mental health companion. How are you feeling today? Remember, I'm here to listen and support you — you're not alone.`,
           time: 'Just now'
         }
       ]
@@ -700,7 +704,7 @@
     } catch (err) {
       document.getElementById('typingIndicator').style.display = 'none';
       const errorEl = document.getElementById('errorMsg');
-      errorEl.textContent = '❌ ' + err.message;
+      errorEl.textContent = err.message;
       errorEl.style.display = 'block';
       console.error(err);
     } finally {

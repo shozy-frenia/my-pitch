@@ -80,7 +80,6 @@
             font-size: 18px;
             color: var(--ink);
         }
-        .brand img { height: 32px; width: auto; display: block; }
         .brand span {
             background: var(--gradient-primary);
             -webkit-background-clip: text;
@@ -694,6 +693,23 @@
             .stat-box { padding: 12px 10px; }
             .stat-box .value { font-size: 18px; }
         }
+    
+        /* Brand mark is inline so it never depends on an image host. */
+        .brand-mark {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: #3B3FA0;
+            display: grid;
+            place-items: center;
+            flex: none;
+        }
+
+        .brand-mark svg {
+            width: 20px;
+            height: 20px;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -702,7 +718,7 @@
         <!-- header -->
         <div class="dashboard-header">
             <a href="/" class="brand">
-                <img src="https://i.ibb.co.com/TqY9SfkM/IMG-5606.png" alt="NeuroCheck" />
+                <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M4 22 L10 14 L15 18 L21 7 L28 20" stroke="#FAFAF7" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 <span>NeuroCheck</span>
             </a>
             <div class="header-actions">
@@ -767,10 +783,10 @@
         <!-- ===== КАРТОЧКА С ГРАФИКОМ ===== -->
         <div class="card" id="chartCard">
             <h2 style="font-size:20px; margin-bottom:0;">📈 Your weekly trend</h2>
-            <p class="sub" style="margin-bottom:14px;">Last 7 days — decoded with HMM + Viterbi</p>
+            <p class="sub" style="margin-bottom:14px;">Days 1–6 form the baseline; day 7 is held out and tested against it</p>
             <div class="signal-card">
                 <div class="signal-head">
-                    <span class="signal-title">Weekly signal → hidden state</span>
+                    <span class="signal-title">Weekly signal → baseline vs held-out day</span>
                     <button class="signal-replay" id="dashReplayBtn">Replay</button>
                 </div>
                 <div class="signal-caption" id="dashCaption">No data yet — start monitoring to see your trend.</div>
@@ -993,7 +1009,7 @@
             }
             lastChartPoints = dataPoints.slice();
             lastChartLabels = dayLabels ? dayLabels.slice() : dataPoints.map((_, i) => 'D' + (i + 1));
-            document.getElementById('dashCaption').textContent = 'Last 7 days — decoded with HMM + Viterbi.';
+            document.getElementById('dashCaption').textContent = 'Days 1\u20136 form the baseline; day 7 is held out and tested against it.';
             const total = dataPoints.length;
             let current = 0;
 
@@ -1167,26 +1183,75 @@
                 }
                 days.push(val);
             }
-            const n = days.length;
-            const mean = days.reduce((a, b) => a + b, 0) / n;
-            const variance = days.reduce((s, x) => s + (x - mean) ** 2, 0) / (n - 1);
+            // ── The procedure from the study ────────────────────────────────
+            // Days 1-6 are the baseline; day 7 is held out and never enters the
+            // fit. Two independent forecasts are built from the baseline and the
+            // held-out day is then compared against both.
+            const baseline = days.slice(0, 6);
+            const held = days[6];
+            const nB = baseline.length;                       // 6
+            const mean = baseline.reduce((a, b) => a + b, 0) / nB;
+            const variance = baseline.reduce((s, x) => s + (x - mean) ** 2, 0) / (nB - 1);
             const stdDev = Math.sqrt(variance);
-            const z = 1.96;
-            const margin = z * stdDev / Math.sqrt(n);
-            const ciLow = mean - margin;
-            const ciHigh = mean + margin;
-            const prior = 0.02;
-            const likelihood = 0.6;
-            const evidence = 0.6;
-            const posterior = (likelihood * prior) / evidence;
-            const last = days[days.length - 1];
-            let diagnosis = '';
-            if (last < ciLow) diagnosis = '✅ Normal (positive dynamics)';
-            else if (last > ciHigh) diagnosis = '⚠️ Anxiety signal – consultation recommended';
-            else diagnosis = '🟡 Within normal range – continue monitoring';
+
+            // Student prediction interval for ONE new observation (df = 5).
+            // Note the sqrt(1 + 1/n): a confidence interval for the mean would
+            // be far too narrow to judge a single new day against.
+            const T_CRIT = 2.571;
+            const piMargin = T_CRIT * stdDev * Math.sqrt(1 + 1 / nB);
+            const piLow = mean - piMargin;
+            const piHigh = mean + piMargin;
+
+            // AR(1) fitted by least squares on the baseline pairs (Y_t, Y_t+1).
+            const xs = baseline.slice(0, -1), ys = baseline.slice(1);
+            const mx = xs.reduce((a, b) => a + b, 0) / xs.length;
+            const my = ys.reduce((a, b) => a + b, 0) / ys.length;
+            let sxy = 0, sxx = 0;
+            for (let i = 0; i < xs.length; i++) {
+                sxy += (xs[i] - mx) * (ys[i] - my);
+                sxx += (xs[i] - mx) ** 2;
+            }
+            const beta = sxx === 0 ? 0 : sxy / sxx;
+            const alpha = my - beta * mx;
+            const forecast = alpha + beta * baseline[nB - 1];
+
+            // Dynamic limit, with 1 as a floor so the band cannot vanish when the
+            // forecast sits near zero.
+            const deviation = Math.abs(held - forecast);
+            const limit = 0.25 * Math.max(Math.abs(forecast), 1);
+
+            const outsidePI = held < piLow || held > piHigh;
+            const overLimit = deviation > limit;
+            const flagged = outsidePI || overLimit;
+
+            // Bayes with the study's scenario parameters. Reported only when the
+            // week is flagged, because that is the only case the number answers.
+            const SE = 0.85, SP = 0.70, PRIOR = 0.02;
+            const posterior = (SE * PRIOR) / (SE * PRIOR + (1 - SP) * (1 - PRIOR));
+
+            // A screening signal, never a diagnosis.
+            const signal = flagged
+                ? 'Deviation flagged — worth a conversation with a specialist'
+                : 'No deviation from this student\u2019s own baseline';
 
             const resultText =
-                `📊 7‑day monitoring results\nMean: ${mean.toFixed(2)}\nStd dev: ${stdDev.toFixed(2)}\n95% CI: [${ciLow.toFixed(2)} ; ${ciHigh.toFixed(2)}]\nBayesian OCD probability: ${(posterior*100).toFixed(2)}%\nDiagnosis: ${diagnosis}\nValues: ${days.map(d => d.toFixed(1)).join(', ')}`;
+                `7-day screening signal\n` +
+                `\nBaseline (days 1-6)\n` +
+                `  mean ${mean.toFixed(3)}   S ${stdDev.toFixed(3)}\n` +
+                `  95% prediction interval  [${piLow.toFixed(3)} ; ${piHigh.toFixed(3)}]\n` +
+                `  AR(1)   alpha ${alpha.toFixed(3)}   beta ${beta.toFixed(3)}\n` +
+                `\nHeld-out day 7\n` +
+                `  forecast ${forecast.toFixed(3)}   actual ${held.toFixed(1)}\n` +
+                `  inside prediction interval: ${outsidePI ? 'no' : 'yes'}\n` +
+                `  deviation ${deviation.toFixed(3)}  vs limit ${limit.toFixed(3)}  ->  ${overLimit ? 'exceeded' : 'within'}\n` +
+                `\nSignal: ${signal}\n` +
+                (flagged
+                    ? `Posterior probability given a positive screen: ${(posterior * 100).toFixed(2)}%\n` +
+                      `  (Se 0.85, Sp 0.70, base rate 2% — scenario parameters, not measured values)\n`
+                    : '') +
+                `\nThis is a screening signal from a research prototype. It is not a\n` +
+                `diagnosis and does not replace assessment by a specialist.\n` +
+                `\nValues: ${days.map(d => d.toFixed(1)).join(', ')}`;
 
             const resultBox = document.getElementById('monitorResultBox');
             resultBox.textContent = resultText;

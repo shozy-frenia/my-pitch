@@ -28,7 +28,6 @@
         .brand-link {
             display: flex; align-items: center; gap: 8px; text-decoration: none; margin-bottom: 20px;
         }
-        .brand-link img { height: 32px; width: auto; }
         .brand-link span { font-weight: 700; font-size: 18px; font-family: 'Space Grotesk', sans-serif; color: #14171F; }
 
         .password-form { margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap; }
@@ -61,13 +60,30 @@
         .error-msg { color: #B84438; margin-top: 10px; display: none; }
         .success-msg { color: #2FA88E; margin-top: 10px; display: none; }
         .info-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    
+        /* Brand mark is inline so it never depends on an image host. */
+        .brand-mark {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: #3B3FA0;
+            display: grid;
+            place-items: center;
+            flex: none;
+        }
+
+        .brand-mark svg {
+            width: 20px;
+            height: 20px;
+            display: block;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="admin-box">
         <a href="index" class="brand-link">
-            <img src="https://i.ibb.co.com/TqY9SfkM/IMG-5606.png" alt="NeuroCheck" />
+            <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M4 22 L10 14 L15 18 L21 7 L28 20" stroke="#FAFAF7" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             <span>NeuroCheck</span>
         </a>
         <h1>🔐 Admin Panel</h1>
