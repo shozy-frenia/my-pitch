@@ -240,10 +240,16 @@
             return snapshot.val();
         }
 
-        async function createUser(username, password, email = '') {
+        async function createUser(username, password, email = '', profile = {}) {
             const userData = {
                 password: password,
                 email: email,
+                // Stored so the dashboard has a real name to show. Firebase
+                // keys cannot contain '.', so `username` is the encoded
+                // address (name@host.tld -> name_host,tld) and is unfit to
+                // display.
+                name: profile.name || '',
+                givenName: profile.givenName || '',
                 attemptsUsed: 0,
                 subscription: null,
                 history: [],
@@ -353,10 +359,17 @@
                         const userInfo = await fetchUserInfo(tokenResponse.access_token);
                         const email = userInfo.email;
                         const username = encodeEmail(email);
+                        const profile = {
+                            name: userInfo.name || '',
+                            givenName: userInfo.given_name || ''
+                        };
 
                         let user = await getUserData(username);
                         if (!user) {
-                            await createUser(username, 'google', email);
+                            await createUser(username, 'google', email, profile);
+                        } else if (!user.name && (profile.name || profile.givenName)) {
+                            // Backfill accounts created before the name was kept.
+                            await updateUser(username, profile);
                         }
                         setSession(username);
                         window.location.href = 'app';

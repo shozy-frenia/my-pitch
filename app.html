@@ -1,1340 +1,1970 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard — NeuroCheck</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#FAFAF7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0C0E14" media="(prefers-color-scheme: dark)" />
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233B3FA0'/%3E%3Cpath d='M6 21.5 L11 15 L15 18.5 L20 8.5 L26 19' fill='none' stroke='%23FAFAF7' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='20' cy='8.5' r='3' fill='%23C97A1F' stroke='%23FAFAF7' stroke-width='1.6'/%3E%3C/svg%3E" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+
     <style>
-        /* ===== ВЕСЬ ТВОЙ CSS (полностью, без изменений) ===== */
+        /* ============================================================
+           TOKENS — shared with the landing page
+           ============================================================ */
         :root {
+            color-scheme: light;
             --paper: #FAFAF7;
-            --panel: #F1F0E9;
-            --panel-2: #ECEAE1;
+            --panel: #F2F1EA;
+            --panel-2: #E9E7DD;
+            --raised: #FFFFFF;
             --ink: #14171F;
-            --ink-soft: #565A64;
-            --ink-faint: #8A8D95;
-            --line: #DFDDD3;
+            --ink-soft: #4E525E;
+            --ink-faint: #838794;
+            --line: #DFDCD1;
+            --line-soft: #EAE7DE;
             --accent: #3B3FA0;
             --accent-ink: #2A2D78;
-            --accent-soft: #EAE9F6;
-            --state-normal: #2FA88E;
-            --state-anxious: #C97A1F;
-            --state-crisis: #B84438;
-            --gradient-primary: linear-gradient(135deg, #3B3FA0 0%, #6C3CE1 100%);
-            --gradient-glow: radial-gradient(circle at 30% 20%, rgba(107, 60, 225, 0.08), transparent 70%);
-            --shadow-card: 0 8px 32px rgba(20, 23, 31, 0.06), 0 2px 8px rgba(20, 23, 31, 0.03);
-            --shadow-hover: 0 16px 48px rgba(20, 23, 31, 0.10), 0 4px 12px rgba(20, 23, 31, 0.04);
-            --radius-card: 20px;
-            --radius-sm: 12px;
-            --transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --accent-soft: #EBEAF7;
+            --accent-glow: 59 63 160;
+            --ok: #1F8A72;
+            --warn: #B26A15;
+            --alert: #AE3A2E;
+            --ok-soft: #E3F2EE;
+            --warn-soft: #F8EEDE;
+            --alert-soft: #F8E7E4;
+
+            --t-h1: clamp(1.5rem, 1.2rem + 1.1vw, 1.95rem);
+            --t-h2: clamp(1.12rem, 1rem + 0.5vw, 1.32rem);
+            --t-body: 0.95rem;
+            --t-small: 0.84rem;
+            --t-micro: 0.7rem;
+
+            --gap-2xs: 8px;
+            --gap-xs: 12px;
+            --gap-s: 18px;
+            --gap-m: 28px;
+            --gap-l: 44px;
+            --maxw: 1080px;
+            --gutter: clamp(16px, 4vw, 28px);
+
+            --ease-out: cubic-bezier(.22, .68, .28, 1);
+            --ease-spring: cubic-bezier(.34, 1.28, .48, 1);
+            --dur-fast: .18s;
+            --dur: .42s;
+
+            --radius: 3px;
+            --shadow-sm: 0 1px 2px rgba(20, 23, 31, .05);
+            --shadow-md: 0 6px 24px -10px rgba(20, 23, 31, .18);
+            --shadow-lg: 0 20px 60px -24px rgba(20, 23, 31, .28);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html[data-theme="dark"] {
+            color-scheme: dark;
+            --paper: #0C0E14;
+            --panel: #12151E;
+            --panel-2: #1A1E2A;
+            --raised: #161A24;
+            --ink: #ECEDF2;
+            --ink-soft: #A2A7B8;
+            --ink-faint: #6E7488;
+            --line: #262B38;
+            --line-soft: #1D2130;
+            --accent: #8C90F0;
+            --accent-ink: #AFB2FA;
+            --accent-soft: #1B1E37;
+            --accent-glow: 140 144 240;
+            --ok: #45C5A6;
+            --warn: #E0A24A;
+            --alert: #E2685A;
+            --ok-soft: #12271F;
+            --warn-soft: #2A2011;
+            --alert-soft: #2B1614;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, .5);
+            --shadow-md: 0 6px 24px -10px rgba(0, 0, 0, .7);
+            --shadow-lg: 0 20px 60px -24px rgba(0, 0, 0, .85);
+        }
+
+        /* ============================================================
+           BASE
+           ============================================================ */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            overflow-x: clip;
+        }
+
         body {
-            font-family: 'IBM Plex Sans', sans-serif;
             background: var(--paper);
             color: var(--ink);
-            padding: 24px 20px 40px;
-            line-height: 1.5;
-            min-height: 100vh;
-            background-image: var(--gradient-glow), radial-gradient(circle at 80% 80%, rgba(47, 168, 142, 0.04), transparent 60%);
-            background-attachment: fixed;
+            font-family: 'IBM Plex Sans', system-ui, sans-serif;
+            font-size: var(--t-body);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            transition: background var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
         }
-        .container {
-            max-width: 820px;
-            margin: 0 auto;
-            animation: fadeUp 0.5s ease both;
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+            font-weight: 600;
+            line-height: 1.15;
+            letter-spacing: -.021em;
         }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        h1 {
+            font-size: var(--t-h1);
+            letter-spacing: -.03em;
         }
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0 20px;
-            margin-bottom: 28px;
-            border-bottom: 1px solid var(--line);
-            position: relative;
+
+        h2 {
+            font-size: var(--t-h2);
         }
-        .dashboard-header::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 80px;
-            height: 2px;
-            background: var(--gradient-primary);
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+            color: inherit;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        input {
+            font: inherit;
+            color: inherit;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
             border-radius: 2px;
         }
+
+        ::selection {
+            background: rgb(var(--accent-glow) / .22);
+        }
+
+        .mono {
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .micro {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: var(--t-micro);
+            letter-spacing: .11em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+        }
+
+        .small {
+            font-size: var(--t-small);
+            color: var(--ink-soft);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+
+        .wrap {
+            max-width: var(--maxw);
+            margin-inline: auto;
+            padding-inline: var(--gutter);
+        }
+
+        /* ============================================================
+           HEADER
+           ============================================================ */
+        header.top {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background: color-mix(in srgb, var(--paper) 84%, transparent);
+            backdrop-filter: blur(14px) saturate(140%);
+            -webkit-backdrop-filter: blur(14px) saturate(140%);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .top-inner {
+            max-width: var(--maxw);
+            margin-inline: auto;
+            padding: 13px var(--gutter);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--gap-xs);
+        }
+
         .brand {
             display: flex;
             align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-family: 'Space Grotesk', sans-serif;
+            gap: 10px;
+            font-family: 'Space Grotesk';
             font-weight: 700;
-            font-size: 18px;
-            color: var(--ink);
-        }
-        .brand span {
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .user-badge {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            font-size: 14px;
-            color: var(--ink-soft);
-            background: var(--panel);
-            padding: 6px 14px 6px 10px;
-            border-radius: 40px;
-            border: 1px solid var(--line);
-        }
-        .user-badge .avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        .btn-logout {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 12px;
-            font-weight: 500;
-            padding: 6px 16px;
-            border: 1px solid var(--line);
-            background: transparent;
-            color: var(--ink-soft);
-            cursor: pointer;
-            border-radius: 40px;
-            transition: var(--transition);
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn-logout:hover { background: var(--panel-2); color: var(--ink); border-color: var(--ink-soft); }
-        .card {
-            background: var(--paper);
-            border: 1px solid var(--line);
-            border-radius: var(--radius-card);
-            padding: 32px 28px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-card);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        .card:hover { box-shadow: var(--shadow-hover); }
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient-primary);
-            opacity: 0.6;
-        }
-        .card h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            font-size: 26px;
-            letter-spacing: -0.02em;
-            margin-bottom: 2px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .card h2 .wave {
-            display: inline-block;
-            animation: wave 2.5s infinite ease-in-out;
-            transform-origin: 70% 70%;
-        }
-        @keyframes wave {
-            0%,100% { transform: rotate(0deg); }
-            10% { transform: rotate(14deg); }
-            20% { transform: rotate(-8deg); }
-            30% { transform: rotate(14deg); }
-            40% { transform: rotate(-4deg); }
-            50% { transform: rotate(10deg); }
-            60%,100% { transform: rotate(0deg); }
-        }
-        .card .sub {
-            color: var(--ink-soft);
-            font-size: 14px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .card .sub .dot {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--state-normal);
-            animation: pulse-dot 2s infinite;
-        }
-        @keyframes pulse-dot {
-            0%,100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.8); }
-        }
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin: 18px 0 20px;
-        }
-        .stat-box {
-            border: 1px solid var(--line);
-            border-radius: var(--radius-sm);
-            padding: 18px 16px;
-            background: var(--paper);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        .stat-box:hover {
-            border-color: var(--accent-soft);
-            background: var(--panel);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(59, 63, 160, 0.06);
-        }
-        .stat-box .label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--ink-faint);
-            font-family: 'IBM Plex Mono', monospace;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .stat-box .label .icon { font-size: 13px; }
-        .stat-box .value {
-            font-size: 24px;
-            font-weight: 600;
-            font-family: 'Space Grotesk', sans-serif;
-            margin-top: 4px;
-            letter-spacing: -0.01em;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: inline-block;
-        }
-        .stat-box .value.infinity { font-size: 28px; }
-        .stat-box .value .badge {
-            font-size: 13px;
-            font-weight: 500;
-            background: var(--panel-2);
-            color: var(--ink-soft);
-            padding: 2px 10px;
-            border-radius: 40px;
-            -webkit-text-fill-color: var(--ink-soft);
-            margin-left: 6px;
-            font-family: 'IBM Plex Sans', sans-serif;
-        }
-        .stat-box .value .status-dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 6px;
-            -webkit-text-fill-color: initial;
-        }
-        .stat-box .value .status-dot.green { background: var(--state-normal); }
-        .stat-box .value .status-dot.red { background: var(--state-crisis); }
-        .actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 18px 0 0;
-        }
-        .btn {
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 13px;
-            font-weight: 500;
-            padding: 10px 22px;
-            border-radius: 40px;
-            border: 1px solid var(--line);
-            background: transparent;
-            color: var(--ink);
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            user-select: none;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn:active { transform: scale(0.96); }
-        .btn-primary {
-            background: var(--ink);
-            color: var(--paper);
-            border-color: var(--ink);
-        }
-        .btn-primary:hover {
-            background: var(--accent-ink);
-            border-color: var(--accent-ink);
-            box-shadow: 0 4px 16px rgba(20, 23, 31, 0.20);
-            transform: translateY(-2px);
-        }
-        .btn-success {
-            background: var(--state-normal);
-            color: var(--paper);
-            border-color: var(--state-normal);
-        }
-        .btn-success:hover {
-            background: #1e7a66;
-            border-color: #1e7a66;
-            box-shadow: 0 4px 16px rgba(47, 168, 142, 0.30);
-            transform: translateY(-2px);
-        }
-        .btn-danger {
-            background: var(--state-crisis);
-            color: var(--paper);
-            border-color: var(--state-crisis);
-        }
-        .btn-danger:hover {
-            background: #8a2e24;
-            border-color: #8a2e24;
-            box-shadow: 0 4px 16px rgba(184, 68, 56, 0.30);
-            transform: translateY(-2px);
-        }
-        .btn-outline {
-            background: transparent;
-            border-color: var(--line);
-        }
-        .btn-outline:hover {
-            background: var(--panel);
-            border-color: var(--ink-soft);
-            transform: translateY(-2px);
-        }
-        .btn-ai {
-            background: linear-gradient(135deg, #6C3CE1, #A855F7);
-            color: white;
-            border: none;
-            box-shadow: 0 4px 20px rgba(107, 60, 225, 0.30);
-        }
-        .btn-ai:hover {
-            background: linear-gradient(135deg, #5B2BC4, #9333EA);
-            box-shadow: 0 6px 28px rgba(107, 60, 225, 0.40);
-            transform: translateY(-2px);
-        }
-        .btn-ai::after {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 40px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
-            opacity: 0;
-            transition: var(--transition);
-        }
-        .btn-ai:hover::after { opacity: 1; }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-        .signal-card {
-            background: var(--ink);
-            color: var(--paper);
-            padding: 28px 26px 24px;
-            border-radius: var(--radius-sm);
-            position: relative;
-        }
-        .signal-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 4px;
-        }
-        .signal-title {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 12px;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            color: #B9B8C8;
-        }
-        .signal-replay {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 11px;
-            background: none;
-            color: #B9B8C8;
-            border: 1px solid #3A3D52;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 2px;
-        }
-        .signal-replay:hover {
-            color: var(--paper);
-            border-color: #6266A8;
-        }
-        .signal-caption {
-            font-size: 12px;
-            color: #82859C;
-            margin: 2px 0 18px;
-            font-family: 'IBM Plex Mono', monospace;
-        }
-        svg.signal-svg {
-            width: 100%;
-            height: auto;
-            display: block;
-            overflow: visible;
-        }
-        .signal-readout {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 18px;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 12px;
-        }
-        .signal-day-label { color: #B9B8C8; }
-        .signal-state-chip {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 500;
-            font-size: 11px;
-            letter-spacing: .03em;
-            text-transform: uppercase;
-        }
-        .belief-bars {
-            margin-top: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 9px;
-        }
-        .belief-row {
-            display: grid;
-            grid-template-columns: 70px 1fr 40px;
-            align-items: center;
-            gap: 10px;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 11px;
-        }
-        .belief-row .label { color: #B9B8C8; }
-        .belief-track {
-            height: 6px;
-            background: #262A3C;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .belief-fill {
-            height: 100%;
-            width: 0%;
-            transition: width .5s ease;
-        }
-        .belief-row .pct { text-align: right; color: #E7E6F0; }
-        .day-inputs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 14px 0 16px;
-        }
-        .day-inputs label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--ink-soft);
-            gap: 4px;
-            background: var(--panel);
-            padding: 8px 10px 10px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--line);
-            transition: var(--transition);
-            min-width: 64px;
-        }
-        .day-inputs label:hover {
-            border-color: var(--accent-soft);
-            background: var(--paper);
-        }
-        .day-inputs label:focus-within {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(59, 63, 160, 0.10);
-        }
-        .day-inputs label .day-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: var(--ink-faint);
-        }
-        .day-inputs input {
-            width: 52px;
-            text-align: center;
-            padding: 6px 4px;
-            border: 1px solid var(--line);
-            border-radius: 8px;
-            background: var(--paper);
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--ink);
-            transition: var(--transition);
-            outline: none;
-        }
-        .day-inputs input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(59, 63, 160, 0.08);
-        }
-        .day-inputs input::-webkit-inner-spin-button { opacity: 0.5; }
-        .result-box {
-            margin-top: 14px;
-            background: var(--panel);
-            padding: 20px 18px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--line);
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 13px;
-            line-height: 1.7;
-            display: none;
-            white-space: pre-wrap;
-            word-break: break-word;
-            position: relative;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.02);
-        }
-        .result-box::before {
-            content: '📊';
-            position: absolute;
-            top: -10px;
-            left: 16px;
-            background: var(--panel);
-            padding: 0 8px;
-            font-size: 14px;
-        }
-        .error-msg {
-            color: var(--state-crisis);
-            font-size: 13px;
-            margin-top: 8px;
-            display: none;
-            padding: 10px 14px;
-            background: rgba(184, 68, 56, 0.06);
-            border-radius: var(--radius-sm);
-            border-left: 3px solid var(--state-crisis);
-        }
-        .history-container {
-            display: none;
-            max-height: 240px;
-            overflow-y: auto;
-            background: var(--panel);
-            padding: 8px 4px 4px 0;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--line);
-            margin-top: 14px;
-            scroll-behavior: smooth;
-        }
-        .history-container::-webkit-scrollbar { width: 5px; }
-        .history-container::-webkit-scrollbar-track { background: transparent; }
-        .history-container::-webkit-scrollbar-thumb { background: var(--line); border-radius: 10px; }
-        .history-item {
-            border-bottom: 1px solid var(--line);
-            padding: 12px 14px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: var(--transition);
-            border-radius: 8px;
-            margin: 0 4px;
-        }
-        .history-item:last-child { border-bottom: none; }
-        .history-item:hover {
-            background: var(--paper);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-        .history-item .date {
-            font-size: 12px;
-            color: var(--ink-faint);
-            font-weight: 400;
-        }
-        .history-item .preview {
-            color: var(--ink-soft);
-            font-size: 13px;
-            display: block;
-            margin-top: 2px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .history-item .badge-idx {
-            display: inline-block;
-            background: var(--accent-soft);
-            color: var(--accent);
-            font-size: 11px;
-            font-weight: 600;
-            padding: 0 8px;
-            border-radius: 20px;
-            margin-right: 6px;
-            font-family: 'IBM Plex Mono', monospace;
-        }
-        .history-empty {
-            color: var(--ink-soft);
-            padding: 20px;
-            text-align: center;
-            font-size: 14px;
-        }
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(20, 23, 31, 0.50);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 999;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.25s ease;
-        }
-        .modal-overlay.active { display: flex; }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .modal-box {
-            background: var(--paper);
-            border: 1px solid var(--line);
-            border-radius: var(--radius-card);
-            max-width: 600px;
-            width: 92%;
-            padding: 32px 28px;
-            position: relative;
-            animation: modalSlide 0.3s ease;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 24px 64px rgba(20, 23, 31, 0.20);
-        }
-        @keyframes modalSlide {
-            from { opacity: 0; transform: scale(0.94) translateY(12px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .modal-box .close {
-            position: absolute;
-            top: 14px;
-            right: 18px;
-            font-size: 26px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: var(--ink-soft);
-            transition: var(--transition);
-            line-height: 1;
-            padding: 4px 8px;
-            border-radius: 8px;
-        }
-        .modal-box .close:hover {
-            color: var(--ink);
-            background: var(--panel);
-            transform: rotate(90deg);
-        }
-        .modal-box h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            font-size: 24px;
-            letter-spacing: -0.02em;
-            margin-bottom: 2px;
-        }
-        .modal-box .sub {
-            color: var(--ink-soft);
-            font-size: 14px;
-            margin-bottom: 18px;
-        }
-        .modal-box pre {
-            background: var(--panel);
-            padding: 18px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--line);
-            white-space: pre-wrap;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 13px;
-            line-height: 1.7;
-            max-height: 50vh;
-            overflow-y: auto;
-        }
-        @media (max-width: 600px) {
-            body { padding: 12px 12px 32px; }
-            .card { padding: 22px 16px; }
-            .grid-2 { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .stat-box .value { font-size: 20px; }
-            .actions { gap: 8px; }
-            .btn { font-size: 12px; padding: 8px 16px; }
-            .dashboard-header { flex-wrap: wrap; gap: 10px; }
-            .brand { font-size: 17px; }
-            .header-actions { margin-left: auto; }
-            .modal-box { padding: 24px 16px; width: 96%; }
-            .day-inputs label { min-width: 54px; padding: 6px 6px 8px; }
-            .day-inputs input { width: 44px; font-size: 14px; }
-        }
-        @media (max-width: 420px) {
-            .grid-2 { grid-template-columns: 1fr 1fr; gap: 8px; }
-            .stat-box { padding: 12px 10px; }
-            .stat-box .value { font-size: 18px; }
-        }
-    
-        /* Brand mark is inline so it never depends on an image host. */
+            font-size: 15.5px;
+            letter-spacing: -.015em;
+            flex: none;
+        }
+
         .brand-mark {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
-            background: #3B3FA0;
+            width: 26px;
+            height: 26px;
+            border-radius: 7px;
+            background: var(--accent);
             display: grid;
             place-items: center;
             flex: none;
         }
 
         .brand-mark svg {
-            width: 20px;
-            height: 20px;
+            width: 17px;
+            height: 17px;
             display: block;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--gap-2xs);
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            border: 1px solid var(--line);
+            border-radius: 100px;
+            padding: 4px 14px 4px 4px;
+            background: var(--raised);
+            max-width: 240px;
+        }
+
+        .avatar {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-family: 'Space Grotesk';
+            font-weight: 600;
+            font-size: 12.5px;
+            flex: none;
+        }
+
+        .user-chip .name {
+            font-size: var(--t-small);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .icon-btn {
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            color: var(--ink-soft);
+            background: var(--raised);
+            transition: background var(--dur-fast), color var(--dur-fast), transform var(--dur-fast);
+        }
+
+        .icon-btn:hover {
+            background: var(--panel);
+            color: var(--ink);
+            transform: translateY(-1px);
+        }
+
+        .icon-btn svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        html[data-theme="dark"] .icon-sun {
+            display: none;
+        }
+
+        html:not([data-theme="dark"]) .icon-moon {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .user-chip .name {
+                display: none;
+            }
+
+            .user-chip {
+                padding: 4px;
+            }
+        }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn {
+            --btn-bg: transparent;
+            --btn-fg: var(--ink);
+            --btn-bd: var(--line);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 17px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12.5px;
+            border: 1px solid var(--btn-bd);
+            border-radius: var(--radius);
+            background: var(--btn-bg);
+            color: var(--btn-fg);
+            transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast),
+                background var(--dur-fast), color var(--dur-fast), opacity var(--dur-fast);
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .btn svg {
+            width: 14px;
+            height: 14px;
+            flex: none;
+        }
+
+        .btn-primary {
+            --btn-bg: var(--accent);
+            --btn-fg: #fff;
+            --btn-bd: var(--accent);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            filter: brightness(1.1);
+        }
+
+        .btn-ghost:hover:not(:disabled) {
+            border-color: var(--ink);
+        }
+
+        .btn-warn {
+            --btn-bg: var(--warn);
+            --btn-fg: #fff;
+            --btn-bd: var(--warn);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 11.5px;
+        }
+
+        /* ============================================================
+           LAYOUT / CARDS
+           ============================================================ */
+        main {
+            padding-block: var(--gap-m) var(--gap-l);
+        }
+
+        .card {
+            border: 1px solid var(--line);
+            background: var(--raised);
+            border-radius: var(--radius);
+            padding: var(--gap-m) var(--gap-s) var(--gap-s);
+        }
+
+        .card+.card {
+            margin-top: var(--gap-s);
+        }
+
+        .card-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: var(--gap-xs);
+            flex-wrap: wrap;
+            margin-bottom: var(--gap-2xs);
+        }
+
+        .hello {
+            margin-bottom: 2px;
+        }
+
+        .hello-sub {
+            color: var(--ink-soft);
+            font-size: var(--t-small);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--ok);
+            flex: none;
+        }
+
+        .stat-row {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1px;
+            background: var(--line);
+            border: 1px solid var(--line);
+            margin-top: var(--gap-s);
+        }
+
+        @media (max-width: 720px) {
+            .stat-row {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        .stat {
+            background: var(--paper);
+            padding: 14px 16px;
+        }
+
+        .stat .k {
+            display: block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+        }
+
+        .stat .v {
+            display: block;
+            font-family: 'Space Grotesk';
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: -.02em;
+            margin-top: 5px;
+            line-height: 1.15;
+        }
+
+        .stat .v.ok {
+            color: var(--ok);
+        }
+
+        .stat .v.accent {
+            color: var(--accent);
+        }
+
+        .stat .v small {
+            font-family: 'IBM Plex Sans';
+            font-size: .82rem;
+            font-weight: 400;
+            color: var(--ink-soft);
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--gap-2xs);
+            margin-top: var(--gap-s);
+        }
+
+        /* ============================================================
+           MONITOR INPUTS
+           ============================================================ */
+        .panel {
+            margin-top: var(--gap-s);
+            padding-top: var(--gap-s);
+            border-top: 1px solid var(--line);
+        }
+
+        .day-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: var(--gap-2xs);
+            margin-top: var(--gap-xs);
+        }
+
+        @media (max-width: 720px) {
+            .day-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+        }
+
+        .day-field {
+            display: block;
+        }
+
+        .day-field .lbl {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 4px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+            margin-bottom: 5px;
+        }
+
+        .day-field .role {
+            font-size: 8.5px;
+            letter-spacing: .06em;
+            padding: 1px 5px;
+            border-radius: 100px;
+            background: var(--panel-2);
+            color: var(--ink-faint);
+        }
+
+        .day-field.held .role {
+            background: var(--accent-soft);
+            color: var(--accent-ink);
+        }
+
+        .day-field input {
+            width: 100%;
+            padding: 9px 8px;
+            text-align: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 15px;
+            font-variant-numeric: tabular-nums;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+            -moz-appearance: textfield;
+        }
+
+        .day-field input::-webkit-outer-spin-button,
+        .day-field input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .day-field input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgb(var(--accent-glow) / .14);
+        }
+
+        .day-field.held input {
+            border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+            background: var(--accent-soft);
+        }
+
+        .hint {
+            font-size: var(--t-small);
+            color: var(--ink-soft);
+            margin-top: var(--gap-xs);
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .hint .b {
+            color: var(--accent);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            flex: none;
+            margin-top: 2px;
+        }
+
+        .error {
+            display: none;
+            margin-top: var(--gap-xs);
+            padding: 10px 14px;
+            border-left: 2px solid var(--alert);
+            background: var(--alert-soft);
+            color: var(--alert);
+            font-size: var(--t-small);
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        /* ============================================================
+           REPORT — the worked calculation
+           ============================================================ */
+        .report {
+            display: none;
+            margin-top: var(--gap-s);
+        }
+
+        .verdict {
+            display: flex;
+            gap: var(--gap-xs);
+            align-items: flex-start;
+            padding: var(--gap-s);
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            background: var(--panel);
+            border-left-width: 3px;
+        }
+
+        .verdict.flagged {
+            border-left-color: var(--warn);
+            background: var(--warn-soft);
+        }
+
+        .verdict.clear {
+            border-left-color: var(--ok);
+            background: var(--ok-soft);
+        }
+
+        .verdict .flag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 100px;
+            flex: none;
+            margin-top: 2px;
+            background: var(--raised);
+        }
+
+        .verdict.flagged .flag {
+            color: var(--warn);
+        }
+
+        .verdict.clear .flag {
+            color: var(--ok);
+        }
+
+        .verdict b {
+            display: block;
+            font-family: 'Space Grotesk';
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .verdict p {
+            font-size: var(--t-small);
+            color: var(--ink-soft);
+        }
+
+        /* step-by-step working */
+        .steps {
+            margin-top: var(--gap-s);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .step {
+            border-bottom: 1px solid var(--line-soft);
+            padding: var(--gap-s);
+        }
+
+        .step:last-child {
+            border-bottom: 0;
+        }
+
+        .step-head {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: var(--gap-xs);
+        }
+
+        .step-head .n {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10.5px;
+            color: var(--accent);
+            flex: none;
+        }
+
+        .step-head h3 {
+            font-size: .97rem;
+        }
+
+        .step-head .out {
+            margin-left: auto;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .step-head .out.bad {
+            color: var(--alert);
+        }
+
+        .step-head .out.good {
+            color: var(--ok);
+        }
+
+        .step p.why {
+            font-size: var(--t-small);
+            color: var(--ink-soft);
+            margin-bottom: var(--gap-xs);
+            max-width: 74ch;
+        }
+
+        .math {
+            background: var(--panel);
+            border: 1px solid var(--line-soft);
+            border-radius: var(--radius);
+            padding: 13px 15px;
+            overflow-x: auto;
+        }
+
+        .math+.math {
+            margin-top: var(--gap-2xs);
+        }
+
+        .math .katex {
+            font-size: 1.02em;
+        }
+
+        .math-label {
+            display: block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9.5px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+            margin-bottom: 7px;
+        }
+
+        .kv-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 22px;
+            margin-top: var(--gap-xs);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12.5px;
+            color: var(--ink-soft);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .kv-row b {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        .caveat {
+            margin-top: var(--gap-s);
+            padding: var(--gap-xs) var(--gap-s);
+            border-left: 2px solid var(--ink-faint);
+            background: var(--panel);
+            font-size: var(--t-small);
+            color: var(--ink-soft);
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        /* ============================================================
+           FIGURE
+           ============================================================ */
+        .fig-wrap {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--paper);
+            margin-top: var(--gap-s);
+        }
+
+        .fig-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--gap-xs);
+            padding: 11px 15px;
+            border-bottom: 1px solid var(--line-soft);
+            background: var(--panel);
+        }
+
+        .fig-head .t {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: .04em;
+            color: var(--ink-soft);
+        }
+
+        .fig-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+            padding: 8px 8px 0;
+            overflow: visible;
+        }
+
+        .fig-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px 18px;
+            padding: 11px 15px;
+            border-top: 1px solid var(--line-soft);
+        }
+
+        .lg {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10.5px;
+            color: var(--ink-soft);
+        }
+
+        .lg i {
+            width: 14px;
+            height: 3px;
+            border-radius: 2px;
+            display: inline-block;
+            flex: none;
+        }
+
+        .lg i.dotm {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+        }
+
+        .grid-line {
+            stroke: var(--line);
+            stroke-width: 1;
+        }
+
+        .band {
+            fill: rgb(var(--accent-glow) / .1);
+            stroke: rgb(var(--accent-glow) / .32);
+            stroke-width: 1;
+            stroke-dasharray: 3 3;
+        }
+
+        .series-path {
+            fill: none;
+            stroke: var(--ink);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .fc-path {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 2;
+            stroke-dasharray: 5 4;
+            stroke-linecap: round;
+        }
+
+        .axis-text {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9.5px;
+            fill: var(--ink-faint);
+        }
+
+        .dot-obs {
+            fill: var(--raised);
+            stroke: var(--ink);
+            stroke-width: 2;
+        }
+
+        .dot-out {
+            fill: var(--alert);
+            stroke: var(--raised);
+            stroke-width: 2.5;
+        }
+
+        .dot-in {
+            fill: var(--ok);
+            stroke: var(--raised);
+            stroke-width: 2.5;
+        }
+
+        .dot-fc {
+            fill: var(--accent);
+            stroke: var(--raised);
+            stroke-width: 2;
+        }
+
+        .fig-empty {
+            padding: 46px 20px;
+            text-align: center;
+            color: var(--ink-faint);
+            font-size: var(--t-small);
+        }
+
+        /* ============================================================
+           HISTORY
+           ============================================================ */
+        .history {
+            display: none;
+            margin-top: var(--gap-s);
+        }
+
+        .hist-item {
+            display: grid;
+            grid-template-columns: auto 150px 1fr auto;
+            gap: var(--gap-xs);
+            align-items: center;
+            width: 100%;
+            text-align: left;
+            padding: 12px 14px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--paper);
+            transition: border-color var(--dur-fast), transform var(--dur-fast);
+        }
+
+        .hist-item+.hist-item {
+            margin-top: 6px;
+        }
+
+        .hist-item:hover {
+            border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+            transform: translateX(2px);
+        }
+
+        .hist-item .idx {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10.5px;
+            color: var(--ink-faint);
+        }
+
+        .hist-item .date {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11.5px;
+            color: var(--ink-soft);
+        }
+
+        .hist-item .sum {
+            font-size: var(--t-small);
+            color: var(--ink-soft);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .pill {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9.5px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 100px;
+            flex: none;
+        }
+
+        .pill.flagged {
+            background: var(--warn-soft);
+            color: var(--warn);
+        }
+
+        .pill.clear {
+            background: var(--ok-soft);
+            color: var(--ok);
+        }
+
+        @media (max-width: 720px) {
+            .hist-item {
+                grid-template-columns: auto 1fr auto;
+            }
+
+            .hist-item .sum {
+                display: none;
+            }
+        }
+
+        .empty {
+            padding: 34px 20px;
+            text-align: center;
+            color: var(--ink-faint);
+            font-size: var(--t-small);
+            border: 1px dashed var(--line);
+            border-radius: var(--radius);
+        }
+
+        /* ============================================================
+           MODAL
+           ============================================================ */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 90;
+            background: rgba(10, 12, 18, .55);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding: var(--gap-m) var(--gutter);
+            overflow-y: auto;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-box {
+            position: relative;
+            width: min(760px, 100%);
+            background: var(--raised);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: var(--gap-m) var(--gap-s) var(--gap-s);
+            animation: pop .3s var(--ease-out);
+        }
+
+        @keyframes pop {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(.99);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
         }
     </style>
 </head>
-<body>
 
-    <div class="container">
-        <!-- header -->
-        <div class="dashboard-header">
-            <a href="/" class="brand">
-                <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M4 22 L10 14 L15 18 L21 7 L28 20" stroke="#FAFAF7" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                <span>NeuroCheck</span>
+<body>
+    <header class="top">
+        <div class="top-inner">
+            <a href="/" class="brand" aria-label="NeuroCheck — home">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" fill="none">
+                        <path d="M4 22 L10 14 L15 18 L21 7 L28 20" stroke="#FAFAF7" stroke-width="2.8"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </span>
+                NeuroCheck
             </a>
-            <div class="header-actions">
-                <div class="user-badge">
+
+            <div class="top-actions">
+                <button type="button" class="icon-btn" id="themeToggle" aria-label="Toggle colour theme">
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                        stroke-linecap="round">
+                        <circle cx="12" cy="12" r="4" />
+                        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+                    </svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+                    </svg>
+                </button>
+                <span class="user-chip">
                     <span class="avatar" id="avatarLetter">U</span>
-                    <span id="userDisplay">User</span>
-                </div>
-                <a href="login" class="btn-logout">Log out</a>
+                    <span class="name" id="userDisplay">…</span>
+                </span>
+                <a href="login" class="btn btn-ghost btn-sm" id="logoutBtn">Log out</a>
             </div>
         </div>
+    </header>
 
-        <!-- Dashboard -->
-        <div class="card">
-            <h2>
-                <span class="wave">👋</span>
-                Hello, <span id="dashUsername">User</span>!
-            </h2>
-            <p class="sub">
-                <span class="dot"></span>
-                Your dashboard
-            </p>
+    <main class="wrap">
 
-            <div class="grid-2">
-                <div class="stat-box">
-                    <div class="label"><span class="icon">🎯</span> Attempts left</div>
-                    <div class="value" id="dashAttempts">5</div>
+        <!-- ═══════════ OVERVIEW ═══════════ -->
+        <section class="card">
+            <div class="card-head">
+                <div>
+                    <h1 class="hello">Hello, <span id="dashUsername">…</span></h1>
+                    <p class="hello-sub"><span class="dot" aria-hidden="true"></span><span id="planLine">Your dashboard</span></p>
                 </div>
-                <div class="stat-box">
-                    <div class="label"><span class="icon">⭐</span> Subscription</div>
-                    <div class="value" id="dashSubscription">None</div>
+            </div>
+
+            <div class="stat-row">
+                <div class="stat">
+                    <span class="k">Runs left</span>
+                    <span class="v" id="dashAttempts">—</span>
                 </div>
-                <div class="stat-box">
-                    <div class="label"><span class="icon">📜</span> History entries</div>
-                    <div class="value" id="dashHistoryCount">0</div>
+                <div class="stat">
+                    <span class="k">Plan</span>
+                    <span class="v" id="dashSubscription">—</span>
                 </div>
-                <div class="stat-box">
-                    <div class="label"><span class="icon">💬</span> Consultations</div>
-                    <div class="value" id="dashConsult">❌</div>
+                <div class="stat">
+                    <span class="k">Weeks recorded</span>
+                    <span class="v" id="dashHistoryCount">0</span>
+                </div>
+                <div class="stat">
+                    <span class="k">Consultation</span>
+                    <span class="v ok" id="dashConsult">Available</span>
                 </div>
             </div>
 
             <div class="actions">
-                <button class="btn btn-primary" id="dashStartMonitor">🧠 Start monitoring</button>
-                <button class="btn btn-outline" id="dashShowHistory">📜 History</button>
-                <button class="btn btn-success" id="dashConsultBtn">💬 Consultation</button>
-                <button class="btn btn-ai" id="dashAiBtn">🤖 AI Assistant</button>
+                <button class="btn btn-primary" id="dashStartMonitor">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 17l5-6 4 3 5-9 4 7" />
+                    </svg>
+                    <span>New 7-day run</span>
+                </button>
+                <button class="btn btn-ghost" id="dashShowHistory">History</button>
+                <button class="btn btn-ghost" id="dashConsultBtn">Consultation</button>
+                <button class="btn btn-ghost" id="dashAiBtn">AI assistant</button>
             </div>
 
-            <!-- History container -->
-            <div class="history-container" id="dashHistoryContainer"></div>
+            <!-- ── input panel ── -->
+            <div class="panel" id="monitorPanel" style="display:none;">
+                <div class="card-head">
+                    <h2>Enter one anxiety score per day</h2>
+                    <span class="micro">Scale 0 – 10</span>
+                </div>
+                <p class="small" style="max-width:76ch;">Days 1–6 build your baseline. Day 7 is held back and never
+                    enters the model — it is the point the forecast gets tested against.</p>
 
-            <!-- Monitor container -->
-            <div id="dashMonitorContainer" style="display:none; margin-top:18px;">
-                <p style="font-weight:500; margin-bottom:4px;">Enter anxiety level for each day (0–10):</p>
-                <div class="day-inputs" id="dayInputs"></div>
-                <button class="btn btn-primary" id="computeResultsBtn">📊 Get results</button>
-                <div class="result-box" id="monitorResultBox"></div>
-                <div class="error-msg" id="monitorError"></div>
+                <div class="day-grid" id="dayInputs"></div>
+
+                <p class="hint"><span class="b">i</span><span>Enter what you actually felt, not what you think the model
+                        expects. A baseline that reflects an ordinary week is what makes day seven meaningful.</span></p>
+
+                <div class="actions">
+                    <button class="btn btn-primary" id="computeBtn">Compute</button>
+                    <button class="btn btn-ghost" id="fillExampleBtn">Load the paper's example</button>
+                    <button class="btn btn-ghost" id="cancelMonitorBtn">Cancel</button>
+                </div>
+                <div class="error" id="monitorError" role="alert"></div>
             </div>
-        </div>
 
-        <!-- ===== КАРТОЧКА С ГРАФИКОМ ===== -->
-        <div class="card" id="chartCard">
-            <h2 style="font-size:20px; margin-bottom:0;">📈 Your weekly trend</h2>
-            <p class="sub" style="margin-bottom:14px;">Days 1–6 form the baseline; day 7 is held out and tested against it</p>
-            <div class="signal-card">
-                <div class="signal-head">
-                    <span class="signal-title">Weekly signal → baseline vs held-out day</span>
-                    <button class="signal-replay" id="dashReplayBtn">Replay</button>
+            <!-- ── report ── -->
+            <div class="report" id="report">
+                <div class="verdict" id="verdict">
+                    <span class="flag" id="verdictFlag">—</span>
+                    <div>
+                        <b id="verdictTitle">—</b>
+                        <p id="verdictText">—</p>
+                    </div>
                 </div>
-                <div class="signal-caption" id="dashCaption">No data yet — start monitoring to see your trend.</div>
-                <svg viewBox="0 0 560 190" class="signal-svg" id="dashSignalSvg"></svg>
-                <div class="signal-readout">
-                    <span class="signal-day-label" id="dashDayLabel">No data</span>
-                    <span class="signal-state-chip" id="dashStateChip">—</span>
+
+                <div class="fig-wrap">
+                    <div class="fig-head">
+                        <span class="t">Your week — baseline, prediction interval and the held-out day</span>
+                        <button class="btn btn-ghost btn-sm" id="replayBtn">Replay</button>
+                    </div>
+                    <svg class="fig-svg" id="figSvg" viewBox="0 0 560 250" role="img"
+                        aria-label="Seven daily scores with a 95% prediction interval and an AR(1) forecast for day seven"></svg>
+                    <div class="fig-legend">
+                        <span class="lg"><i style="background:var(--ink)"></i>Days 1–6 (baseline)</span>
+                        <span class="lg"><i style="background:rgb(var(--accent-glow)/.45)"></i>95% prediction interval</span>
+                        <span class="lg"><i class="dotm" style="background:var(--accent)"></i>AR(1) forecast</span>
+                        <span class="lg"><i class="dotm" id="lgDay7" style="background:var(--alert)"></i>Day 7 (held out)</span>
+                    </div>
                 </div>
-                <div class="belief-bars">
-                    <div class="belief-row"><span class="label">Normal</span><div class="belief-track"><div class="belief-fill" id="dashBarNormal" style="background:var(--state-normal)"></div></div><span class="pct" id="dashPctNormal">0%</span></div>
-                    <div class="belief-row"><span class="label">Anxious</span><div class="belief-track"><div class="belief-fill" id="dashBarAnxious" style="background:var(--state-anxious)"></div></div><span class="pct" id="dashPctAnxious">0%</span></div>
-                    <div class="belief-row"><span class="label">Crisis</span><div class="belief-track"><div class="belief-fill" id="dashBarCrisis" style="background:var(--state-crisis)"></div></div><span class="pct" id="dashPctCrisis">0%</span></div>
+
+                <div class="steps" id="steps"></div>
+
+                <div class="caveat">
+                    This is a screening signal from a research prototype, not a diagnosis. A flag means the week is
+                    worth a conversation with a specialist — nothing more. Se = 0.85 and Sp = 0.70 are scenario
+                    parameters taken from the study, not values measured against a clinical reference.
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Modal для истории -->
-    <div class="modal-overlay" id="historyDetailModal">
+            <!-- ── history ── -->
+            <div class="history" id="historyPanel">
+                <div class="card-head" style="margin-top:var(--gap-s);">
+                    <h2>Previous runs</h2>
+                </div>
+                <div id="historyList"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ═══════════ MODAL ═══════════ -->
+    <div class="modal" id="histModal" role="dialog" aria-modal="true" aria-labelledby="histModalTitle">
         <div class="modal-box">
-            <button class="close" id="closeHistoryModal">&times;</button>
-            <h2>📄 History details</h2>
-            <p class="sub" id="historyDetailDate"></p>
-            <pre id="historyDetailContent"></pre>
+            <button class="icon-btn modal-close" id="histModalClose" aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+            </button>
+            <h2 id="histModalTitle">Run details</h2>
+            <p class="small mono" id="histModalDate"></p>
+            <div id="histModalBody"></div>
         </div>
     </div>
 
-    <!-- ===== ПОДКЛЮЧАЕМ FIREBASE (compat) ===== -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <script>
-        // ================================================================
-        //  1.  КОНФИГ FIREBASE (твой, тот же, что в админке и логине)
-        // ================================================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyDJrLi9Z5u8UYN4vnGTyCwJGPTTtAeiLZw",
-            authDomain: "neurocheck-db.firebaseapp.com",
-            databaseURL: "https://neurocheck-db-default-rtdb.firebaseio.com",
-            projectId: "neurocheck-db",
-            storageBucket: "neurocheck-db.firebasestorage.app",
-            messagingSenderId: "234672274220",
-            appId: "1:234672274220:web:e111c390f79779cf1aca89",
-            measurementId: "G-7E6MM9TKLP"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        (function () {
+            'use strict';
 
-        // ================================================================
-        //  2.  КОНСТАНТЫ И СЕССИЯ
-        // ================================================================
-        const SESSION_KEY = 'ocd_session';
-        const USERS_REF = 'users';
+            const $ = id => document.getElementById(id);
+            const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+            const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
 
-        // ---------- Firebase-функции (заменяют localStorage) ----------
-        async function getUserData(username) {
-            const snapshot = await db.ref(`${USERS_REF}/${username}`).once('value');
-            return snapshot.val();
-        }
+            /* ============================================================
+               FIREBASE
+               ============================================================ */
+            const firebaseConfig = {
+                apiKey: "AIzaSyDJrLi9Z5u8UYN4vnGTyCwJGPTTtAeiLZw",
+                authDomain: "neurocheck-db.firebaseapp.com",
+                databaseURL: "https://neurocheck-db-default-rtdb.firebaseio.com",
+                projectId: "neurocheck-db",
+                storageBucket: "neurocheck-db.firebasestorage.app",
+                messagingSenderId: "234672274220",
+                appId: "1:234672274220:web:e111c390f79779cf1aca89",
+                measurementId: "G-7E6MM9TKLP"
+            };
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.database();
 
-        async function updateUserData(username, data) {
-            await db.ref(`${USERS_REF}/${username}`).update(data);
-        }
+            const SESSION_KEY = 'ocd_session';
+            const USERS_REF = 'users';
+            const THEME_KEY = 'nc-theme';
 
-        // ---------- Сессия ----------
-        function getSession() { return localStorage.getItem(SESSION_KEY) || null; }
-        function clearSession() { localStorage.removeItem(SESSION_KEY); }
+            const getUserData = async u => (await db.ref(USERS_REF + '/' + u).once('value')).val();
+            const updateUserData = (u, d) => db.ref(USERS_REF + '/' + u).update(d);
+            const getSession = () => localStorage.getItem(SESSION_KEY);
+            const clearSession = () => localStorage.removeItem(SESSION_KEY);
 
-        // ---------- Проверка ----------
-        let currentUser = getSession();
-        if (!currentUser) {
-            window.location.href = 'login';
-        }
+            let currentUser = getSession();
+            if (!currentUser) { window.location.href = 'login'; return; }
+            let userData = null;
 
-        // Глобальная переменная для данных пользователя
-        let userData = null;
-
-        // ================================================================
-        //  3.  ВСЯ ЛОГИКА ДАШБОРДА (БЕЗ ИЗМЕНЕНИЙ, КРОМЕ async/await)
-        // ================================================================
-        function getAttemptsLeft(u) {
-            if (u.subscription === 'premium') return Infinity;
-            if (u.subscription === 'basic') {
-                const total = 2 + 5;
-                return Math.max(0, total - u.attemptsUsed);
-            }
-            return Math.max(0, 5 - u.attemptsUsed);
-        }
-
-        // ===== ГРАФИК =====
-        const STATE_COLOR = { Normal: '#2FA88E', Anxious: '#C97A1F', Crisis: '#B84438' };
-        const STATE_TINT = { Normal: '#1e4038', Anxious: '#4a3016', Crisis: '#43201c' };
-
-        const svg = document.getElementById('dashSignalSvg');
-        const W = 560,
-            H = 190,
-            PAD = 26;
-
-        let lastChartPoints = [];
-        let lastChartLabels = [];
-        let animationTimer = null;
-        let isAnimating = false;
-
-        function xFor(i, total) {
-            if (total <= 1) return PAD + (W - PAD * 2) / 2;
-            return PAD + i * ((W - PAD * 2) / (total - 1));
-        }
-
-        function yFor(signal) {
-            const clamped = Math.min(10, Math.max(0, signal));
-            return H - PAD - ((clamped - 0) / 10) * (H - PAD * 2 - 20);
-        }
-
-        function drawChartPartial(dataPoints, dayLabels, count) {
-            const ns = 'http://www.w3.org/2000/svg';
-            svg.innerHTML = '';
-            for (let i = 0; i < 3; i++) {
-                const gy = PAD + i * ((H - PAD * 2) / 2);
-                const line = document.createElementNS(ns, 'line');
-                line.setAttribute('x1', PAD);
-                line.setAttribute('x2', W - PAD);
-                line.setAttribute('y1', gy);
-                line.setAttribute('y2', gy);
-                line.setAttribute('stroke', '#262A3C');
-                line.setAttribute('stroke-width', '1');
-                svg.appendChild(line);
-            }
-            const total = dataPoints.length;
-            const showCount = Math.min(count, total);
-            if (showCount === 0) return;
-            const path = document.createElementNS(ns, 'path');
-            path.setAttribute('id', 'dashSignalPath');
-            path.setAttribute('fill', 'none');
-            path.setAttribute('stroke', '#5A5E86');
-            path.setAttribute('stroke-width', '2');
-            svg.appendChild(path);
-            let pts = [];
-            for (let i = 0; i < showCount; i++) {
-                const val = dataPoints[i];
-                const cx = xFor(i, total);
-                const cy = yFor(val);
-                pts.push(cx + ',' + cy);
-                const dot = document.createElementNS(ns, 'circle');
-                dot.setAttribute('cx', cx);
-                dot.setAttribute('cy', cy);
-                dot.setAttribute('r', 5);
-                let color = '#5A5E86';
-                if (i === showCount - 1) {
-                    if (val >= 7) color = STATE_COLOR.Crisis;
-                    else if (val >= 5) color = STATE_COLOR.Anxious;
-                    else color = STATE_COLOR.Normal;
-                }
-                dot.setAttribute('fill', color);
-                dot.setAttribute('opacity', 1);
-                svg.appendChild(dot);
-                const label = document.createElementNS(ns, 'text');
-                label.setAttribute('x', cx);
-                label.setAttribute('y', H - 4);
-                label.setAttribute('text-anchor', 'middle');
-                label.setAttribute('font-family', 'IBM Plex Mono');
-                label.setAttribute('font-size', '10');
-                label.setAttribute('fill', '#6C6F86');
-                label.textContent = dayLabels && dayLabels[i] ? dayLabels[i] : (i + 1);
-                svg.appendChild(label);
-            }
-            if (pts.length > 0) path.setAttribute('d', 'M' + pts.join(' L'));
-            if (showCount > 0) {
-                const lastVal = dataPoints[showCount - 1];
-                let stateName = 'Normal';
-                if (lastVal >= 7) stateName = 'Crisis';
-                else if (lastVal >= 5) stateName = 'Anxious';
-                document.getElementById('dashStateChip').textContent = stateName;
-                document.getElementById('dashStateChip').style.background = STATE_TINT[stateName] || '#262A3C';
-                document.getElementById('dashStateChip').style.color = STATE_COLOR[stateName] || '#B9B8C8';
-                document.getElementById('dashDayLabel').textContent = `Day ${showCount} of 7` + (showCount < 7 ? ` (${showCount} entries)` : '');
-            } else {
-                document.getElementById('dashStateChip').textContent = '—';
-                document.getElementById('dashStateChip').style.background = '#262A3C';
-                document.getElementById('dashStateChip').style.color = '#B9B8C8';
-                document.getElementById('dashDayLabel').textContent = 'No data';
-            }
-            if (showCount === total && total > 0) {
-                const mean = dataPoints.reduce((a, b) => a + b, 0) / total;
-                const std = Math.sqrt(dataPoints.reduce((s, x) => s + (x - mean) ** 2, 0) / total);
-                const z = 1.96;
-                const ciLow = mean - z * std / Math.sqrt(total);
-                const ciHigh = mean + z * std / Math.sqrt(total);
-                const last = dataPoints[total - 1];
-                let normalPct = 70,
-                    anxiousPct = 20,
-                    crisisPct = 10;
-                if (last < ciLow) { normalPct = 85;
-                    anxiousPct = 12;
-                    crisisPct = 3; } else if (last > ciHigh) { normalPct = 10;
-                    anxiousPct = 30;
-                    crisisPct = 60; } else { normalPct = 60;
-                    anxiousPct = 30;
-                    crisisPct = 10; }
-                document.getElementById('dashBarNormal').style.width = normalPct + '%';
-                document.getElementById('dashBarAnxious').style.width = anxiousPct + '%';
-                document.getElementById('dashBarCrisis').style.width = crisisPct + '%';
-                document.getElementById('dashPctNormal').textContent = normalPct + '%';
-                document.getElementById('dashPctAnxious').textContent = anxiousPct + '%';
-                document.getElementById('dashPctCrisis').textContent = crisisPct + '%';
-            }
-        }
-
-        function animateChart(dataPoints, dayLabels) {
-            if (animationTimer) {
-                clearInterval(animationTimer);
-                animationTimer = null;
-            }
-            isAnimating = false;
-            if (!dataPoints || dataPoints.length === 0) {
-                document.getElementById('dashCaption').textContent = 'No data yet — start monitoring to see your trend.';
-                drawChartPartial([0], ['No data'], 1);
-                lastChartPoints = [];
-                lastChartLabels = [];
-                return;
-            }
-            lastChartPoints = dataPoints.slice();
-            lastChartLabels = dayLabels ? dayLabels.slice() : dataPoints.map((_, i) => 'D' + (i + 1));
-            document.getElementById('dashCaption').textContent = 'Days 1\u20136 form the baseline; day 7 is held out and tested against it.';
-            const total = dataPoints.length;
-            let current = 0;
-
-            function step() {
-                if (current >= total) {
-                    clearInterval(animationTimer);
-                    animationTimer = null;
-                    isAnimating = false;
-                    return;
-                }
-                current++;
-                drawChartPartial(dataPoints, dayLabels, current);
-            }
-            current = 1;
-            drawChartPartial(dataPoints, dayLabels, 1);
-            if (total > 1) {
-                isAnimating = true;
-                animationTimer = setInterval(step, 500);
-            } else {
-                isAnimating = false;
-                const mean = dataPoints[0];
-                const std = 0;
-                const z = 1.96;
-                const ciLow = mean - z * std / Math.sqrt(1);
-                const ciHigh = mean + z * std / Math.sqrt(1);
-                const last = dataPoints[0];
-                let normalPct = 70,
-                    anxiousPct = 20,
-                    crisisPct = 10;
-                if (last < ciLow) { normalPct = 85;
-                    anxiousPct = 12;
-                    crisisPct = 3; } else if (last > ciHigh) { normalPct = 10;
-                    anxiousPct = 30;
-                    crisisPct = 60; } else { normalPct = 60;
-                    anxiousPct = 30;
-                    crisisPct = 10; }
-                document.getElementById('dashBarNormal').style.width = normalPct + '%';
-                document.getElementById('dashBarAnxious').style.width = anxiousPct + '%';
-                document.getElementById('dashBarCrisis').style.width = crisisPct + '%';
-                document.getElementById('dashPctNormal').textContent = normalPct + '%';
-                document.getElementById('dashPctAnxious').textContent = anxiousPct + '%';
-                document.getElementById('dashPctCrisis').textContent = crisisPct + '%';
-            }
-        }
-
-        function updateChartFromHistory() {
-            if (!userData || !userData.history || userData.history.length === 0) {
-                animateChart([], []);
-                return;
-            }
-            const entries = userData.history.slice(-7);
-            let allValues = [];
-            let dayLabels = [];
-            for (let i = entries.length - 1; i >= 0; i--) {
-                const entry = entries[i];
-                if (entry.days && Array.isArray(entry.days)) {
-                    allValues = entry.days;
-                    dayLabels = entry.days.map((_, i) => 'D' + (i + 1));
-                    break;
-                } else {
-                    const match = entry.result.match(/Values: ([\d., ]+)/);
-                    if (match) {
-                        const nums = match[1].split(',').map(s => parseFloat(s.trim()));
-                        if (nums.length > 0) {
-                            allValues = nums;
-                            dayLabels = nums.map((_, i) => 'D' + (i + 1));
-                            break;
-                        }
-                    }
-                }
-            }
-            if (allValues.length > 0) animateChart(allValues, dayLabels);
-            else animateChart([], []);
-        }
-
-        document.getElementById('dashReplayBtn').addEventListener('click', function() {
-            if (lastChartPoints.length > 0) animateChart(lastChartPoints, lastChartLabels);
-            else updateChartFromHistory();
-        });
-
-        // ===== ОСНОВНАЯ ФУНКЦИЯ ОБНОВЛЕНИЯ (async) =====
-        async function updateDashboard() {
-            if (!currentUser) return;
-            userData = await getUserData(currentUser);
-            if (!userData) {
-                clearSession();
-                window.location.href = 'login';
-                return;
-            }
-
-            const displayName = currentUser.charAt(0).toUpperCase() + currentUser.slice(1);
-            document.getElementById('dashUsername').textContent = displayName;
-            document.getElementById('userDisplay').textContent = displayName;
-            document.getElementById('avatarLetter').textContent = currentUser.charAt(0).toUpperCase();
-
-            const attempts = getAttemptsLeft(userData);
-            const attemptsEl = document.getElementById('dashAttempts');
-            if (attempts === Infinity) {
-                attemptsEl.textContent = '∞';
-                attemptsEl.classList.add('infinity');
-            } else {
-                attemptsEl.textContent = attempts;
-                attemptsEl.classList.remove('infinity');
-            }
-
-            const subEl = document.getElementById('dashSubscription');
-            if (userData.subscription) {
-                subEl.textContent = userData.subscription.toUpperCase();
-                subEl.style.background = 'var(--gradient-primary)';
-                subEl.style.webkitBackgroundClip = 'text';
-                subEl.style.webkitTextFillColor = 'transparent';
-                subEl.style.backgroundClip = 'text';
-            } else {
-                subEl.textContent = 'None';
-                subEl.style.background = 'none';
-                subEl.style.webkitTextFillColor = 'var(--ink-soft)';
-            }
-
-            document.getElementById('dashHistoryCount').textContent = (userData.history || []).length;
-
-            // === ИЗМЕНЕНИЕ: консультация всегда доступна ===
-            const consultEl = document.getElementById('dashConsult');
-            consultEl.innerHTML = '<span class="status-dot green"></span> Available';
-            consultEl.style.webkitTextFillColor = 'var(--state-normal)';
-
-            const startBtn = document.getElementById('dashStartMonitor');
-            if (attempts <= 0) {
-                startBtn.textContent = '🔒 Subscribe';
-                startBtn.onclick = () => { window.location.href = 'payments'; };
-                startBtn.className = 'btn btn-danger';
-            } else {
-                startBtn.textContent = '🧠 Start monitoring';
-                startBtn.onclick = startMonitor;
-                startBtn.className = 'btn btn-primary';
-            }
-
-            // === ИЗМЕНЕНИЕ: AI-кнопка всегда видна ===
-            const aiBtn = document.getElementById('dashAiBtn');
-            aiBtn.style.display = 'inline-flex';
-            aiBtn.onclick = () => { window.location.href = 'ai'; };
-
-            document.getElementById('dashHistoryContainer').style.display = 'none';
-            document.getElementById('dashMonitorContainer').style.display = 'none';
-
-            updateChartFromHistory();
-        }
-
-        // ===== MONITORING =====
-        function startMonitor() {
-            const container = document.getElementById('dayInputs');
-            container.innerHTML = '';
-            for (let i = 1; i <= 7; i++) {
-                const label = document.createElement('label');
-                label.innerHTML = `<span class="day-label">Day ${i}</span><input type="number" min="0" max="10" step="0.1" id="day${i}" value="5" />`;
-                container.appendChild(label);
-            }
-            document.getElementById('dashMonitorContainer').style.display = 'block';
-            document.getElementById('monitorResultBox').style.display = 'none';
-            document.getElementById('monitorError').style.display = 'none';
-            document.getElementById('dashHistoryContainer').style.display = 'none';
-        }
-
-        document.getElementById('computeResultsBtn').addEventListener('click', async function() {
-            const days = [];
-            for (let i = 1; i <= 7; i++) {
-                const val = parseFloat(document.getElementById('day' + i).value);
-                if (isNaN(val) || val < 0 || val > 10) {
-                    document.getElementById('monitorError').textContent = 'Please enter numbers between 0 and 10.';
-                    document.getElementById('monitorError').style.display = 'block';
-                    return;
-                }
-                days.push(val);
-            }
-            // ── The procedure from the study ────────────────────────────────
-            // Days 1-6 are the baseline; day 7 is held out and never enters the
-            // fit. Two independent forecasts are built from the baseline and the
-            // held-out day is then compared against both.
-            const baseline = days.slice(0, 6);
-            const held = days[6];
-            const nB = baseline.length;                       // 6
-            const mean = baseline.reduce((a, b) => a + b, 0) / nB;
-            const variance = baseline.reduce((s, x) => s + (x - mean) ** 2, 0) / (nB - 1);
-            const stdDev = Math.sqrt(variance);
-
-            // Student prediction interval for ONE new observation (df = 5).
-            // Note the sqrt(1 + 1/n): a confidence interval for the mean would
-            // be far too narrow to judge a single new day against.
-            const T_CRIT = 2.571;
-            const piMargin = T_CRIT * stdDev * Math.sqrt(1 + 1 / nB);
-            const piLow = mean - piMargin;
-            const piHigh = mean + piMargin;
-
-            // AR(1) fitted by least squares on the baseline pairs (Y_t, Y_t+1).
-            const xs = baseline.slice(0, -1), ys = baseline.slice(1);
-            const mx = xs.reduce((a, b) => a + b, 0) / xs.length;
-            const my = ys.reduce((a, b) => a + b, 0) / ys.length;
-            let sxy = 0, sxx = 0;
-            for (let i = 0; i < xs.length; i++) {
-                sxy += (xs[i] - mx) * (ys[i] - my);
-                sxx += (xs[i] - mx) ** 2;
-            }
-            const beta = sxx === 0 ? 0 : sxy / sxx;
-            const alpha = my - beta * mx;
-            const forecast = alpha + beta * baseline[nB - 1];
-
-            // Dynamic limit, with 1 as a floor so the band cannot vanish when the
-            // forecast sits near zero.
-            const deviation = Math.abs(held - forecast);
-            const limit = 0.25 * Math.max(Math.abs(forecast), 1);
-
-            const outsidePI = held < piLow || held > piHigh;
-            const overLimit = deviation > limit;
-            const flagged = outsidePI || overLimit;
-
-            // Bayes with the study's scenario parameters. Reported only when the
-            // week is flagged, because that is the only case the number answers.
-            const SE = 0.85, SP = 0.70, PRIOR = 0.02;
-            const posterior = (SE * PRIOR) / (SE * PRIOR + (1 - SP) * (1 - PRIOR));
-
-            // A screening signal, never a diagnosis.
-            const signal = flagged
-                ? 'Deviation flagged — worth a conversation with a specialist'
-                : 'No deviation from this student\u2019s own baseline';
-
-            const resultText =
-                `7-day screening signal\n` +
-                `\nBaseline (days 1-6)\n` +
-                `  mean ${mean.toFixed(3)}   S ${stdDev.toFixed(3)}\n` +
-                `  95% prediction interval  [${piLow.toFixed(3)} ; ${piHigh.toFixed(3)}]\n` +
-                `  AR(1)   alpha ${alpha.toFixed(3)}   beta ${beta.toFixed(3)}\n` +
-                `\nHeld-out day 7\n` +
-                `  forecast ${forecast.toFixed(3)}   actual ${held.toFixed(1)}\n` +
-                `  inside prediction interval: ${outsidePI ? 'no' : 'yes'}\n` +
-                `  deviation ${deviation.toFixed(3)}  vs limit ${limit.toFixed(3)}  ->  ${overLimit ? 'exceeded' : 'within'}\n` +
-                `\nSignal: ${signal}\n` +
-                (flagged
-                    ? `Posterior probability given a positive screen: ${(posterior * 100).toFixed(2)}%\n` +
-                      `  (Se 0.85, Sp 0.70, base rate 2% — scenario parameters, not measured values)\n`
-                    : '') +
-                `\nThis is a screening signal from a research prototype. It is not a\n` +
-                `diagnosis and does not replace assessment by a specialist.\n` +
-                `\nValues: ${days.map(d => d.toFixed(1)).join(', ')}`;
-
-            const resultBox = document.getElementById('monitorResultBox');
-            resultBox.textContent = resultText;
-            resultBox.style.display = 'block';
-            document.getElementById('monitorError').style.display = 'none';
-
-            if (userData) {
-                userData.attemptsUsed = (userData.attemptsUsed || 0) + 1;
-                if (!userData.history) userData.history = [];
-                userData.history.push({ date: new Date().toLocaleString(), result: resultText, days: days });
-                await updateUserData(currentUser, userData);
-                await updateDashboard();
-                if (getAttemptsLeft(userData) <= 0) {
-                    setTimeout(() => {
-                        alert('You have used all free attempts. Please subscribe.');
-                        window.location.href = 'payments';
-                    }, 500);
-                }
-            }
-            this.disabled = true;
-            setTimeout(() => { this.disabled = false; }, 1000);
-        });
-
-        // ===== HISTORY =====
-        function renderHistory() {
-            const container = document.getElementById('dashHistoryContainer');
-            if (!userData || !userData.history || userData.history.length === 0) {
-                container.innerHTML = '<div class="history-empty">📭 No history yet.</div>';
-                return;
-            }
-            container.innerHTML = userData.history.map((entry, idx) => {
-                const preview = entry.result.split('\n').slice(0, 2).join(' ') + '…';
-                return `<div class="history-item" data-index="${idx}">
-              <span class="badge-idx">#${idx+1}</span>
-              <span class="date">${entry.date}</span>
-              <span class="preview">${preview}</span>
-            </div>`;
-            }).join('');
-
-            container.querySelectorAll('.history-item').forEach(el => {
-                el.addEventListener('click', function() {
-                    const idx = parseInt(this.dataset.index);
-                    const entry = userData.history[idx];
-                    if (!entry) return;
-                    document.getElementById('historyDetailDate').textContent = entry.date;
-                    document.getElementById('historyDetailContent').textContent = entry.result;
-                    document.getElementById('historyDetailModal').classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                });
+            /* ============================================================
+               THEME
+               ============================================================ */
+            (function initTheme() {
+                let saved = null;
+                try { saved = localStorage.getItem(THEME_KEY); } catch (e) { }
+                const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+            })();
+            $('themeToggle').addEventListener('click', function () {
+                const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                try { localStorage.setItem(THEME_KEY, next); } catch (e) { }
+                if (lastResult) drawFigure(lastResult, 1);
             });
-        }
 
-        document.getElementById('dashShowHistory').addEventListener('click', function() {
-            const container = document.getElementById('dashHistoryContainer');
-            if (container.style.display === 'block') {
-                container.style.display = 'none';
-                return;
+            $('logoutBtn').addEventListener('click', clearSession);
+
+            /* ============================================================
+               DISPLAY NAME
+               Firebase keys cannot contain '.', so login.html encodes the
+               address as  name@host.tld -> name_host,tld  and that key was
+               being shown to the user verbatim. Prefer the real profile name
+               the Google sign-in returns; fall back to the address' local
+               part, decoding the key only as a last resort for accounts
+               created before the name was stored.
+               ============================================================ */
+            function decodeEmailKey(key) {
+                const at = key.lastIndexOf('_');
+                if (at < 0) return key;
+                return key.slice(0, at) + '@' + key.slice(at + 1).replace(/,/g, '.');
             }
-            renderHistory();
-            container.style.display = 'block';
-            document.getElementById('dashMonitorContainer').style.display = 'none';
-        });
 
-        document.getElementById('closeHistoryModal').addEventListener('click', function() {
-            document.getElementById('historyDetailModal').classList.remove('active');
-            document.body.style.overflow = '';
-        });
-        document.getElementById('historyDetailModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
+            function resolveDisplayName(u, key) {
+                const pick = (u && (u.name || u.givenName)) || '';
+                if (pick.trim()) return pick.trim();
+                const email = (u && u.email) || (key.includes('_') ? decodeEmailKey(key) : '');
+                if (email.includes('@')) {
+                    const local = email.split('@')[0].replace(/[._-]+/g, ' ').trim();
+                    if (local) return local.charAt(0).toUpperCase() + local.slice(1);
+                }
+                return key.charAt(0).toUpperCase() + key.slice(1);
+            }
+
+            /* ============================================================
+               STATISTICS — the procedure from the study
+               ============================================================ */
+            const T_CRIT = 2.571;    // t(0.025, df = 5)
+            const SE = 0.85, SP = 0.70, PRIOR = 0.02;   // scenario parameters
+            const LIMIT_FRAC = 0.25;
+
+            function analyse(days) {
+                const baseline = days.slice(0, 6);
+                const held = days[6];
+                const n = baseline.length;
+
+                const mean = baseline.reduce((a, b) => a + b, 0) / n;
+                const ss = baseline.reduce((s, x) => s + (x - mean) ** 2, 0);
+                const variance = ss / (n - 1);
+                const sd = Math.sqrt(variance);
+
+                // Student prediction interval for ONE new observation.
+                // The sqrt(1 + 1/n) term is what separates this from a
+                // confidence interval for the mean.
+                const spread = Math.sqrt(1 + 1 / n);
+                const margin = T_CRIT * sd * spread;
+                const piLow = mean - margin;
+                const piHigh = mean + margin;
+
+                // AR(1) by least squares on the consecutive baseline pairs.
+                const xs = baseline.slice(0, -1), ys = baseline.slice(1);
+                const mx = xs.reduce((a, b) => a + b, 0) / xs.length;
+                const my = ys.reduce((a, b) => a + b, 0) / ys.length;
+                let sxy = 0, sxx = 0;
+                for (let i = 0; i < xs.length; i++) {
+                    sxy += (xs[i] - mx) * (ys[i] - my);
+                    sxx += (xs[i] - mx) ** 2;
+                }
+                const beta = sxx === 0 ? 0 : sxy / sxx;
+                const alpha = my - beta * mx;
+                const forecast = alpha + beta * baseline[n - 1];
+
+                const deviation = Math.abs(held - forecast);
+                const limit = LIMIT_FRAC * Math.max(Math.abs(forecast), 1);
+
+                const outsidePI = held < piLow || held > piHigh;
+                const overLimit = deviation > limit;
+                const flagged = outsidePI || overLimit;
+
+                const posterior = (SE * PRIOR) / (SE * PRIOR + (1 - SP) * (1 - PRIOR));
+
+                return {
+                    days, baseline, held, n, mean, ss, variance, sd, spread, margin,
+                    piLow, piHigh, mx, my, sxy, sxx, alpha, beta, forecast,
+                    deviation, limit, outsidePI, overLimit, flagged, posterior
+                };
+            }
+
+            const f = (v, d) => Number(v).toFixed(d === undefined ? 3 : d);
+
+            /* ============================================================
+               FIGURE — same visual language as the landing page, but drawn
+               from whatever the user actually entered.
+               ============================================================ */
+            const NS = 'http://www.w3.org/2000/svg';
+            const VW = 560, VH = 250, PL = 42, PR = 60, PT = 18, PB = 34;
+            const STEP = (VW - PL - PR) / 6;
+            const figSvg = $('figSvg');
+
+            let lastResult = null, figNodes = null, figRAF = null, yMax = 12;
+
+            const X = i => PL + i * STEP;
+            const Y = v => (VH - PB) - (clamp(v, 0, yMax) / yMax) * (VH - PT - PB);
+
+            function mk(tag, attrs) {
+                const el = document.createElementNS(NS, tag);
+                for (const k in attrs) el.setAttribute(k, attrs[k]);
+                return el;
+            }
+
+            function buildFigure(r) {
+                // Scale the axis to the data so a flat week is not squashed
+                // against the floor and an extreme day is not clipped.
+                const span = Math.max(r.piHigh, r.held, ...r.days, 10);
+                yMax = Math.max(4, Math.ceil((span * 1.06) / 4) * 4);
+
+                figSvg.innerHTML = '';
+                const n = {};
+
+                const ticks = 4;
+                for (let i = 0; i <= ticks; i++) {
+                    const v = (yMax / ticks) * i;
+                    figSvg.appendChild(mk('line', {
+                        x1: PL, x2: VW - PR, y1: Y(v), y2: Y(v),
+                        class: 'grid-line', 'stroke-opacity': i === 0 ? '.9' : '.45'
+                    }));
+                    const t = mk('text', { x: PL - 9, y: Y(v) + 3.4, class: 'axis-text', 'text-anchor': 'end' });
+                    t.textContent = Number.isInteger(v) ? v : v.toFixed(1);
+                    figSvg.appendChild(t);
+                }
+
+                const mid = (Y(r.piLow) + Y(r.piHigh)) / 2;
+                n.band = mk('rect', { x: PL, width: VW - PR - PL, y: mid, height: 0, class: 'band' });
+                figSvg.appendChild(n.band);
+
+                n.bandLabel = mk('text', {
+                    x: PL + 8, y: Y(r.piHigh) - 6, class: 'axis-text',
+                    fill: 'var(--accent)', opacity: 0
+                });
+                n.bandLabel.textContent = '95% prediction interval';
+                figSvg.appendChild(n.bandLabel);
+
+                n.path = mk('path', { class: 'series-path', d: '' });
+                figSvg.appendChild(n.path);
+
+                n.fcPath = mk('path', {
+                    class: 'fc-path', opacity: 0,
+                    d: 'M' + X(5) + ' ' + Y(r.baseline[5]) + ' L' + X(6) + ' ' + Y(r.forecast)
+                });
+                figSvg.appendChild(n.fcPath);
+
+                // deviation bracket, drawn only when it means something
+                n.dev = mk('g', { opacity: 0 });
+                n.dev.appendChild(mk('line', {
+                    x1: X(6), x2: X(6), y1: Y(r.forecast), y2: Y(r.held),
+                    stroke: r.flagged ? 'var(--alert)' : 'var(--ok)',
+                    'stroke-width': 2.5, 'stroke-linecap': 'round'
+                }));
+                const devLabel = mk('text', {
+                    x: X(6) - 9, y: (Y(r.forecast) + Y(r.held)) / 2 + 3.4,
+                    class: 'axis-text', 'text-anchor': 'end',
+                    fill: r.flagged ? 'var(--alert)' : 'var(--ok)'
+                });
+                devLabel.textContent = 'D₇ ' + f(r.deviation, 2);
+                n.dev.appendChild(devLabel);
+                figSvg.appendChild(n.dev);
+
+                n.fcDot = mk('circle', { cx: X(6), cy: Y(r.forecast), r: 0, class: 'dot-fc' });
+                figSvg.appendChild(n.fcDot);
+
+                n.dots = r.days.map((v, i) => {
+                    const c = mk('circle', {
+                        cx: X(i), cy: Y(v), r: 0,
+                        class: i === 6 ? (r.flagged ? 'dot-out' : 'dot-in') : 'dot-obs'
+                    });
+                    figSvg.appendChild(c);
+                    return c;
+                });
+
+                r.days.forEach((v, i) => {
+                    const t = mk('text', {
+                        x: X(i), y: VH - 12, class: 'axis-text', 'text-anchor': 'middle'
+                    });
+                    t.textContent = 'D' + (i + 1);
+                    figSvg.appendChild(t);
+                });
+
+                figNodes = n;
+                $('lgDay7').style.background = r.flagged ? 'var(--alert)' : 'var(--ok)';
+            }
+
+            const seg = (p, a, b) => clamp((p - a) / (b - a), 0, 1);
+
+            function drawFigure(r, p) {
+                if (!figNodes) buildFigure(r);
+                const N = figNodes;
+
+                const bp = easeOutCubic(seg(p, 0.10, 0.34));
+                const full = Y(r.piLow) - Y(r.piHigh);
+                const mid = (Y(r.piLow) + Y(r.piHigh)) / 2;
+                N.band.setAttribute('height', Math.max(0, full * bp));
+                N.band.setAttribute('y', mid - (full * bp) / 2);
+                N.bandLabel.setAttribute('opacity', seg(p, 0.26, 0.36));
+
+                const lp = seg(p, 0.30, 0.68) * 5;
+                let d = 'M' + X(0) + ' ' + Y(r.days[0]);
+                for (let i = 1; i <= 5; i++) {
+                    if (lp >= i) {
+                        d += ' L' + X(i) + ' ' + Y(r.days[i]);
+                    } else if (lp > i - 1) {
+                        const t = lp - (i - 1);
+                        d += ' L' + (X(i - 1) + (X(i) - X(i - 1)) * t) + ' ' +
+                            (Y(r.days[i - 1]) + (Y(r.days[i]) - Y(r.days[i - 1])) * t);
+                        break;
+                    } else break;
+                }
+                N.path.setAttribute('d', d);
+
+                for (let i = 0; i <= 5; i++) {
+                    N.dots[i].setAttribute('r', 4.5 * easeOutCubic(clamp(lp - i + 0.35, 0, 1)));
+                }
+
+                const fp = easeOutCubic(seg(p, 0.68, 0.82));
+                N.fcPath.setAttribute('opacity', fp);
+                N.fcDot.setAttribute('r', 4.5 * fp);
+
+                const ap = easeOutCubic(seg(p, 0.82, 0.94));
+                N.dots[6].setAttribute('r', 6.5 * ap);
+                N.dev.setAttribute('opacity', seg(p, 0.90, 1));
+            }
+
+            function playFigure(r) {
+                lastResult = r;
+                figNodes = null;
+                buildFigure(r);
+                if (figRAF) cancelAnimationFrame(figRAF);
+                if (REDUCED) { drawFigure(r, 1); return; }
+                const dur = 2400, t0 = performance.now();
+                (function step(now) {
+                    const p = clamp((now - t0) / dur, 0, 1);
+                    drawFigure(r, p);
+                    if (p < 1) figRAF = requestAnimationFrame(step); else figRAF = null;
+                })(t0);
+            }
+
+            $('replayBtn').addEventListener('click', function () {
+                if (lastResult) playFigure(lastResult);
+            });
+
+            /* ============================================================
+               REPORT — every step written out with the user's own numbers,
+               so the result can be checked by hand against the paper.
+               ============================================================ */
+            // Every formula carries a hand-written plain-text twin. Stripping
+            // LaTeX mechanically produces noise, so if KaTeX is unavailable
+            // (blocked CDN, offline) we show the readable version instead.
+            function tex(el, src, plain) {
+                if (window.katex) {
+                    try { katex.render(src, el, { throwOnError: false, displayMode: false }); return; }
+                    catch (e) { /* fall through */ }
+                }
+                el.className = 'mono';
+                el.style.fontSize = '12.5px';
+                el.textContent = plain || '';
+            }
+
+            function stepEl(num, title, out, outClass, why, maths) {
+                const wrap = document.createElement('div');
+                wrap.className = 'step';
+
+                const head = document.createElement('div');
+                head.className = 'step-head';
+                const n = document.createElement('span');
+                n.className = 'n'; n.textContent = num;
+                const h = document.createElement('h3'); h.textContent = title;
+                const o = document.createElement('span');
+                o.className = 'out' + (outClass ? ' ' + outClass : '');
+                o.textContent = out;
+                head.append(n, h, o);
+                wrap.appendChild(head);
+
+                if (why) {
+                    const p = document.createElement('p');
+                    p.className = 'why'; p.textContent = why;
+                    wrap.appendChild(p);
+                }
+
+                maths.forEach(function (m) {
+                    const box = document.createElement('div');
+                    box.className = 'math';
+                    if (m.label) {
+                        const l = document.createElement('span');
+                        l.className = 'math-label'; l.textContent = m.label;
+                        box.appendChild(l);
+                    }
+                    const body = document.createElement('div');
+                    tex(body, m.tex, m.plain);
+                    box.appendChild(body);
+                    wrap.appendChild(box);
+                });
+                return wrap;
+            }
+
+            function renderReport(r) {
+                const steps = $('steps');
+                steps.innerHTML = '';
+                const b = r.baseline.map(v => f(v, 1)).join(',\; ');
+
+                // 1 — baseline
+                steps.appendChild(stepEl('01', 'Baseline from days 1–6',
+                    'x̄ ' + f(r.mean) + ' · S ' + f(r.sd), '',
+                    'Only the first six days are used. Day 7 is set aside so it can test the forecast rather than help build it.',
+                    [
+                        {
+                            label: 'Sample mean',
+                            tex: '\\bar x=\\frac{1}{n}\\sum_{i=1}^{6}x_i=\\frac{' + f(r.baseline.reduce((a, c) => a + c, 0), 1) + '}{6}=' + f(r.mean),
+                            plain: 'x̄ = (1/6) · Σ xᵢ = ' + f(r.baseline.reduce((a, c) => a + c, 0), 1) + ' / 6 = ' + f(r.mean)
+                        },
+                        {
+                            label: 'Sample standard deviation',
+                            tex: 'S=\\sqrt{\\frac{\\sum (x_i-\\bar x)^2}{n-1}}=\\sqrt{\\frac{' + f(r.ss) + '}{5}}=' + f(r.sd),
+                            plain: 'S = √( Σ(xᵢ − x̄)² / (n−1) ) = √( ' + f(r.ss) + ' / 5 ) = ' + f(r.sd)
+                        },
+                        { label: 'Your baseline', tex: '\\{' + b + '\\}', plain: '{ ' + r.baseline.map(v => f(v, 1)).join(',  ') + ' }' }
+                    ]));
+
+                // 2 — prediction interval
+                steps.appendChild(stepEl('02', '95% prediction interval',
+                    '[' + f(r.piLow) + '; ' + f(r.piHigh) + ']', '',
+                    'A range for one new observation — not for the mean. The extra 1 under the root is what widens it: a single day varies more than an average does.',
+                    [
+                        {
+                            label: 'Formula · t(0.025, df = 5) = 2.571',
+                            tex: '\\bar x \\pm t_{0.025,\\,5}\;S\\sqrt{1+\\tfrac{1}{n}}',
+                            plain: 'x̄ ± t(0.025, 5) · S · √(1 + 1/n)'
+                        },
+                        {
+                            label: 'With your numbers',
+                            tex: f(r.mean) + '\\pm 2.571\\times' + f(r.sd) + '\\times' + f(r.spread) +
+                                '=' + f(r.mean) + '\\pm' + f(r.margin) +
+                                '=[' + f(r.piLow) + ';\\,' + f(r.piHigh) + ']',
+                            plain: f(r.mean) + ' ± 2.571 × ' + f(r.sd) + ' × ' + f(r.spread) +
+                                ' = ' + f(r.mean) + ' ± ' + f(r.margin) +
+                                ' = [' + f(r.piLow) + ';  ' + f(r.piHigh) + ']'
+                        }
+                    ]));
+
+                // 3 — AR(1)
+                steps.appendChild(stepEl('03', 'AR(1) forecast for day 7',
+                    'Ŷ₇ ' + f(r.forecast), '',
+                    'A first-order autoregression fitted to the five consecutive pairs inside your baseline. It carries yesterday forward into a point forecast for today.',
+                    [
+                        {
+                            label: 'Slope',
+                            tex: '\\hat\\beta=\\frac{\\sum (x_t-\\bar x_t)(x_{t+1}-\\bar x_{t+1})}{\\sum (x_t-\\bar x_t)^2}=\\frac{' + f(r.sxy) + '}{' + f(r.sxx) + '}=' + f(r.beta),
+                            plain: 'β = Σ(xₜ − x̄ₜ)(xₜ₊₁ − x̄ₜ₊₁) / Σ(xₜ − x̄ₜ)² = ' + f(r.sxy) + ' / ' + f(r.sxx) + ' = ' + f(r.beta)
+                        },
+                        {
+                            label: 'Intercept',
+                            tex: '\\hat\\alpha=\\bar x_{t+1}-\\hat\\beta\\,\\bar x_t=' + f(r.my) + '-(' + f(r.beta) + ')(' + f(r.mx) + ')=' + f(r.alpha),
+                            plain: 'α = x̄ₜ₊₁ − β · x̄ₜ = ' + f(r.my) + ' − (' + f(r.beta) + ')(' + f(r.mx) + ') = ' + f(r.alpha)
+                        },
+                        {
+                            label: 'Forecast',
+                            tex: '\\hat Y_7=\\hat\\alpha+\\hat\\beta Y_6=' + f(r.alpha) + '+(' + f(r.beta) + ')(' + f(r.baseline[5], 1) + ')=' + f(r.forecast),
+                            plain: 'Ŷ₇ = α + β · Y₆ = ' + f(r.alpha) + ' + (' + f(r.beta) + ')(' + f(r.baseline[5], 1) + ') = ' + f(r.forecast)
+                        }
+                    ]));
+
+                // 4 — the decision
+                steps.appendChild(stepEl('04', 'Testing the held-out day',
+                    'D₇ ' + f(r.deviation) + (r.overLimit ? ' > ' : ' ≤ ') + 'T₇ ' + f(r.limit),
+                    r.overLimit ? 'bad' : 'good',
+                    'Day 7 is compared against both forecasts. The floor of 1 in the limit stops the band from vanishing when the forecast sits near zero.',
+                    [
+                        {
+                            label: 'Deviation from the AR(1) forecast',
+                            tex: 'D_7=|Y_7-\\hat Y_7|=|' + f(r.held, 1) + '-' + f(r.forecast) + '|=' + f(r.deviation),
+                            plain: 'D₇ = |Y₇ − Ŷ₇| = |' + f(r.held, 1) + ' − ' + f(r.forecast) + '| = ' + f(r.deviation)
+                        },
+                        {
+                            label: 'Dynamic limit',
+                            tex: 'T_7=0.25\\max(|\\hat Y_7|,1)=0.25\\times' + f(Math.max(Math.abs(r.forecast), 1)) + '=' + f(r.limit),
+                            plain: 'T₇ = 0.25 · max(|Ŷ₇|, 1) = 0.25 × ' + f(Math.max(Math.abs(r.forecast), 1)) + ' = ' + f(r.limit)
+                        },
+                        {
+                            label: 'Against the prediction interval',
+                            tex: 'Y_7=' + f(r.held, 1) + (r.outsidePI ? '\\notin' : '\\in') + '[' + f(r.piLow) + ';\\,' + f(r.piHigh) + ']',
+                            plain: 'Y₇ = ' + f(r.held, 1) + (r.outsidePI ? '  ∉  ' : '  ∈  ') + '[' + f(r.piLow) + ';  ' + f(r.piHigh) + ']'
+                        }
+                    ]));
+
+                // 5 — Bayes, only where it answers something
+                if (r.flagged) {
+                    steps.appendChild(stepEl('05', 'What a positive screen is worth',
+                        (r.posterior * 100).toFixed(2) + '%', '',
+                        'Because OCD is rare, most positive screens are false alarms. This number is the honest weight of your flag — it is a reason to look, not a finding.',
+                        [
+                            {
+                                label: 'Bayes · Se = 0.85, Sp = 0.70, base rate = 2%',
+                                tex: 'P(A\\mid B)=\\frac{Se\\cdot P(A)}{Se\\cdot P(A)+(1-Sp)(1-P(A))}',
+                                plain: 'P(A|B) = Se·P(A) / ( Se·P(A) + (1−Sp)(1−P(A)) )'
+                            },
+                            {
+                                label: 'Substituted',
+                                tex: '=\\frac{0.85\\times0.02}{0.85\\times0.02+0.30\\times0.98}=\\frac{0.017}{0.311}=' + (r.posterior * 100).toFixed(2) + '\\%',
+                                plain: '= (0.85 × 0.02) / (0.85 × 0.02 + 0.30 × 0.98) = 0.017 / 0.311 = ' + (r.posterior * 100).toFixed(2) + '%'
+                            }
+                        ]));
+                }
+
+                // verdict
+                const v = $('verdict');
+                v.className = 'verdict ' + (r.flagged ? 'flagged' : 'clear');
+                $('verdictFlag').textContent = r.flagged ? 'Flagged' : 'No deviation';
+                $('verdictTitle').textContent = r.flagged
+                    ? 'Day 7 departed from your own baseline'
+                    : 'Day 7 matched your own baseline';
+                $('verdictText').textContent = r.flagged
+                    ? 'Your seventh day sat ' + (r.outsidePI ? 'outside the prediction interval' : 'inside the prediction interval') +
+                      ' and ' + (r.overLimit ? 'beyond' : 'within') + ' the dynamic limit. A specialist reading this week would have something concrete to look at. It is not a diagnosis.'
+                    : 'Your seventh day landed where the first six predicted it would. That says this week was consistent — it does not rule anything in or out.';
+
+                $('report').style.display = 'block';
+                playFigure(r);
+            }
+
+            /* ============================================================
+               DASHBOARD
+               ============================================================ */
+            function attemptsLeft(u) {
+                if (u.subscription === 'premium') return Infinity;
+                if (u.subscription === 'basic') return Math.max(0, 7 - (u.attemptsUsed || 0));
+                return Math.max(0, 5 - (u.attemptsUsed || 0));
+            }
+
+            async function refresh() {
+                userData = await getUserData(currentUser);
+                if (!userData) { clearSession(); window.location.href = 'login'; return; }
+
+                const name = resolveDisplayName(userData, currentUser);
+                $('dashUsername').textContent = name;
+                $('userDisplay').textContent = name;
+                $('userDisplay').title = userData.email || decodeEmailKey(currentUser);
+                $('avatarLetter').textContent = name.charAt(0).toUpperCase();
+
+                const left = attemptsLeft(userData);
+                $('dashAttempts').textContent = left === Infinity ? '∞' : left;
+                $('dashAttempts').className = 'v' + (left === Infinity ? ' accent' : '');
+
+                const sub = $('dashSubscription');
+                if (userData.subscription) {
+                    sub.textContent = userData.subscription.charAt(0).toUpperCase() + userData.subscription.slice(1);
+                    sub.className = 'v accent';
+                } else {
+                    sub.innerHTML = '<small>Free</small>';
+                    sub.className = 'v';
+                }
+
+                const hist = userData.history || [];
+                $('dashHistoryCount').textContent = hist.length;
+                $('planLine').textContent = hist.length
+                    ? 'Last run ' + (hist[hist.length - 1].date || '—')
+                    : 'No runs yet — start with a seven-day week';
+
+                const start = $('dashStartMonitor');
+                if (left <= 0) {
+                    start.querySelector('span').textContent = 'Subscribe to continue';
+                    start.className = 'btn btn-warn';
+                    start.onclick = () => { window.location.href = 'payments'; };
+                } else {
+                    start.querySelector('span').textContent = 'New 7-day run';
+                    start.className = 'btn btn-primary';
+                    start.onclick = openMonitor;
+                }
+            }
+
+            /* ============================================================
+               MONITOR
+               ============================================================ */
+            function openMonitor() {
+                const grid = $('dayInputs');
+                grid.innerHTML = '';
+                for (let i = 1; i <= 7; i++) {
+                    const held = i === 7;
+                    const l = document.createElement('label');
+                    l.className = 'day-field' + (held ? ' held' : '');
+                    l.innerHTML =
+                        '<span class="lbl"><span>Day ' + i + '</span>' +
+                        '<span class="role">' + (held ? 'test' : 'base') + '</span></span>' +
+                        '<input type="number" min="0" max="10" step="0.1" id="day' + i + '" ' +
+                        'inputmode="decimal" aria-label="Anxiety score for day ' + i + '" />';
+                    grid.appendChild(l);
+                }
+                $('monitorPanel').style.display = 'block';
+                $('report').style.display = 'none';
+                $('historyPanel').style.display = 'none';
+                $('monitorError').style.display = 'none';
+                $('day1').focus();
+            }
+
+            $('cancelMonitorBtn').addEventListener('click', function () {
+                $('monitorPanel').style.display = 'none';
+            });
+
+            $('fillExampleBtn').addEventListener('click', function () {
+                // The demonstration series from the paper, so the numbers on
+                // the landing page can be reproduced here directly.
+                [5, 6, 5, 7, 6, 8, 10].forEach((v, i) => { $('day' + (i + 1)).value = v; });
+                $('monitorError').style.display = 'none';
+            });
+
+            $('computeBtn').addEventListener('click', async function () {
+                const err = $('monitorError');
+                const days = [];
+                for (let i = 1; i <= 7; i++) {
+                    const raw = $('day' + i).value.trim();
+                    const val = parseFloat(raw);
+                    if (raw === '' || isNaN(val) || val < 0 || val > 10) {
+                        err.textContent = 'Day ' + i + ' needs a number between 0 and 10.';
+                        err.style.display = 'block';
+                        $('day' + i).focus();
+                        return;
+                    }
+                    days.push(val);
+                }
+                // A perfectly flat baseline has S = 0: every interval collapses
+                // to a point and the AR(1) slope is undefined. Say so instead
+                // of printing a meaningless result.
+                const base = days.slice(0, 6);
+                if (base.every(v => v === base[0])) {
+                    err.textContent = 'Days 1–6 are all identical, so the baseline has no spread (S = 0) and neither ' +
+                        'the interval nor the AR(1) slope is defined. Enter the scores as they actually varied.';
+                    err.style.display = 'block';
+                    return;
+                }
+                err.style.display = 'none';
+
+                const r = analyse(days);
+                renderReport(r);
+                $('monitorPanel').style.display = 'none';
+
+                this.disabled = true;
+                setTimeout(() => { this.disabled = false; }, 800);
+
+                if (!userData) return;
+                userData.attemptsUsed = (userData.attemptsUsed || 0) + 1;
+                userData.history = userData.history || [];
+                userData.history.push({
+                    date: new Date().toLocaleString(),
+                    days: days,
+                    flagged: r.flagged,
+                    // plain-text summary, kept so older readers of this record
+                    // (and the Telegram export) still work
+                    result: summaryText(r)
+                });
+                await updateUserData(currentUser, userData);
+                await refresh();
+
+                if (attemptsLeft(userData) <= 0) {
+                    setTimeout(() => { window.location.href = 'payments'; }, 2500);
+                }
+            });
+
+            function summaryText(r) {
+                return '7-day screening signal\n' +
+                    'Baseline (days 1-6): mean ' + f(r.mean) + ', S ' + f(r.sd) + '\n' +
+                    '95% prediction interval [' + f(r.piLow) + '; ' + f(r.piHigh) + ']\n' +
+                    'AR(1): alpha ' + f(r.alpha) + ', beta ' + f(r.beta) + ', forecast ' + f(r.forecast) + '\n' +
+                    'Day 7 actual ' + f(r.held, 1) + ' — ' + (r.outsidePI ? 'outside' : 'inside') + ' the interval\n' +
+                    'D7 ' + f(r.deviation) + ' vs T7 ' + f(r.limit) + ' — ' + (r.overLimit ? 'exceeded' : 'within') + '\n' +
+                    'Signal: ' + (r.flagged ? 'deviation flagged' : 'no deviation') + '\n' +
+                    'Values: ' + r.days.map(v => f(v, 1)).join(', ');
+            }
+
+            /* ============================================================
+               HISTORY
+               ============================================================ */
+            function renderHistory() {
+                const list = $('historyList');
+                const hist = (userData && userData.history) || [];
+                if (!hist.length) {
+                    list.innerHTML = '<div class="empty">No runs recorded yet.</div>';
+                    return;
+                }
+                list.innerHTML = '';
+                hist.slice().reverse().forEach(function (entry, i) {
+                    const idx = hist.length - 1 - i;
+                    const days = Array.isArray(entry.days) ? entry.days : null;
+                    const flagged = typeof entry.flagged === 'boolean'
+                        ? entry.flagged
+                        : /flagged|exceeded|outside/i.test(entry.result || '');
+
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'hist-item';
+                    btn.innerHTML =
+                        '<span class="idx">#' + (idx + 1) + '</span>' +
+                        '<span class="date"></span>' +
+                        '<span class="sum"></span>' +
+                        '<span class="pill ' + (flagged ? 'flagged' : 'clear') + '">' +
+                        (flagged ? 'flagged' : 'clear') + '</span>';
+                    btn.querySelector('.date').textContent = entry.date || '—';
+                    btn.querySelector('.sum').textContent = days
+                        ? days.map(v => f(v, 1)).join(' · ')
+                        : (entry.result || '').split('\n')[0];
+                    btn.addEventListener('click', () => openHistory(idx));
+                    list.appendChild(btn);
+                });
+            }
+
+            function openHistory(idx) {
+                const entry = (userData.history || [])[idx];
+                if (!entry) return;
+                $('histModalDate').textContent = entry.date || '';
+                const body = $('histModalBody');
+                body.innerHTML = '';
+
+                if (Array.isArray(entry.days) && entry.days.length === 7) {
+                    // Recompute from the stored scores so an old record is
+                    // shown with the current, correct procedure.
+                    const r = analyse(entry.days);
+                    const wrap = document.createElement('div');
+                    wrap.className = 'kv-row';
+                    wrap.innerHTML =
+                        '<span>mean <b>' + f(r.mean) + '</b></span>' +
+                        '<span>S <b>' + f(r.sd) + '</b></span>' +
+                        '<span>interval <b>[' + f(r.piLow) + '; ' + f(r.piHigh) + ']</b></span>' +
+                        '<span>Ŷ₇ <b>' + f(r.forecast) + '</b></span>' +
+                        '<span>Y₇ <b>' + f(r.held, 1) + '</b></span>' +
+                        '<span>D₇ / T₇ <b>' + f(r.deviation) + ' / ' + f(r.limit) + '</b></span>';
+                    body.appendChild(wrap);
+
+                    const p = document.createElement('p');
+                    p.className = 'small';
+                    p.style.marginTop = 'var(--gap-xs)';
+                    p.textContent = r.flagged
+                        ? 'Day 7 departed from the baseline this week.'
+                        : 'Day 7 matched the baseline this week.';
+                    body.appendChild(p);
+                } else {
+                    const pre = document.createElement('pre');
+                    pre.className = 'mono small';
+                    pre.style.whiteSpace = 'pre-wrap';
+                    pre.style.marginTop = 'var(--gap-xs)';
+                    pre.textContent = entry.result || '';
+                    body.appendChild(pre);
+                }
+
+                $('histModal').classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeHistory() {
+                $('histModal').classList.remove('open');
                 document.body.style.overflow = '';
             }
-        });
+            $('histModalClose').addEventListener('click', closeHistory);
+            $('histModal').addEventListener('click', e => { if (e.target === $('histModal')) closeHistory(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeHistory(); });
 
-        // ===== CONSULTATION (изменено: убрана проверка) =====
-        document.getElementById('dashConsultBtn').addEventListener('click', function() {
-            window.open('https://t.me/ocdsolverbot', '_blank');
-        });
+            $('dashShowHistory').addEventListener('click', function () {
+                const panel = $('historyPanel');
+                const open = panel.style.display === 'block';
+                if (open) { panel.style.display = 'none'; return; }
+                renderHistory();
+                panel.style.display = 'block';
+                $('monitorPanel').style.display = 'none';
+            });
 
-        // ===== ИНИЦИАЛИЗАЦИЯ =====
-        (async function init() {
-            await updateDashboard();
+            $('dashConsultBtn').addEventListener('click', () => window.open('https://t.me/ocdsolverbot', '_blank', 'noopener'));
+            $('dashAiBtn').addEventListener('click', () => { window.location.href = 'ai'; });
+
+            /* ============================================================
+               BOOT
+               ============================================================ */
+            (async function boot() {
+                await refresh();
+                // An empty dashboard tells the user nothing. If they have run
+                // a week before, show that week straight away — recomputed
+                // from the stored scores, so an old record is rendered with
+                // the current procedure rather than its saved text.
+                const hist = (userData && userData.history) || [];
+                for (let i = hist.length - 1; i >= 0; i--) {
+                    const d = hist[i].days;
+                    if (Array.isArray(d) && d.length === 7 && d.every(v => typeof v === 'number')) {
+                        renderReport(analyse(d));
+                        break;
+                    }
+                }
+            })();
         })();
     </script>
 </body>
+
 </html>

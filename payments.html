@@ -172,7 +172,7 @@
     <span>NeuroCheck</span>
   </a>
 
-  <h1>💎 Subscribe</h1>
+  <h1>Subscribe</h1>
   <p class="sub">Choose your plan and complete payment via <strong>USDT (TRC20)</strong></p>
 
   <div class="payment-plans">
@@ -182,15 +182,15 @@
     </div>
     <div class="plan" data-plan="premium" onclick="selectPlan('premium')">
       <div class="price">$10</div><div class="period">/ month</div>
-      <div class="features">Unlimited<br>Priority support<br>Consultations<br>🤖 AI 24/7</div>
+      <div class="features">Unlimited<br>Priority support<br>Consultations<br>AI assistant, 24/7</div>
     </div>
   </div>
 
   <!-- Адрес и QR -->
   <div style="margin-top: 20px;">
-    <label style="font-weight: 600; font-size: 14px;">📍 Send USDT (TRC20) to:</label>
+    <label style="font-weight: 600; font-size: 14px;">Send USDT (TRC20) to:</label>
     <div class="crypto-address" id="addressDisplay">TJ7eMchCewAy1pjUy4nFJ7wQjdrhXZJ78C</div>
-    <button class="copy-btn" onclick="copyAddress()">📋 Copy address</button>
+    <button class="copy-btn" onclick="copyAddress()">Copy address</button>
 
     <div class="qr-container">
       <img src="https://api.qrserver.com/v1/create-qr-code/?data=TJ7eMchCewAy1pjUy4nFJ7wQjdrhXZJ78C&size=180x180&margin=10" alt="QR code for USDT" />
@@ -199,7 +199,7 @@
 
   <!-- Инструкция -->
   <div class="instruction">
-    <strong>📌 After sending USDT:</strong><br />
+    <strong>After sending USDT:</strong><br />
     1. Copy your <strong>Transaction ID (TXID)</strong> from your wallet.<br />
     2. Click the button below and send the TXID to our Telegram bot.<br />
     3. We will activate your subscription manually within 24 hours.
@@ -207,12 +207,12 @@
 
   <!-- Кнопка "Notify in Telegram" (открывает чат с ботом) -->
   <a href="https://t.me/asalwaysthird" target="_blank" class="btn btn-telegram">
-    ✈️ Notify in Telegram
+    Notify in Telegram
   </a>
 
   <!-- Кнопка "Pay with Trust Wallet" -->
   <a href="#" id="payLink" class="btn" target="_blank" rel="noopener noreferrer" onclick="openWallet(event)">
-    💳 Pay with Trust Wallet
+    Pay with Trust Wallet
   </a>
 
   <div id="statusMsg" class="status-msg"></div>
@@ -274,7 +274,7 @@
     link.href = url;
     link.style.opacity = '1';
     link.style.pointerEvents = 'auto';
-    link.textContent = `💳 Pay $${amount} with Trust Wallet`;
+    link.textContent = `Pay $${amount} with Trust Wallet`;
   }
 
   function openWallet(event) {
@@ -283,20 +283,20 @@
       showStatus('Please select a plan first.', 'error');
       return;
     }
-    showStatus('⏳ Opening Trust Wallet... After payment, send TXID to Telegram.', 'info');
+    showStatus('Opening Trust Wallet... After payment, send TXID to Telegram.', 'info');
   }
 
   function copyAddress() {
     const addr = document.getElementById('addressDisplay').innerText;
     navigator.clipboard.writeText(addr).then(() => {
-      showStatus('✅ Address copied to clipboard!', 'success');
+      showStatus('Address copied to clipboard.', 'success');
     }).catch(() => {
       const range = document.createRange();
       range.selectNode(document.getElementById('addressDisplay'));
       window.getSelection().removeAllRanges();
       window.getSelection().addRange(range);
       document.execCommand('copy');
-      showStatus('✅ Address copied!', 'success');
+      showStatus('Address copied.', 'success');
     });
   }
 
@@ -305,10 +305,10 @@
     el.className = 'status-msg';
     if (type === 'success') {
       el.className = 'status-msg success';
-      el.innerHTML = `<strong>✅ ${message}</strong>`;
+      el.innerHTML = `<strong>${message}</strong>`;
     } else if (type === 'error') {
       el.className = 'status-msg error';
-      el.innerHTML = `<strong>❌ ${message}</strong>`;
+      el.innerHTML = `<strong>${message}</strong>`;
     } else {
       el.className = 'status-msg info';
       el.innerHTML = `<strong>ℹ️ ${message}</strong>`;
