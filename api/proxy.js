@@ -24,7 +24,13 @@ const SYSTEM_PROMPT = [
   'adult, a school psychologist, or emergency services.'
 ].join(' ');
 
-const MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
+// Which model to use. Set GROQ_MODEL to pin one exactly — that choice is
+// respected with no fallback. Left unset, the first of these that the
+// account can actually reach is used: Groq's free tier does not carry every
+// listed model, and which ones it carries changes over time.
+const MODEL_CANDIDATES = process.env.GROQ_MODEL
+  ? [process.env.GROQ_MODEL]
+  : ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'openai/gpt-oss-20b'];
 const MAX_MESSAGES = 20;   // turns of history accepted
 const MAX_CHARS = 4000;    // per message
 const MAX_TOKENS = 600;    // per reply
@@ -95,21 +101,34 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const upstream = await fetch(GROQ_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + key
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: [{ role: 'system', content: SYSTEM_PROMPT }].concat(messages),
-        temperature: 0.7,
-        max_tokens: MAX_TOKENS
-      })
-    });
+    let upstream, raw, MODEL;
+    const rejected = [];
 
-    const raw = await upstream.text();
+    // 400/404 means this model is not available to the account; anything else
+    // is a real failure and stops the loop.
+    for (let i = 0; i < MODEL_CANDIDATES.length; i++) {
+      MODEL = MODEL_CANDIDATES[i];
+      upstream = await fetch(GROQ_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + key
+        },
+        body: JSON.stringify({
+          model: MODEL,
+          messages: [{ role: 'system', content: SYSTEM_PROMPT }].concat(messages),
+          temperature: 0.7,
+          max_tokens: MAX_TOKENS
+        })
+      });
+      raw = await upstream.text();
+
+      if (upstream.ok) break;
+      if (upstream.status !== 400 && upstream.status !== 404) break;
+
+      rejected.push(MODEL);
+      console.error('Model rejected:', MODEL, upstream.status, raw.slice(0, 300));
+    }
 
     if (!upstream.ok) {
       // Logged for us, not returned: provider errors can echo the key back.
@@ -130,7 +149,8 @@ module.exports = async function handler(req, res) {
           detail = parsed && parsed.error && parsed.error.message;
         } catch (e) { /* non-JSON body */ }
         return res.status(502).json({
-          error: 'Provider rejected model "' + MODEL + '"' + (detail ? ': ' + detail : '.')
+          error: 'No usable model. Tried ' + rejected.join(', ') +
+            (detail ? ' — ' + detail : '.')
         });
       }
       return res.status(502).json({
