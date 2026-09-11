@@ -65,7 +65,9 @@ module.exports = async function handler(req, res) {
   const key = process.env.GROQ_API_KEY;
   if (!key) {
     console.error('GROQ_API_KEY is not set for this deployment');
-    return res.status(500).json({ error: 'The assistant is not configured yet.' });
+    return res.status(500).json({
+      error: 'GROQ_API_KEY is not set on this deployment (' + (req.headers.host || 'unknown host') + ').'
+    });
   }
 
   let incoming = req.body;
@@ -118,10 +120,22 @@ module.exports = async function handler(req, res) {
       if (upstream.status === 429) {
         return res.status(429).json({ error: 'Too many requests right now. Please try again in a moment.' });
       }
-      if (upstream.status === 404) {
-        return res.status(502).json({ error: 'The configured model is unavailable.' });
+      // 400 and 404 are almost always the model name or a malformed request.
+      // The provider's message for those carries no secret, and naming the
+      // model here saves a trip to the logs to find out which one was tried.
+      if (upstream.status === 400 || upstream.status === 404) {
+        var detail = '';
+        try {
+          var parsed = JSON.parse(raw);
+          detail = parsed && parsed.error && parsed.error.message;
+        } catch (e) { /* non-JSON body */ }
+        return res.status(502).json({
+          error: 'Provider rejected model "' + MODEL + '"' + (detail ? ': ' + detail : '.')
+        });
       }
-      return res.status(502).json({ error: 'The assistant is unavailable right now.' });
+      return res.status(502).json({
+        error: 'The assistant is unavailable right now (HTTP ' + upstream.status + ').'
+      });
     }
 
     let data;
