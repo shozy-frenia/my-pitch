@@ -668,7 +668,10 @@
   // The proxy also owns the model and the system prompt — a system prompt
   // sent from the browser can be rewritten in devtools, and this one carries
   // the safety rules.
-  const AI_ENDPOINT = 'https://openai-proxy-76rl.vercel.app/api/proxy';
+  // Same origin as the page: the function lives in this project, so the
+  // request never leaves the site's own domain and there is no second
+  // deployment to keep in sync.
+  const AI_ENDPOINT = '/api/proxy';
 
   // How much of the conversation to send back for context.
   const AI_HISTORY_TURNS = 12;
