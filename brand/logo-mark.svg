@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="512" height="512" role="img" aria-label="NeuroCheck">
+  <title>NeuroCheck</title>
+  <path d="M4 22 L10 14 L15 18 L21 7 L28 20"
+        fill="none" stroke="currentColor" stroke-width="2.8"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

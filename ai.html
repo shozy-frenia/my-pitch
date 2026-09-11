@@ -661,6 +661,18 @@
   // ============================================================
   // 7.  ОТПРАВКА СООБЩЕНИЯ (AI)
   // ============================================================
+
+  // The API key lives in the proxy's server-side environment variables,
+  // never here: this file is served as a static page from a public repo,
+  // so anything in it is readable by anyone who opens View Source.
+  // The proxy also owns the model and the system prompt — a system prompt
+  // sent from the browser can be rewritten in devtools, and this one carries
+  // the safety rules.
+  const AI_ENDPOINT = 'https://openai-proxy-76rl.vercel.app/api/proxy';
+
+  // How much of the conversation to send back for context.
+  const AI_HISTORY_TURNS = 12;
+
   async function sendMessage() {
     const input = document.getElementById('userInput');
     const text = input.value.trim();
@@ -673,30 +685,33 @@
     document.getElementById('errorMsg').style.display = 'none';
 
     try {
-      const PROXY_URL = 'https://openai-proxy-76rl.vercel.app/api/proxy';
+      // Send the recent conversation, not just the latest line — otherwise the
+      // assistant answers every message as if it were the first thing said.
+      const history = getActiveChat().messages
+        .slice(-AI_HISTORY_TURNS)
+        .map(m => ({ role: m.role === 'ai' ? 'assistant' : 'user', content: m.content }));
 
-      const response = await fetch(PROXY_URL, {
+      const response = await fetch(AI_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [
-            {
-              role: 'system',
-              content: 'You are a warm, empathetic mental health companion. Always be supportive, kind, and practical. Never diagnose. If someone is in crisis, gently suggest professional help.'
-            },
-            { role: 'user', content: text }
-          ],
-          model: 'bbl/gemini-3.5-flash'
-        })
+        body: JSON.stringify({ messages: history })
       });
 
       if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.error || 'Failed to get response');
+        // A gateway error returns an HTML page, not JSON, so parsing it
+        // would throw and hide the real status from the user.
+        let detail = '';
+        try {
+          const errData = await response.json();
+          detail = errData.error && (errData.error.message || errData.error);
+        } catch (e) { /* non-JSON body */ }
+        throw new Error(detail || ('Assistant unavailable (HTTP ' + response.status + ')'));
       }
 
       const data = await response.json();
-      const reply = data.choices[0].message.content;
+      const reply = data && data.choices && data.choices[0] &&
+        data.choices[0].message && data.choices[0].message.content;
+      if (!reply) throw new Error('The assistant returned an empty response. Please try again.');
 
       document.getElementById('typingIndicator').style.display = 'none';
       addMessageToChat('ai', reply);
