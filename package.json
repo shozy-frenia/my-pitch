@@ -7,7 +7,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test",
-    "check": "node scripts/check.mjs",
+    "check": "node scripts/check.mjs && node --check assets/demo.js && node --check assets/math.js",
     "dev": "python3 -m http.server 4173 --bind 127.0.0.1"
   },
   "engines": {
