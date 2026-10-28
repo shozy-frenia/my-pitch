@@ -30,6 +30,7 @@
         rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" />
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+    <script type="module" src="assets/demo.js"></script>
 
     <style>
         /* ============================================================
@@ -2170,7 +2171,7 @@
                             <button type="button" data-lang="ru">РУС</button>
                             <button type="button" data-lang="kz" class="active">ҚАЗ</button>
                         </div>
-                        <a href="#evidence" class="btn btn-primary" data-i18n="nav-signin">Жоба деректері</a>
+                        <a href="#demo" class="btn btn-primary" data-i18n="nav-signin">Есептеу демосы</a>
                     </li>
                 </ul>
             </nav>
@@ -2192,7 +2193,7 @@
                         <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
                     </svg>
                 </button>
-                <a href="#evidence" class="btn btn-primary" style="padding:8px 14px;" data-i18n="nav-signin">Жоба деректері</a>
+                <a href="#demo" class="btn btn-primary" style="padding:8px 14px;" data-i18n="nav-signin">Есептеу демосы</a>
                 <button type="button" class="icon-btn nav-toggle" id="navToggle" aria-label="Menu"
                     aria-expanded="false" aria-controls="navLinks">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
@@ -2225,7 +2226,7 @@
                                 <span>Әдісті көру</span>
                                 <span class="arrow" aria-hidden="true">→</span>
                             </a>
-                            <a href="#evidence" class="btn btn-ghost" data-i18n="hero-demo">Деректерді қарау</a>
+                            <a href="#demo" class="btn btn-ghost" data-i18n="hero-demo">Есептеу демосы</a>
                         </div>
 
                         <div class="hero-strip reveal" data-reveal="fade" style="--delay:220ms">
@@ -2331,7 +2332,7 @@
                     </div>
                     <div class="card method-card reveal" style="--delay:140ms">
                         <h3><span class="idx">M3</span><span data-i18n="m3-t">Стьюденттің прогностикалық интервалы</span></h3>
-                        <p data-i18n="m3-d">Орта мәнге емес, бір жаңа бақылауға арналған интервал. Мысалда n = 6, df = 5, t = 2.5706. Бақылаулар тәуелсіз, бірдей қалыпты үлестірілген деп алынады; қысқа қатарда бұл тексерілмеген.</p>
+                        <p data-i18n="m3-d">Орта мәнге емес, бір жаңа бақылауға арналған интервал. Мысалда n = 6, df = 5, t = 2.5705818 ≈ 2.571. Бақылаулар тәуелсіз, бірдей қалыпты үлестірілген деп алынады; қысқа қатарда бұл тексерілмеген.</p>
                         <div class="formula-box"><div id="fx-pi"></div></div>
                     </div>
                     <div class="card method-card reveal" style="--delay:210ms">
@@ -2370,6 +2371,62 @@
                             <p data-i18n="s4-d">25% қате шарты орындалмағанын клиникалық қорытындысыз көрсету.</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="section section-alt" id="demo" aria-labelledby="demo-heading">
+            <div class="wrap">
+                <div data-i18n="demo-eyebrow" class="eyebrow reveal" data-reveal="fade">Сандық демонстрация</div>
+                <h2 data-i18n="demo-title" class="reveal" id="demo-heading">Жеті мәнді енгізіп, есептеуді тексеріңіз.</h2>
+                <p data-i18n="demo-intro" class="lead reveal" data-reveal="fade">Бұл — браузердегі оқу калькуляторы. Алғашқы алты мән есептеуге, жетінші мән тексеруге қолданылады. Енгізілген мәндер анкета дерегі емес және серверге жіберілмейді.</p>
+                <div class="grid grid-2 mt-l">
+                    <div class="card reveal">
+                        <h3 data-i18n="demo-inputs" >Оқу мәндері</h3>
+                        <form id="series-demo-form" novalidate>
+                            <p data-i18n="demo-baseline" class="small" style="margin-block:18px 12px">Базалық мәндер: Y₁–Y₆, n = 6</p>
+                            <div class="grid grid-3"><div><label class="micro" for="demo-y1">Y₁</label><input class="btn btn-ghost mono" style="width:100%;min-width:0" id="demo-y1" type="number" step="any" required value="5"></div>
+<div><label class="micro" for="demo-y2">Y₂</label><input class="btn btn-ghost mono" style="width:100%;min-width:0" id="demo-y2" type="number" step="any" required value="6"></div>
+<div><label class="micro" for="demo-y3">Y₃</label><input class="btn btn-ghost mono" style="width:100%;min-width:0" id="demo-y3" type="number" step="any" required value="5"></div>
+<div><label class="micro" for="demo-y4">Y₄</label><input class="btn btn-ghost mono" style="width:100%;min-width:0" id="demo-y4" type="number" step="any" required value="7"></div>
+<div><label class="micro" for="demo-y5">Y₅</label><input class="btn btn-ghost mono" style="width:100%;min-width:0" id="demo-y5" type="number" step="any" required value="6"></div>
+<div><label class="micro" for="demo-y6">Y₆</label><input class="btn btn-ghost mono" style="width:100%;min-width:0" id="demo-y6" type="number" step="any" required value="8"></div></div>
+                            <div style="margin-top:var(--gap-s)">
+                                <label class="micro" for="demo-y7" data-i18n="demo-heldout">Тексеруге қалдырылған Y₇ мәні</label>
+                                <input class="btn btn-ghost mono" style="width:100%;min-width:0" id="demo-y7" type="number" step="any" required value="10">
+                            </div>
+                            <div class="hero-ctas">
+                                <button data-i18n="demo-calculate" class="btn btn-primary" type="submit" disabled>Есептеу</button>
+                                <button data-i18n="demo-reset" class="btn btn-ghost" type="button" id="demo-reset" disabled>Мысалды қайтару</button>
+                            </div>
+                            <p class="note warn small" id="demo-error" role="alert" hidden></p>
+                        </form>
+                        <noscript><p data-i18n="demo-noscript" class="small">Калькулятор үшін JavaScript қажет.</p></noscript>
+                    </div>
+                    <div class="card reveal" style="--delay:70ms">
+                        <h3 data-i18n="demo-student" >Стьюдент есебі</h3>
+                        <p data-i18n="demo-coefficient" class="small" style="margin-block:12px 18px">n = 6 → df = 5 → t₅,₀.₉₇₅ = 2.5705818 ≈ 2.571. Есептеуде дөңгелектелмеген квантиль қолданылады.</p>
+                        <div id="demo-results" aria-live="polite" hidden>
+                            <div class="kv"><span data-i18n="demo-mean-label" class="k">Базаның орташа мәні x̄</span><output class="v" id="demo-mean">—</output></div>
+                            <div class="kv"><span data-i18n="demo-variance-label" class="k">Таңдамалық дисперсия S² (5-ке бөлу)</span><output class="v" id="demo-variance">—</output></div>
+                            <div class="kv"><span data-i18n="demo-sd-label" class="k">Таңдамалық стандартты ауытқу S</span><output class="v" id="demo-sd">—</output></div>
+                            <div class="kv"><span data-i18n="demo-pi-label" class="k">Бір жаңа мәнге арналған 95% PI</span><output class="v" id="demo-pi">—</output></div>
+                            <div class="formula-box mono" id="demo-substitution"></div>
+                            <p class="small" id="demo-student-verdict" style="margin-top:12px"></p>
+                            <h3 data-i18n="demo-ar-title" style="margin-block:24px 18px">AR(1): нүктелік болжам және 25% ереже</h3>
+                            <div class="kv"><span data-i18n="demo-parameters" class="k">AR(1) бағалары: α̂; β̂</span><output class="v" id="demo-alpha-beta">—</output></div>
+                            <div class="kv"><span data-i18n="demo-forecast-label" class="k">Болжам Ŷ₇</span><output class="v" id="demo-forecast">—</output></div>
+                            <div class="kv"><span data-i18n="demo-error-label" class="k">Абсолютті қате D₇</span><output class="v" id="demo-error-value">—</output></div>
+                            <div class="kv"><span data-i18n="demo-limit-label" class="k">Демонстрациялық шек T₇</span><output class="v" id="demo-limit">—</output></div>
+                            <p class="small" id="demo-ar-verdict" style="margin-top:12px"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="note reveal" data-reveal="fade">
+                    <b data-i18n="demo-assumptions-title" >Неге 1.96 емес, 2.571?</b>
+                    <p data-i18n="demo-assumptions" >Базада алты мән бар, бас жиынтықтың дисперсиясы белгісіз: сондықтан 5 еркіндік дәрежесі бар Стьюдент t мәні қолданылады. Бақылаулар тәуелсіз, бірдей қалыпты үлестірілген деп алынады. Уилсон — үлеске арналған бөлек есеп; онда z = 1.96 қалады.</p>
+                    <p data-i18n="demo-limit-note" style="margin-top:12px">T₇ = 0.25·max(|Ŷ₇|, 1) — шартты қате ережесі; ықтималдық интервалы немесе клиникалық шек емес. Нәтиже тек енгізілген сандық мысалға қатысты.</p>
                 </div>
             </div>
         </section>
@@ -2626,7 +2683,7 @@ double ppv(double prior, double se, double sp) {
                         data-i18n="close-cta1">
                         <span>Авторға жазу</span>
                     </a>
-                    <a href="#method" class="btn btn-ghost" data-i18n="close-cta2">Әдісті қарау</a>
+                    <a href="#demo" class="btn btn-ghost" data-i18n="close-cta2">Калькуляторды ашу</a>
                 </div>
 
                 <div class="contact-links reveal" data-reveal="fade" style="--delay:200ms">
@@ -3207,7 +3264,7 @@ double ppv(double prior, double se, double sp) {
                 const F = [
                     ['fx-bayes', 'P(A\\mid B)=\\dfrac{Se\\cdot P(A)}{Se\\cdot P(A)+(1-Sp)(1-P(A))}'],
                     ['fx-wilson', '\\dfrac{\\hat p+\\frac{z^2}{2n}\\pm z\\sqrt{\\frac{\\hat p(1-\\hat p)}{n}+\\frac{z^2}{4n^2}}}{1+\\frac{z^2}{n}}'],
-                    ['fx-pi', '\\bar x \\pm t_{n-1,\\,0.975}\;S\\sqrt{1+\\tfrac{1}{n}}'],
+                    ['fx-pi', '\\bar x \\pm t_{n-1,\\,0.975}\\,S\\sqrt{1+\\tfrac{1}{n}}'],
                     ['fx-ar1', '\\hat Y_{7}=\\hat\\alpha+\\hat\\beta\\,Y_{6}\\quad D_7=|Y_7-\\hat Y_7|,\\quad T_7=0.25\\max(|\\hat Y_7|,1)']
                 ];
                 F.forEach(function (pair) {
@@ -3227,12 +3284,12 @@ double ppv(double prior, double se, double sp) {
     "nav-evidence": "Evidence",
     "nav-limits": "Limits",
     "nav-roadmap": "Roadmap",
-    "nav-signin": "Research data",
+    "nav-signin": "Calculation demo",
     "badge": "Research project · NIS Almaty · 2026",
     "hero-title": "Mathematical analysis of OCD screening signs.",
     "hero-sub": "Applied mathematics: Bayes, Wilson, Student prediction interval and AR(1). The current work covers 60 questionnaires; individual answers remain unverified. The seven-value time series is a separate illustrative example.",
     "hero-method": "See the method",
-    "hero-demo": "View the data",
+    "hero-demo": "Calculation demo",
     "hs1": "questionnaires in the current work; answers unverified",
     "hs2": "values in a separate illustrative series",
     "hs3": "held-out value in the numerical demonstration",
@@ -3264,7 +3321,7 @@ double ppv(double prior, double se, double sp) {
     "m2-t": "Wilson score interval",
     "m2-d": "Wilson estimates uncertainty in a binary response proportion. For the preliminary 21/60, its 95% interval is [24.2; 47.6]%, conditional on the counts and question mapping being correct. It does not correct selection bias.",
     "m3-t": "Student prediction interval",
-    "m3-d": "An interval for one new observation, not the mean. In the illustration n = 6, df = 5 and t = 2.5706. It assumes independent, identically normally distributed observations, unverified in this short series.",
+    "m3-d": "An interval for one new observation, not the mean. In the illustration n = 6, df = 5 and t = 2.5705818 ≈ 2.571. It assumes independent, identically normally distributed observations, unverified in this short series.",
     "m4-t": "AR(1) model",
     "m4-d": "Five adjacent pairs from the first six illustrative values give the point forecast 5.9286. Its absolute error is compared with the illustrative 25% rule; that rule is not a probability interval.",
     "method-note-t": "Keep the data levels separate",
@@ -3372,7 +3429,7 @@ double ppv(double prior, double se, double sp) {
     "close-title": "A screening signal is only useful if you can check it.",
     "close-quote": "Illustrative calculations are reproducible. The original questionnaire records, main (19).pdf and presentation are not attached here; preliminary counts still require reconciliation.",
     "close-cta1": "Contact the author",
-    "close-cta2": "Read the method",
+    "close-cta2": "Open the calculator",
     "foot-c": "© NeuroCheck, 2026 — a school research project.",
     "foot-r": "Not a medical device.",
     "foot-src": "Data status: 60 questionnaires reported by the author; individual answers unverified. Preliminary 21/60 is conditional on correct question mapping. The 8/15 example and seven-value series are numerical demonstrations only. Bayes parameters are model assumptions or external SOCS estimates, not validated on this sample.",
@@ -3384,7 +3441,30 @@ double ppv(double prior, double se, double sp) {
     "socs-label": "SOCS PPV",
     "cpp-title": "C++: educational prototype only",
     "band-label": "Student 95% prediction interval",
-    "page-title": "NeuroCheck — OCD screening: mathematics research"
+    "page-title": "NeuroCheck — OCD screening: mathematics research",
+    "demo-eyebrow": "Numerical demonstration",
+    "demo-title": "Enter seven values and check the calculation.",
+    "demo-intro": "This is a local educational calculator. The first six values train the calculation; the seventh is held out. Inputs are not questionnaire records and are not sent to a server.",
+    "demo-inputs": "Illustrative inputs",
+    "demo-baseline": "Baseline: Y₁–Y₆, n = 6",
+    "demo-heldout": "Held-out check value Y₇",
+    "demo-calculate": "Calculate",
+    "demo-reset": "Restore the example",
+    "demo-student": "Student calculation",
+    "demo-coefficient": "n = 6 → df = 5 → t₅,₀.₉₇₅ = 2.5705818 ≈ 2.571. The unrounded quantile is used in the calculation.",
+    "demo-mean-label": "Baseline mean x̄",
+    "demo-variance-label": "Sample variance S² (divide by 5)",
+    "demo-sd-label": "Sample standard deviation S",
+    "demo-pi-label": "95% PI for one new value",
+    "demo-ar-title": "AR(1): point forecast and 25% rule",
+    "demo-parameters": "AR(1) estimates: α̂; β̂",
+    "demo-forecast-label": "Forecast Ŷ₇",
+    "demo-error-label": "Absolute error D₇",
+    "demo-limit-label": "Illustrative limit T₇",
+    "demo-assumptions-title": "Why 2.571, not 1.96?",
+    "demo-assumptions": "The baseline has six values and the population variance is unknown, so Student t with 5 degrees of freedom is used. The interval assumes independent, identically normally distributed observations. Wilson is a different calculation for a proportion and retains z = 1.96.",
+    "demo-limit-note": "T₇ = 0.25·max(|Ŷ₇|, 1) is an illustrative error rule, not a probability interval or a clinical threshold. The result applies only to these numerical inputs.",
+    "demo-noscript": "Enable JavaScript to use the calculator."
   },
   "ru": {
     "skip": "Перейти к содержимому",
@@ -3393,12 +3473,12 @@ double ppv(double prior, double se, double sp) {
     "nav-evidence": "Данные",
     "nav-limits": "Ограничения",
     "nav-roadmap": "План",
-    "nav-signin": "Данные проекта",
+    "nav-signin": "Демо расчётов",
     "badge": "Научный проект · НИШ Алматы · 2026",
     "hero-title": "Математический анализ скрининговых признаков ОКР.",
     "hero-sub": "Прикладная математика: Байес, Уилсон, прогнозный интервал Стьюдента и AR(1). В текущей работе 60 анкет; индивидуальные ответы не верифицированы. Ряд из семи значений — отдельный иллюстративный пример.",
     "hero-method": "Как это устроено",
-    "hero-demo": "Посмотреть данные",
+    "hero-demo": "Демо расчётов",
     "hs1": "анкет в текущей работе; ответы не верифицированы",
     "hs2": "значений в отдельном иллюстративном ряду",
     "hs3": "отложенное значение в числовой демонстрации",
@@ -3430,7 +3510,7 @@ double ppv(double prior, double se, double sp) {
     "m2-t": "Интервал Уилсона",
     "m2-d": "Уилсон оценивает неопределённость доли бинарных ответов. Для предварительных 21/60 интервал 95% равен [24.2; 47.6]% при условии верных частот и соответствия вопросу. Он не устраняет смещение отбора.",
     "m3-t": "Прогностический интервал Стьюдента",
-    "m3-d": "Интервал для одного нового наблюдения, не среднего. В примере n = 6, df = 5, t = 2.5706. Предполагаются независимые одинаково нормально распределённые наблюдения; в коротком ряду это не проверено.",
+    "m3-d": "Интервал для одного нового наблюдения, не среднего. В примере n = 6, df = 5, t = 2.5705818 ≈ 2.571. Предполагаются независимые одинаково нормально распределённые наблюдения; в коротком ряду это не проверено.",
     "m4-t": "Модель AR(1)",
     "m4-d": "Пять соседних пар первых шести значений дают точечный прогноз 5.9286. Абсолютная ошибка сравнивается с условным правилом 25%; оно не является вероятностным интервалом.",
     "method-note-t": "Разделять уровни данных",
@@ -3538,7 +3618,7 @@ double ppv(double prior, double se, double sp) {
     "close-title": "Скрининговый сигнал полезен, только если его можно проверить.",
     "close-quote": "Учебные расчёты воспроизводимы. Исходные ответы, main (19).pdf и презентация здесь не приложены; предварительные частоты требуют сверки.",
     "close-cta1": "Написать автору",
-    "close-cta2": "Изучить метод",
+    "close-cta2": "Открыть калькулятор",
     "foot-c": "© NeuroCheck, 2026 — школьный исследовательский проект.",
     "foot-r": "Не медицинское изделие.",
     "foot-src": "Статус данных: автор указывает 60 анкет; индивидуальные ответы не верифицированы. Предварительные 21/60 требуют сверки с вопросом. Пример 8/15 и ряд из семи значений — только демонстрации. Параметры Байеса — модельные допущения или внешние оценки SOCS, не проверенные на этой выборке.",
@@ -3550,7 +3630,30 @@ double ppv(double prior, double se, double sp) {
     "socs-label": "SOCS PPV",
     "cpp-title": "C++: только учебный прототип",
     "band-label": "95% прогнозный интервал Стьюдента",
-    "page-title": "NeuroCheck — математический анализ признаков ОКР"
+    "page-title": "NeuroCheck — математический анализ признаков ОКР",
+    "demo-eyebrow": "Числовая демонстрация",
+    "demo-title": "Введите семь значений и проверьте расчёт.",
+    "demo-intro": "Это локальный учебный калькулятор. Первые шесть значений используются для расчёта, седьмое — для проверки. Ввод не является данными анкеты и не отправляется на сервер.",
+    "demo-inputs": "Учебные значения",
+    "demo-baseline": "База: Y₁–Y₆, n = 6",
+    "demo-heldout": "Отложенное проверочное значение Y₇",
+    "demo-calculate": "Рассчитать",
+    "demo-reset": "Вернуть пример",
+    "demo-student": "Расчёт Стьюдента",
+    "demo-coefficient": "n = 6 → df = 5 → t₅,₀.₉₇₅ = 2.5705818 ≈ 2.571. В расчёте используется неокруглённый квантиль.",
+    "demo-mean-label": "Среднее базы x̄",
+    "demo-variance-label": "Выборочная дисперсия S² (деление на 5)",
+    "demo-sd-label": "Выборочное стандартное отклонение S",
+    "demo-pi-label": "95% PI для одного нового значения",
+    "demo-ar-title": "AR(1): точечный прогноз и правило 25%",
+    "demo-parameters": "Оценки AR(1): α̂; β̂",
+    "demo-forecast-label": "Прогноз Ŷ₇",
+    "demo-error-label": "Абсолютная ошибка D₇",
+    "demo-limit-label": "Условный порог T₇",
+    "demo-assumptions-title": "Почему 2.571, а не 1.96?",
+    "demo-assumptions": "В базе шесть значений, дисперсия генеральной совокупности неизвестна, поэтому используется t Стьюдента с 5 степенями свободы. Предполагаются независимые одинаково нормально распределённые наблюдения. Уилсон — отдельный расчёт для доли, в нём остаётся z = 1.96.",
+    "demo-limit-note": "T₇ = 0.25·max(|Ŷ₇|, 1) — условное правило ошибки, не вероятностный интервал и не клинический порог. Результат относится только к введённому числовому примеру.",
+    "demo-noscript": "Для калькулятора нужен JavaScript."
   },
   "kz": {
     "skip": "Мазмұнға өту",
@@ -3559,12 +3662,12 @@ double ppv(double prior, double se, double sp) {
     "nav-evidence": "Нәтиже",
     "nav-limits": "Шектеулер",
     "nav-roadmap": "Жоспар",
-    "nav-signin": "Жоба деректері",
+    "nav-signin": "Есептеу демосы",
     "badge": "Ғылыми жоба · НЗМ Алматы · 2026",
     "hero-title": "ОКБ скринингтік белгілерін математикалық талдау.",
     "hero-sub": "Қолданбалы математика: Байес, Уилсон, Стьюденттің болжам интервалы және AR(1). Соңғы жұмыста 60 анкета; жеке жауаптар верификацияланбаған. Жеті мәндік қатар — бөлек иллюстративті мысал.",
     "hero-method": "Әдісті көру",
-    "hero-demo": "Деректерді қарау",
+    "hero-demo": "Есептеу демосы",
     "hs1": "соңғы жұмыстағы анкета; жауаптар тексерілмеген",
     "hs2": "бөлек иллюстративті қатардағы мән",
     "hs3": "сандық мысалда тексеруге қалдырылған мән",
@@ -3596,7 +3699,7 @@ double ppv(double prior, double se, double sp) {
     "m2-t": "Уилсон интервалы",
     "m2-d": "Уилсон бинарлық жауап үлесінің белгісіздігін бағалайды. Алдын ала 21/60 үшін 95% интервал [24.2; 47.6]%; жиілік пен сұраққа сәйкестігі дұрыс болуы шарт. Ол іріктеу ығысуын түземейді.",
     "m3-t": "Стьюденттің прогностикалық интервалы",
-    "m3-d": "Орта мәнге емес, бір жаңа бақылауға арналған интервал. Мысалда n = 6, df = 5, t = 2.5706. Бақылаулар тәуелсіз, бірдей қалыпты үлестірілген деп алынады; қысқа қатарда бұл тексерілмеген.",
+    "m3-d": "Орта мәнге емес, бір жаңа бақылауға арналған интервал. Мысалда n = 6, df = 5, t = 2.5705818 ≈ 2.571. Бақылаулар тәуелсіз, бірдей қалыпты үлестірілген деп алынады; қысқа қатарда бұл тексерілмеген.",
     "m4-t": "AR(1) моделі",
     "m4-d": "Алғашқы алты мәннің бес көршілес жұбы 5.9286 нүктелік болжамын береді. Абсолютті қате шартты 25% ережемен салыстырылады; бұл ықтималдық интервалы емес.",
     "method-note-t": "Дерек деңгейлерін ажырату",
@@ -3704,7 +3807,7 @@ double ppv(double prior, double se, double sp) {
     "close-title": "Скрининг сигналы тексеруге келгенде ғана пайдалы.",
     "close-quote": "Оқу есептерін қайталауға болады. Бастапқы жауаптар, main (19).pdf және презентация мұнда тіркелмеген; алдын ала жиілікті сәйкестендіру қажет.",
     "close-cta1": "Авторға жазу",
-    "close-cta2": "Әдісті қарау",
+    "close-cta2": "Калькуляторды ашу",
     "foot-c": "© NeuroCheck, 2026 — мектеп зерттеу жобасы.",
     "foot-r": "Медициналық бұйым емес.",
     "foot-src": "Дерек мәртебесі: автор 60 анкетаны көрсетеді; жеке жауаптар тексерілмеген. Алдын ала 21/60 мәнін сұрақпен салыстыру қажет. 8/15 мысалы мен жеті мәндік қатар — тек демонстрациялар. Байес параметрлері — модельдік алғышарттар немесе сыртқы SOCS бағалары; осы іріктемеде тексерілмеген.",
@@ -3716,7 +3819,30 @@ double ppv(double prior, double se, double sp) {
     "socs-label": "SOCS PPV",
     "cpp-title": "C++: тек оқу прототипі",
     "band-label": "Стьюденттің 95% болжам интервалы",
-    "page-title": "NeuroCheck — ОКБ белгілерін математикалық талдау"
+    "page-title": "NeuroCheck — ОКБ белгілерін математикалық талдау",
+    "demo-eyebrow": "Сандық демонстрация",
+    "demo-title": "Жеті мәнді енгізіп, есептеуді тексеріңіз.",
+    "demo-intro": "Бұл — браузердегі оқу калькуляторы. Алғашқы алты мән есептеуге, жетінші мән тексеруге қолданылады. Енгізілген мәндер анкета дерегі емес және серверге жіберілмейді.",
+    "demo-inputs": "Оқу мәндері",
+    "demo-baseline": "Базалық мәндер: Y₁–Y₆, n = 6",
+    "demo-heldout": "Тексеруге қалдырылған Y₇ мәні",
+    "demo-calculate": "Есептеу",
+    "demo-reset": "Мысалды қайтару",
+    "demo-student": "Стьюдент есебі",
+    "demo-coefficient": "n = 6 → df = 5 → t₅,₀.₉₇₅ = 2.5705818 ≈ 2.571. Есептеуде дөңгелектелмеген квантиль қолданылады.",
+    "demo-mean-label": "Базаның орташа мәні x̄",
+    "demo-variance-label": "Таңдамалық дисперсия S² (5-ке бөлу)",
+    "demo-sd-label": "Таңдамалық стандартты ауытқу S",
+    "demo-pi-label": "Бір жаңа мәнге арналған 95% PI",
+    "demo-ar-title": "AR(1): нүктелік болжам және 25% ереже",
+    "demo-parameters": "AR(1) бағалары: α̂; β̂",
+    "demo-forecast-label": "Болжам Ŷ₇",
+    "demo-error-label": "Абсолютті қате D₇",
+    "demo-limit-label": "Демонстрациялық шек T₇",
+    "demo-assumptions-title": "Неге 1.96 емес, 2.571?",
+    "demo-assumptions": "Базада алты мән бар, бас жиынтықтың дисперсиясы белгісіз: сондықтан 5 еркіндік дәрежесі бар Стьюдент t мәні қолданылады. Бақылаулар тәуелсіз, бірдей қалыпты үлестірілген деп алынады. Уилсон — үлеске арналған бөлек есеп; онда z = 1.96 қалады.",
+    "demo-limit-note": "T₇ = 0.25·max(|Ŷ₇|, 1) — шартты қате ережесі; ықтималдық интервалы немесе клиникалық шек емес. Нәтиже тек енгізілген сандық мысалға қатысты.",
+    "demo-noscript": "Калькулятор үшін JavaScript қажет."
   }
 };
 
