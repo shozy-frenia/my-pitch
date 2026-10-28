@@ -1,30 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="kk" data-theme="light">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NeuroCheck — a testable screening signal for schools</title>
+    <title>NeuroCheck — ОКБ белгілерін математикалық талдау</title>
     <meta name="description"
-        content="NeuroCheck turns seven daily check-ins into a falsifiable forecast. Built on Bayes' rule, the Wilson interval, a Student prediction interval and an AR(1) model. A research prototype — not a diagnostic instrument." />
+        content="ОКБ скринингтік белгілерін математикалық талдау: Байес, Уилсон, Стьюдент және AR(1). 60 анкета туралы алдын ала мәлімет және бөлек оқу мысалдары." />
     <meta name="theme-color" content="#FAFAF7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0C0E14" media="(prefers-color-scheme: dark)" />
     <link rel="canonical" href="https://neurocheck.space/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://neurocheck.space/" />
-    <meta property="og:title" content="NeuroCheck — a testable screening signal for schools" />
+    <meta property="og:title" content="NeuroCheck — ОКБ белгілерін математикалық талдау" />
     <meta property="og:description"
-        content="Seven daily check-ins become a falsifiable forecast. Bayes · Wilson · Student prediction interval · AR(1). A research prototype, openly reported." />
-    <meta property="og:image" content="https://neurocheck.space/og.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt"
-        content="NeuroCheck — seven daily check-ins, one falsifiable forecast. 95% prediction interval [2.920; 9.413], AR(1) forecast 5.929, actual 10." />
-    <meta property="og:locale" content="en" />
+        content="Ғылыми жоба: 60 анкета туралы алдын ала мәлімет. Байес, Уилсон, Стьюдент және AR(1). Скрининг — диагноз емес." />
+    <meta property="og:locale" content="kk_KZ" />
     <meta property="og:site_name" content="NeuroCheck" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://neurocheck.space/og.png" />
+    <meta name="twitter:card" content="summary" />
 
     <link rel="icon"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233B3FA0'/%3E%3Cpath d='M6 21.5 L11 15 L15 18.5 L20 8.5 L26 19' fill='none' stroke='%23FAFAF7' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='20' cy='8.5' r='3' fill='%23C97A1F' stroke='%23FAFAF7' stroke-width='1.6'/%3E%3C/svg%3E" />
@@ -2148,7 +2142,7 @@
 </head>
 
 <body>
-    <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+    <a class="skip-link" href="#main" data-i18n="skip">Мазмұнға өту</a>
     <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <header class="nav" id="nav">
@@ -2165,28 +2159,27 @@
 
             <nav aria-label="Primary">
                 <ul class="nav-links" id="navLinks">
-                    <li><a class="navlink" href="#problem" data-i18n="nav-problem">Problem</a></li>
-                    <li><a class="navlink" href="#method" data-i18n="nav-method">Method</a></li>
-                    <li><a class="navlink" href="#evidence" data-i18n="nav-evidence">Evidence</a></li>
-                    <li><a class="navlink" href="#limits" data-i18n="nav-limits">Limits</a></li>
-                    <li><a class="navlink" href="#market" data-i18n="nav-market">Market</a></li>
-                    <li><a class="navlink" href="#roadmap" data-i18n="nav-roadmap">Roadmap</a></li>
+                    <li><a class="navlink" href="#problem" data-i18n="nav-problem">Зерттеу</a></li>
+                    <li><a class="navlink" href="#method" data-i18n="nav-method">Әдіс</a></li>
+                    <li><a class="navlink" href="#evidence" data-i18n="nav-evidence">Нәтиже</a></li>
+                    <li><a class="navlink" href="#limits" data-i18n="nav-limits">Шектеулер</a></li>
+                    <li><a class="navlink" href="#roadmap" data-i18n="nav-roadmap">Жоспар</a></li>
                     <li class="nav-mobile-extra">
                         <div class="seg" role="group" aria-label="Language">
-                            <button type="button" data-lang="en" class="active">EN</button>
+                            <button type="button" data-lang="en">EN</button>
                             <button type="button" data-lang="ru">РУС</button>
-                            <button type="button" data-lang="kz">ҚАЗ</button>
+                            <button type="button" data-lang="kz" class="active">ҚАЗ</button>
                         </div>
-                        <a href="login" class="btn btn-primary" data-i18n="nav-signin">Sign in</a>
+                        <a href="#evidence" class="btn btn-primary" data-i18n="nav-signin">Жоба деректері</a>
                     </li>
                 </ul>
             </nav>
 
             <div class="nav-tools">
                 <div class="seg" role="group" aria-label="Language">
-                    <button type="button" data-lang="en" class="active">EN</button>
+                    <button type="button" data-lang="en">EN</button>
                     <button type="button" data-lang="ru">РУС</button>
-                    <button type="button" data-lang="kz">ҚАЗ</button>
+                    <button type="button" data-lang="kz" class="active">ҚАЗ</button>
                 </div>
                 <button type="button" class="icon-btn" id="themeToggle" aria-label="Toggle colour theme">
                     <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
@@ -2199,7 +2192,7 @@
                         <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
                     </svg>
                 </button>
-                <a href="login" class="btn btn-primary" style="padding:8px 14px;" data-i18n="nav-signin">Sign in</a>
+                <a href="#evidence" class="btn btn-primary" style="padding:8px 14px;" data-i18n="nav-signin">Жоба деректері</a>
                 <button type="button" class="icon-btn nav-toggle" id="navToggle" aria-label="Menu"
                     aria-expanded="false" aria-controls="navLinks">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
@@ -2220,82 +2213,78 @@
                     <div class="hero-copy reveal" data-reveal="fade">
                         <span class="badge">
                             <span class="dot" aria-hidden="true"></span>
-                            <span data-i18n="badge">Research prototype · NIS Almaty · 2026</span>
+                            <span data-i18n="badge">Ғылыми жоба · НЗМ Алматы · 2026</span>
                         </span>
 
-                        <h1 id="heroTitle" data-i18n="hero-title" data-split>Seven daily check-ins. One falsifiable forecast.</h1>
+                        <h1 id="heroTitle" data-i18n="hero-title" data-split>ОКБ скринингтік белгілерін математикалық талдау.</h1>
 
-                        <p class="hero-sub" data-i18n="hero-sub">NeuroCheck fits an AR(1) model to a student's first six
-                            daily anxiety scores, then predicts day seven — and openly reports whether the prediction
-                            held. Bayes' rule, a Wilson interval and a Student prediction interval do the rest.</p>
+                        <p class="hero-sub" data-i18n="hero-sub">Қолданбалы математика: Байес, Уилсон, Стьюденттің болжам интервалы және AR(1). Соңғы жұмыста 60 анкета; жеке жауаптар верификацияланбаған. Жеті мәндік қатар — бөлек иллюстративті мысал.</p>
 
                         <div class="hero-ctas">
                             <a href="#method" class="btn btn-primary" data-i18n="hero-method">
-                                <span>See the method</span>
+                                <span>Әдісті көру</span>
                                 <span class="arrow" aria-hidden="true">→</span>
                             </a>
-                            <a href="login" class="btn btn-ghost" data-i18n="hero-demo">Open the demo</a>
+                            <a href="#evidence" class="btn btn-ghost" data-i18n="hero-demo">Деректерді қарау</a>
                         </div>
 
                         <div class="hero-strip reveal" data-reveal="fade" style="--delay:220ms">
                             <div class="hero-stat">
-                                <b class="num" data-count="15" data-suffix="">0</b>
-                                <span data-i18n="hs1">students in the cross-sectional sample</span>
+                                <b class="num" data-count="60" data-suffix="">0</b>
+                                <span data-i18n="hs1">соңғы жұмыстағы анкета; жауаптар тексерілмеген</span>
                             </div>
                             <div class="hero-stat">
                                 <b class="num" data-count="7" data-suffix="">0</b>
-                                <span data-i18n="hs2">consecutive days in the longitudinal series</span>
+                                <span data-i18n="hs2">бөлек иллюстративті қатардағы мән</span>
                             </div>
                             <div class="hero-stat">
                                 <b class="num" data-count="1" data-suffix="">0</b>
-                                <span data-i18n="hs3">held-out day used as the test point</span>
+                                <span data-i18n="hs3">сандық мысалда тексеруге қалдырылған мән</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- ── the real result, animated ── -->
+                    <!-- Illustrative numerical example, animated -->
                     <figure class="figure-card reveal" data-reveal="scale" style="--delay:120ms" id="heroFigure">
                         <figcaption class="fig-head">
-                            <span class="fig-title" data-i18n="fig-title">Sample B · one student · Y₁…Y₇</span>
+                            <span class="fig-title" data-i18n="fig-title">Иллюстративті қатар · қатысушы дерегі емес</span>
                             <button type="button" class="fig-replay" id="replayBtn">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
                                     <path d="M3 3v5h5" />
                                 </svg>
-                                <span data-i18n="fig-replay">Replay</span>
+                                <span data-i18n="fig-replay">Қайта</span>
                             </button>
                         </figcaption>
 
                         <div class="fig-body">
                             <svg class="fig-svg" id="figSvg" viewBox="0 0 560 250" role="img"
-                                aria-label="Seven daily observations with a 95% prediction interval and an AR(1) forecast for day seven"></svg>
+                                aria-label="Иллюстративті қатар: 5, 6, 5, 7, 6, 8, 10. Стьюдент интервалы [2.9208; 9.4126]; AR(1) болжамы 5.9286; шартты 25% шек 1.4821."></svg>
                         </div>
 
                         <div class="fig-readout">
                             <div class="ro">
-                                <span class="k" data-i18n="ro1">95% pred. interval</span>
+                                <span class="k" data-i18n="ro1">Стьюденттің 95% болжам интервалы</span>
                                 <span class="v" id="roPi">—</span>
                             </div>
                             <div class="ro">
-                                <span class="k" data-i18n="ro2">AR(1) forecast Ŷ₇</span>
+                                <span class="k" data-i18n="ro2">AR(1) болжамы Ŷ₇</span>
                                 <span class="v" id="roFc">—</span>
                             </div>
                             <div class="ro">
-                                <span class="k" data-i18n="ro3">Actual Y₇</span>
+                                <span class="k" data-i18n="ro3">Мысалдағы Y₇</span>
                                 <span class="v" id="roActual">—</span>
                             </div>
                             <div class="ro">
-                                <span class="k" data-i18n="ro4">Deviation D₇ / limit T₇</span>
+                                <span class="k" data-i18n="ro4">Қате / шартты 25% шек</span>
                                 <span class="v" id="roDev">—</span>
                             </div>
                         </div>
 
                         <div class="fig-verdict">
-                            <span class="flag" data-i18n="fig-flag">Not met</span>
-                            <span data-i18n="fig-verdict">On this demonstration series D₇ = 4.071 exceeded the dynamic
-                                limit T₇ = 1.482, so the hypothesis was <strong>not</strong> confirmed. The method
-                                returned a clear, checkable answer — that is the point of it.</span>
+                            <span class="flag" data-i18n="fig-flag">Орындалмады</span>
+                            <span data-i18n="fig-verdict">Тек иллюстрация: |10 − 5.9286| = 4.0714 &gt; 0.25·max(|5.9286|,1) = 1.4821. Қате ≤25% гипотезасы расталмады. 25% ереже статистикалық болжам интервалы немесе клиникалық шек емес.</span>
                         </div>
                     </figure>
                 </div>
@@ -2305,51 +2294,18 @@
         <!-- ═══════════════ 01 PROBLEM ═══════════════ -->
         <section class="section section-line" id="problem">
             <div class="wrap">
-                <div class="eyebrow reveal" data-reveal="fade" data-i18n="problem-eyebrow">01 · The problem</div>
-                <h2 class="reveal" data-i18n="problem-title">Screening for OCD rarely reaches a classroom.</h2>
-                <p class="lead reveal" data-reveal="fade" style="--delay:80ms" data-i18n="problem-lead">Obsessive–compulsive
-                    disorder is measurable, treatable and routinely missed in adolescence. The bottleneck is not the
-                    absence of clinical instruments — it is that no one has time to run them on every student, every
-                    week.</p>
-
-                <div class="grid grid-4 mt-l">
-                    <div class="card stat-card reveal" style="--delay:0ms">
-                        <b class="num" data-count="2" data-prefix="1–" data-suffix="%">0</b>
-                        <p data-i18n="stat1">of the world's population lives with OCD.</p>
-                        <span class="src">WHO</span>
-                    </div>
-                    <div class="card stat-card reveal" style="--delay:70ms">
-                        <b data-i18n="stat2-num">Top 10</b>
-                        <p data-i18n="stat2">most disabling conditions worldwide.</p>
-                        <span class="src">WHO</span>
-                    </div>
-                    <div class="card stat-card reveal" style="--delay:140ms">
-                        <b class="num" data-count="17" data-suffix=" yrs">0</b>
-                        <p data-i18n="stat3">median delay between first symptoms and treatment.</p>
-                        <span class="src">Literature</span>
-                    </div>
-                    <div class="card stat-card reveal" style="--delay:210ms">
-                        <b class="num" data-count="5000" data-format="thousand" data-prefix="~">0</b>
-                        <p data-i18n="stat4">school psychologists for ~3M students in Kazakhstan.</p>
-                        <span class="src" data-i18n="src-est">Public estimate</span>
-                    </div>
-                </div>
+                <div class="eyebrow reveal" data-reveal="fade" data-i18n="problem-eyebrow">01 · Зерттеу сұрағы</div>
+                <h2 class="reveal" data-i18n="problem-title">Скринингтік белгілерді қалай бағалауға болады?</h2>
+                <p class="lead reveal" data-reveal="fade" style="--delay:80ms" data-i18n="problem-lead">Жоба жауап үлестерін, шартты ықтималдықтарды және болжам қатесін қарастырады. Бұл — әртүрлі математикалық шамалар; олардың ешқайсысы өздігінен медициналық диагноз қоймайды.</p>
 
                 <div class="mt-xl">
-                    <h3 class="sub-head reveal" data-i18n="why-now">Why it stays unsolved</h3>
+                    <h3 class="sub-head reveal" data-i18n="why-now">Зерттеу міндеттері</h3>
                     <ul class="limit-list reveal" data-reveal="fade">
-                        <li><span class="x">01</span><span><strong data-i18n="r1-t">No routine screening.</strong>
-                                <span data-i18n="r1-d">A psychologist covering several hundred students cannot run a
-                                    structured interview with each of them.</span></span></li>
-                        <li><span class="x">02</span><span><strong data-i18n="r2-t">Self-report is unreliable at a
-                                    single point in time.</strong> <span data-i18n="r2-d">One questionnaire captures a
-                                    mood, not a trajectory.</span></span></li>
-                        <li><span class="x">03</span><span><strong data-i18n="r3-t">Stigma suppresses
-                                    disclosure.</strong> <span data-i18n="r3-d">Adolescents under-report intrusive
-                                    thoughts when the form has their name on it.</span></span></li>
-                        <li><span class="x">04</span><span><strong data-i18n="r4-t">Rare conditions break naive
-                                    tests.</strong> <span data-i18n="r4-d">At a 2% base rate even a good test produces
-                                    far more false alarms than true ones — see section 04.</span></span></li>
+                        <li><span class="x">01</span><span><strong data-i18n="r1-t">Топты сипаттау.</strong>
+                                <span data-i18n="r1-d">Алдын ала 21/60 жиілігін анкетаның бастапқы жауаптарымен салыстыру.</span></span></li>
+                        <li><span class="x">02</span><span><strong data-i18n="r2-t">Белгісіздікті бағалау.</strong> <span data-i18n="r2-d">Берілген жиілік үшін шартты Уилсон интервалын есептеу.</span></span></li>
+                        <li><span class="x">03</span><span><strong data-i18n="r3-t">Prior рөлін түсіндіру.</strong> <span data-i18n="r3-d">Байес арқылы сезімталдық пен оң нәтиженің болжамдық құнын ажырату.</span></span></li>
+                        <li><span class="x">04</span><span><strong data-i18n="r4-t">Болжамды тексеру.</strong> <span data-i18n="r4-d">Оқу қатарының тексеру мәнін Стьюдент интервалымен және AR(1) 25% қате ережесімен салыстыру.</span></span></li>
                     </ul>
                 </div>
             </div>
@@ -2358,72 +2314,60 @@
         <!-- ═══════════════ 02 METHOD ═══════════════ -->
         <section class="section section-alt" id="method">
             <div class="wrap">
-                <div class="eyebrow reveal" data-reveal="fade" data-i18n="method-eyebrow">02 · Method</div>
-                <h2 class="reveal" data-i18n="method-title">Four classical tools, each doing one job.</h2>
-                <p class="lead reveal" data-reveal="fade" style="--delay:80ms" data-i18n="method-lead">Nothing here is a
-                    black box. Every number on this page comes from a formula you can check by hand, implemented in a
-                    C++ core that writes every run to a log.</p>
+                <div class="eyebrow reveal" data-reveal="fade" data-i18n="method-eyebrow">02 · Әдіс</div>
+                <h2 class="reveal" data-i18n="method-title">Төрт классикалық құрал, әрқайсысы бір іске.</h2>
+                <p class="lead reveal" data-reveal="fade" style="--delay:80ms" data-i18n="method-lead">Әр әдіс бөлек сұраққа жауап береді. C++ үзіндісі — есептеу прототипі; валидацияланған диагностикалық жүйе емес.</p>
 
                 <div class="grid grid-2 mt-l">
                     <div class="card method-card reveal" style="--delay:0ms">
-                        <h3><span class="idx">M1</span><span data-i18n="m1-t">Bayes' rule</span></h3>
-                        <p data-i18n="m1-d">Turns a positive screen into a posterior probability, given sensitivity,
-                            specificity and the population base rate. This is what makes the base-rate problem visible
-                            instead of hiding it.</p>
+                        <h3><span class="idx">M1</span><span data-i18n="m1-t">Байес формуласы</span></h3>
+                        <p data-i18n="m1-d">Сезімталдық, ерекшелік және базалық жиілік берілгенде оң скринингті кейінгі ықтималдыққа айналдырады. Дәл осы базалық жиілік мәселесін жасырмай, көрінетін етеді.</p>
                         <div class="formula-box"><div id="fx-bayes"></div></div>
                     </div>
                     <div class="card method-card reveal" style="--delay:70ms">
-                        <h3><span class="idx">M2</span><span data-i18n="m2-t">Wilson score interval</span></h3>
-                        <p data-i18n="m2-d">Puts honest error bars on a proportion measured in a small group. With
-                            n = 15 the interval is wide — and the site shows it that way rather than quoting the point
-                            estimate alone.</p>
+                        <h3><span class="idx">M2</span><span data-i18n="m2-t">Уилсон интервалы</span></h3>
+                        <p data-i18n="m2-d">Уилсон бинарлық жауап үлесінің белгісіздігін бағалайды. Алдын ала 21/60 үшін 95% интервал [24.2; 47.6]%; жиілік пен сұраққа сәйкестігі дұрыс болуы шарт. Ол іріктеу ығысуын түземейді.</p>
                         <div class="formula-box"><div id="fx-wilson"></div></div>
                     </div>
                     <div class="card method-card reveal" style="--delay:140ms">
-                        <h3><span class="idx">M3</span><span data-i18n="m3-t">Student prediction interval</span></h3>
-                        <p data-i18n="m3-d">A range for <em>one new observation</em> — not for a mean. Built from the
-                            first six days (n = 6, df = 5, t = 2.571), it says where day seven should land if nothing
-                            has changed.</p>
+                        <h3><span class="idx">M3</span><span data-i18n="m3-t">Стьюденттің прогностикалық интервалы</span></h3>
+                        <p data-i18n="m3-d">Орта мәнге емес, бір жаңа бақылауға арналған интервал. Мысалда n = 6, df = 5, t = 2.5706. Бақылаулар тәуелсіз, бірдей қалыпты үлестірілген деп алынады; қысқа қатарда бұл тексерілмеген.</p>
                         <div class="formula-box"><div id="fx-pi"></div></div>
                     </div>
                     <div class="card method-card reveal" style="--delay:210ms">
-                        <h3><span class="idx">M4</span><span data-i18n="m4-t">AR(1) model</span></h3>
-                        <p data-i18n="m4-d">A first-order autoregression fitted to that same baseline. It carries
-                            yesterday's value forward into a point forecast for today, which the held-out day then
-                            tests.</p>
+                        <h3><span class="idx">M4</span><span data-i18n="m4-t">AR(1) моделі</span></h3>
+                        <p data-i18n="m4-d">Алғашқы алты мәннің бес көршілес жұбы 5.9286 нүктелік болжамын береді. Абсолютті қате шартты 25% ережемен салыстырылады; бұл ықтималдық интервалы емес.</p>
                         <div class="formula-box"><div id="fx-ar1"></div></div>
                     </div>
                 </div>
 
                 <div class="note reveal" data-reveal="fade">
-                    <b data-i18n="method-note-t">Why not a neural network?</b>
-                    <p data-i18n="method-note-d">With one participant and seven observations, any model with more than a
-                        couple of parameters would fit noise. Classical statistics is not a fallback here — at this
-                        sample size it is the only defensible choice, and it produces intervals a reviewer can audit.</p>
+                    <b data-i18n="method-note-t">Дерек деңгейлерін ажырату</b>
+                    <p data-i18n="method-note-d">60 анкета топты сипаттайды. Жеті мәндік қатар — қатысушыдан алынғаны расталмаған сандық иллюстрация. Сауалнама уақыттық модельді валидацияламайды.</p>
                 </div>
 
                 <div class="mt-xl">
-                    <h3 class="sub-head reveal" data-i18n="how-title">How a week runs</h3>
+                    <h3 class="sub-head reveal" data-i18n="how-title">Сандық демонстрация қадамдары</h3>
                     <div class="steps reveal" data-reveal="fade">
                         <div class="step">
                             <span class="num">01</span>
-                            <h4 data-i18n="s1-t">Daily check-in</h4>
-                            <p data-i18n="s1-d">A short self-report through a Telegram bot produces one anxiety index per day.</p>
+                            <h4 data-i18n="s1-t">Оқу мәндері</h4>
+                            <p data-i18n="s1-d">(5,6,5,7,6,8,10) қолданылады; қатысушының нақты дерегі емес.</p>
                         </div>
                         <div class="step">
                             <span class="num">02</span>
-                            <h4 data-i18n="s2-t">Baseline fit</h4>
-                            <p data-i18n="s2-d">Days 1–6 give x̄, S, a prediction interval and the AR(1) coefficients.</p>
+                            <h4 data-i18n="s2-t">Базалық кезең</h4>
+                            <p data-i18n="s2-d">1–6 күндер x̄, S, прогностикалық интервал және AR(1) коэффициенттерін береді.</p>
                         </div>
                         <div class="step">
                             <span class="num">03</span>
-                            <h4 data-i18n="s3-t">Held-out test</h4>
-                            <p data-i18n="s3-d">Day 7 is compared against both forecasts. It never enters the fit.</p>
+                            <h4 data-i18n="s3-t">Қалдырылған тексеру</h4>
+                            <p data-i18n="s3-d">Жетінші мән модельді бағалауға кірмейді; тек тексеруге қолданылады.</p>
                         </div>
                         <div class="step">
                             <span class="num">04</span>
-                            <h4 data-i18n="s4-t">Signal, not verdict</h4>
-                            <p data-i18n="s4-d">A deviation is flagged for a human to look at. The system never names a diagnosis.</p>
+                            <h4 data-i18n="s4-t">Түсіндіру</h4>
+                            <p data-i18n="s4-d">25% қате шарты орындалмағанын клиникалық қорытындысыз көрсету.</p>
                         </div>
                     </div>
                 </div>
@@ -2433,173 +2377,113 @@
         <!-- ═══════════════ 03 EVIDENCE ═══════════════ -->
         <section class="section section-line" id="evidence">
             <div class="wrap">
-                <div class="eyebrow reveal" data-reveal="fade" data-i18n="evidence-eyebrow">03 · Evidence</div>
-                <h2 class="reveal" data-i18n="evidence-title">Two samples, kept strictly apart.</h2>
-                <p class="lead reveal" data-reveal="fade" style="--delay:80ms" data-i18n="evidence-lead">The study
-                    answers two different questions and refuses to mix them. Sample A describes a group at one moment.
-                    Sample B tests a forecasting procedure on one person over time. Neither validates the other.</p>
+                <div class="eyebrow reveal" data-reveal="fade" data-i18n="evidence-eyebrow">03 · Нәтиже</div>
+                <h2 class="reveal" data-i18n="evidence-title">Сауалнама мен иллюстрация — бөлек.</h2>
+                <p class="lead reveal" data-reveal="fade" style="--delay:80ms" data-i18n="evidence-lead">Соңғы жұмыста 60 анкета талданады. Жеке жауаптар мен сұрақтарға сәйкестік тексерілмеген; презентациямен айырмашылықтар бар. Бөлек уақыттық қатар тек есептеуді көрсетеді.</p>
 
                 <div class="sample-grid">
                     <!-- Sample A -->
                     <article class="sample reveal" data-reveal="left">
                         <header class="sample-head">
-                            <h3 data-i18n="sa-t">Cross-sectional</h3>
-                            <span class="tag">Sample A · n = 15</span>
+                            <h3 data-i18n="sa-t">Алдын ала анкета мәліметі</h3>
+                            <span class="tag"><span data-i18n="sa-tag">A · n = 60, тексерілмеген</span></span>
                         </header>
                         <div class="sample-body">
-                            <div class="kv"><span class="k" data-i18n="sa-k1">Above the chosen threshold</span><span
-                                    class="v">8 / 15 · 53.3%</span></div>
-                            <div class="kv"><span class="k" data-i18n="sa-k2">Wilson 95% interval</span><span
-                                    class="v">30.1% – 75.2%</span></div>
-                            <div class="kv"><span class="k" data-i18n="sa-k3">Design</span><span class="v"
-                                    data-i18n="sa-v3">one questionnaire, one moment</span></div>
+                            <div class="kv"><span class="k" data-i18n="sa-k1">Тұрмыстық техниканы тексеру</span><span
+                                    class="v">21 / 60 · 35%</span></div>
+                            <div class="kv"><span class="k" data-i18n="sa-k2">Шартты 95% Уилсон интервалы</span><span
+                                    class="v">[24.2; 47.6]%</span></div>
+                            <div class="kv"><span class="k" data-i18n="sa-k3">Мәртебе</span><span class="v"
+                                    data-i18n="sa-v3">Сұраққа сәйкестігі тексеріледі</span></div>
 
                             <div class="wilson">
                                 <div class="wilson-scale">
                                     <div class="wilson-axis"></div>
-                                    <div class="wilson-band" style="left:30.1%; width:45.1%; --origin:51.5%;"></div>
-                                    <div class="wilson-point" style="left:53.3%;"></div>
-                                    <span class="wilson-tick" style="left:30.1%;">30.1%</span>
-                                    <span class="wilson-tick" style="left:53.3%; color:var(--accent);">53.3%</span>
-                                    <span class="wilson-tick" style="left:75.2%;">75.2%</span>
+                                    <div class="wilson-band" style="left:24.2%; width:23.4%; --origin:46.2%;"></div>
+                                    <div class="wilson-point" style="left:35%;"></div>
+                                    <span class="wilson-tick" style="left:24.2%;">24.2%</span>
+                                    <span class="wilson-tick" style="left:35%; color:var(--accent);">35%</span>
+                                    <span class="wilson-tick" style="left:47.6%;">47.6%</span>
                                 </div>
                                 <div class="wilson-legend"><span>0%</span><span>100%</span></div>
                             </div>
 
-                            <p class="small" data-i18n="sa-note">The width of that band is the finding. With fifteen
-                                respondents the true proportion could plausibly be one in three or three in four — so
-                                this number describes these fifteen students and no one else.</p>
+                            <p class="small" data-i18n="sa-note">21/60 = 35% — алдын ала мәлімет. Интервал k = 21, n = 60 дұрыс және бинарлық жауаптар тәуелсіз деп есептеледі. Бұл ОКБ таралуы немесе расталған диагноздар үлесі емес.</p>
                         </div>
                     </article>
 
                     <!-- Sample B -->
                     <article class="sample reveal" data-reveal="right" style="--delay:90ms">
                         <header class="sample-head">
-                            <h3 data-i18n="sb-t">Longitudinal</h3>
-                            <span class="tag">Sample B · n = 1 × 7</span>
+                            <h3 data-i18n="sb-t">Иллюстративті уақыттық қатар</h3>
+                            <span class="tag"><span data-i18n="sb-tag">B · сандық мысал</span></span>
                         </header>
                         <div class="sample-body">
-                            <div class="kv"><span class="k" data-i18n="sb-k1">Series</span><span class="v">5, 6, 5, 7, 6, 8, 10</span></div>
-                            <div class="kv"><span class="k" data-i18n="sb-k2">Baseline mean · S</span><span class="v">6.167 · 1.169</span></div>
-                            <div class="kv"><span class="k" data-i18n="sb-k3">95% prediction interval</span><span class="v">[2.920; 9.413]</span></div>
-                            <div class="kv"><span class="k" data-i18n="sb-k4">AR(1) estimates α, β</span><span class="v">α = 7.643 · β = −0.214</span></div>
-                            <div class="kv"><span class="k" data-i18n="sb-k5">Forecast Ŷ₇ · actual Y₇</span><span class="v">5.929 · 10</span></div>
-                            <div class="kv"><span class="k" data-i18n="sb-k6">D₇ vs T₇</span><span class="v"
-                                    style="color:var(--alert)">4.071 &gt; 1.482</span></div>
+                            <div class="kv"><span class="k" data-i18n="sb-k1">Қатар</span><span class="v">5, 6, 5, 7, 6, 8, 10</span></div>
+                            <div class="kv"><span class="k" data-i18n="sb-k2">Базаның ортасы · S</span><span class="v">6.1667 · 1.1690</span></div>
+                            <div class="kv"><span class="k" data-i18n="sb-k3">Стьюденттің 95% болжам интервалы</span><span class="v">[2.9208; 9.4126]</span></div>
+                            <div class="kv"><span class="k" data-i18n="sb-k4">AR(1) бағалары α, β</span><span class="v">α = 7.6429 · β = −0.2143</span></div>
+                            <div class="kv"><span class="k" data-i18n="sb-k5">Болжам / тексеру мәні</span><span class="v">5.9286 · 10</span></div>
+                            <div class="kv"><span class="k" data-i18n="sb-k6">Қате / 25% шек</span><span class="v"
+                                    style="color:var(--alert)">4.0714 &gt; 1.4821</span></div>
 
-                            <p class="small" data-i18n="sb-note">Day seven landed outside the prediction interval and
-                                beyond the dynamic limit, so the stated hypothesis was not confirmed on this series. A
-                                single run neither validates nor refutes the method — it demonstrates that the decision
-                                rule fires.</p>
+                            <p class="small" data-i18n="sb-note">Мысалдағы 10 мәні Стьюдент интервалынан жоғары. AR(1) болжамы 5.9286; қате 4.0714 шартты 1.4821 шектен асады. Мысалда ≤25% гипотезасы расталмады; нақты қатысушы нәтижесі деп берілмейді.</p>
                         </div>
                     </article>
                 </div>
 
-                <div class="mt-xl">
-                    <h3 class="sub-head reveal" data-i18n="survey-title">What the fifteen reported</h3>
-                    <p class="small reveal" data-reveal="fade" style="max-width:62ch"
-                        data-i18n="survey-sub">Descriptive frequencies from Sample A. These are self-reported symptom
-                        frequencies, not clinical ratings.</p>
-
-                    <div class="grid grid-3 mt-l">
-                        <div class="reveal">
-                            <div class="bar-item">
-                                <div class="bar-label"><span data-i18n="b1-l">Intrusive thoughts</span><span class="n">93.3%</span></div>
-                                <div class="bar-track">
-                                    <div class="bar-seg" style="width:53.3%; background:var(--alert); --delay:0ms"></div>
-                                    <div class="bar-seg" style="width:40%; background:var(--warn); --delay:110ms"></div>
-                                    <div class="bar-seg" style="width:6.7%; background:var(--panel-2); --delay:220ms"></div>
-                                </div>
-                                <div class="ev-note" data-i18n="b1-n">53.3% often · 40% sometimes · 6.7% rarely</div>
-                            </div>
-                        </div>
-                        <div class="reveal" style="--delay:80ms">
-                            <div class="bar-item">
-                                <div class="bar-label"><span data-i18n="b2-l">Repeated checking</span><span class="n">86.6%</span></div>
-                                <div class="bar-track">
-                                    <div class="bar-seg" style="width:53.3%; background:var(--ok); --delay:0ms"></div>
-                                    <div class="bar-seg" style="width:20%; background:var(--warn); --delay:110ms"></div>
-                                    <div class="bar-seg" style="width:13.3%; background:var(--alert); --delay:220ms"></div>
-                                </div>
-                                <div class="ev-note" data-i18n="b2-n">53.3% check 1–3× · 20% 5–10× · 13.3% 10+×</div>
-                            </div>
-                        </div>
-                        <div class="reveal" style="--delay:160ms">
-                            <div class="bar-item">
-                                <div class="bar-label"><span data-i18n="b3-l">Worry about locks and doors</span><span class="n">53.4%</span></div>
-                                <div class="bar-track">
-                                    <div class="bar-seg" style="width:26.7%; background:var(--alert); --delay:0ms"></div>
-                                    <div class="bar-seg" style="width:26.7%; background:var(--warn); --delay:110ms"></div>
-                                    <div class="bar-seg" style="width:46.6%; background:var(--panel-2); --delay:220ms"></div>
-                                </div>
-                                <div class="ev-note" data-i18n="b3-n">26.7% always · 26.7% often</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="note reveal" data-reveal="fade"><b data-i18n="example-title">8/15 — бөлек оқу мысалы</b><p data-i18n="example-note">8/15 ≈ 53.3%, Уилсонның 95% интервалы [30.1; 75.2]% (дөңгелектеп [30;75]%). Бұл — демонстрация, 60 анкетаның нәтижесі емес.</p></div>
             </div>
         </section>
 
         <!-- ═══════════════ 04 BASE RATE ═══════════════ -->
         <section class="section section-alt" id="paradox">
             <div class="wrap">
-                <div class="eyebrow reveal" data-reveal="fade" data-i18n="para-eyebrow">04 · The screening paradox</div>
-                <h2 class="reveal" data-i18n="para-title">A positive screen means a 5% chance, not a 85% one.</h2>
-                <p class="lead reveal" data-reveal="fade" style="--delay:80ms" data-i18n="para-lead">This is the single
-                    most important number on the page, and most screening products never show it. Run 1,000 students
-                    through a test with 85% sensitivity and 70% specificity at a 2% base rate, and the arithmetic is
-                    unforgiving.</p>
+                <div class="eyebrow reveal" data-reveal="fade" data-i18n="para-eyebrow">04 · Скрининг парадоксы</div>
+                <h2 class="reveal" data-i18n="para-title">Байес: сезімталдық пен PPV әртүрлі.</h2>
+                <p class="lead reveal" data-reveal="fade" style="--delay:80ms" data-i18n="para-lead">Шартты 1000 адам prior = 0.02, Se = 0.85 және Sp = 0.70 мәндерін түсіндіреді. Бұл — модель параметрлері; 60 анкетада өлшенген шамалар емес.</p>
 
                 <div class="paradox">
                     <div class="dotfield reveal" data-reveal="scale">
                         <canvas id="baseRate" width="880" height="500"
-                            aria-label="One thousand dots representing students, coloured by true condition and test outcome"></canvas>
+                            aria-label="Модельдік 1000 адам. prior 0.02, Se 0.85, Sp 0.70. Нақты қатысушылар емес."></canvas>
                         <div class="dotfield-legend">
-                            <span class="lg"><i style="background:#C9C6BA"></i><span data-i18n="lg1">Healthy, negative</span></span>
-                            <span class="lg"><i style="background:#B26A15"></i><span data-i18n="lg2">Healthy, false alarm</span></span>
-                            <span class="lg"><i style="background:#AE3A2E"></i><span data-i18n="lg3">OCD, detected</span></span>
-                            <span class="lg"><i style="background:#3B3FA0"></i><span data-i18n="lg4">OCD, missed</span></span>
+                            <span class="lg"><i style="background:#C9C6BA"></i><span data-i18n="lg1">Сау, теріс</span></span>
+                            <span class="lg"><i style="background:#B26A15"></i><span data-i18n="lg2">Сау, жалған дабыл</span></span>
+                            <span class="lg"><i style="background:#AE3A2E"></i><span data-i18n="lg3">ОКБ, анықталды</span></span>
+                            <span class="lg"><i style="background:#3B3FA0"></i><span data-i18n="lg4">ОКБ, өткізіп алынды</span></span>
                         </div>
                         <div class="stepper" id="brSteps">
-                            <button type="button" data-step="0" class="active" data-i18n="br-s0">1,000 students</button>
-                            <button type="button" data-step="1" data-i18n="br-s1">20 have OCD</button>
-                            <button type="button" data-step="2" data-i18n="br-s2">Run the test</button>
-                            <button type="button" data-step="3" data-i18n="br-s3">Keep only positives</button>
+                            <button type="button" data-step="0" class="active" data-i18n="br-s0">1000 шартты адам</button>
+                            <button type="button" data-step="1" data-i18n="br-s1">20 модельдік жағдай</button>
+                            <button type="button" data-step="2" data-i18n="br-s2">Тестті жүргізу</button>
+                            <button type="button" data-step="3" data-i18n="br-s3">Тек оң нәтижелер</button>
                         </div>
                         <p class="small" id="brCaption" style="margin-top:14px; min-height:3.2em"
-                            data-i18n="br-c0">One thousand students. At a 2% base rate, twenty of them have OCD — and
-                            you do not know which.</p>
+                            data-i18n="br-c0">Тек модель: prior = 0.02 кезінде 1000 адамның 20-сы шартты жағдай деп алынады. Бұлар зерттеу қатысушылары емес.</p>
                     </div>
 
                     <div>
                         <div class="pv-grid reveal" data-reveal="fade">
                             <div class="pv">
-                                <span class="k">PPV</span>
-                                <b class="num" data-count="5.5" data-decimals="1" data-suffix="%">0</b>
-                                <p data-i18n="ppv-d">Of everyone the test flags, about one in eighteen actually has
-                                    OCD. 294 false alarms against 17 true detections.</p>
+                                <span class="k" data-i18n="ppv-label">Модельдік PPV</span>
+                                <b class="num" data-count="5.466" data-decimals="3" data-suffix="%">0</b>
+                                <p data-i18n="ppv-d">prior = 0.02, Se = 0.85, Sp = 0.70. PPV = 17/311 = 5.466%. Параметрлер осы іріктемеде тексерілмеген.</p>
                             </div>
                             <div class="pv">
-                                <span class="k">NPV</span>
-                                <b class="num" data-count="99.6" data-decimals="1" data-suffix="%">0</b>
-                                <p data-i18n="npv-d">A negative result is usually right — but mostly because the
-                                    condition is rare, not because the test is strong.</p>
+                                <span class="k" data-i18n="socs-label">SOCS PPV</span>
+                                <b class="num" data-count="2.951" data-decimals="3" data-suffix="%">0</b>
+                                <p data-i18n="npv-d">Жарияланған SOCS, шек 6: Se = 0.76, Sp = 0.49. Модельдік prior = 0.02 кезінде қайта есептелген PPV = 2.951%; осы іріктемеде тексерілмеген.</p>
                             </div>
                         </div>
 
                         <div class="note warn reveal" data-reveal="fade" style="--delay:80ms">
-                            <b data-i18n="para-note-t">So why build it at all?</b>
-                            <p data-i18n="para-note-d">Because a 5% posterior is not a diagnosis — it is a queue.
-                                Instead of screening 1,000 students a psychologist reviews 311, and the seventeen who
-                                need help are almost certainly among them. The value is triage, and the honest framing
-                                of that is the product.</p>
+                            <b data-i18n="para-note-t">Түсіндіру шекарасы</b>
+                            <p data-i18n="para-note-d">Модельдік PPV — диагноз, сауалнамада өлшенген нәтиже немесе тексерілген жолдау ережесі емес. Ол prior мен тест параметрлеріне тәуелді.</p>
                         </div>
 
                         <p class="small reveal" data-reveal="fade" style="--delay:140ms; margin-top:var(--gap-s)"
-                            data-i18n="para-fine">Se = 0.85 and Sp = 0.70 are deliberately optimistic scenario
-                            parameters chosen to make the arithmetic legible. They were not measured in this study.
-                            Published figures for comparable short screens sit lower — Se 0.61 / Sp 0.60 at one
-                            threshold in Piqueras et al.</p>
+                            data-i18n="para-fine">Дереккөз: Piqueras et al. (2015), Table 5, SOCS, шек 6. Мақаладан Se және Sp алынған; PPV мұнда prior = 0.02 үшін есептелген. Екі сценарий де осы 60 анкетада тексерілмеген.</p>
                     </div>
                 </div>
             </div>
@@ -2608,339 +2492,123 @@
         <!-- ═══════════════ 05 LIMITS ═══════════════ -->
         <section class="section section-line" id="limits">
             <div class="wrap">
-                <div class="eyebrow reveal" data-reveal="fade" data-i18n="limits-eyebrow">05 · Limits</div>
-                <h2 class="reveal" data-i18n="limits-title">What NeuroCheck is not.</h2>
-                <p class="lead reveal" data-reveal="fade" style="--delay:80ms" data-i18n="limits-lead">A screening
-                    result is not a diagnosis, and a prototype is not a validated instrument. Everything below is stated
-                    in the research paper this site is built on; repeating it here is not a disclaimer, it is the
-                    method.</p>
+                <div class="eyebrow reveal" data-reveal="fade" data-i18n="limits-eyebrow">05 · Шектеулер</div>
+                <h2 class="reveal" data-i18n="limits-title">Зерттеу шектеулері.</h2>
+                <p class="lead reveal" data-reveal="fade" style="--delay:80ms" data-i18n="limits-lead">Алдын ала жиіліктер, модель параметрлері және оқу есептері әртүрлі дәлел деңгейіне жатады. Олар бөлек қарастырылады.</p>
 
                 <ul class="limit-list reveal" data-reveal="fade">
-                    <li><span class="x">✕</span><span><strong data-i18n="l1-t">Not a diagnosis.</strong> <span
-                                data-i18n="l1-d">Crossing a threshold in Sample A, or falling outside the interval in
-                                Sample B, carries no clinical meaning on its own.</span></span></li>
-                    <li><span class="x">✕</span><span><strong data-i18n="l2-t">Not a validated scale.</strong> <span
-                                data-i18n="l2-d">Se, Sp and the 25% dynamic limit are hard-coded scenario parameters,
-                                not quantities measured against a clinical reference.</span></span></li>
-                    <li><span class="x">✕</span><span><strong data-i18n="l3-t">Not generalisable.</strong> <span
-                                data-i18n="l3-d">Fifteen respondents from one school describe fifteen respondents from
-                                one school.</span></span></li>
-                    <li><span class="x">✕</span><span><strong data-i18n="l4-t">Not a replacement for a
-                                specialist.</strong> <span data-i18n="l4-d">The prototype proposes no treatment and
-                                makes no referral decision.</span></span></li>
-                    <li><span class="x">✕</span><span><strong data-i18n="l5-t">Not yet a secured system.</strong> <span
-                                data-i18n="l5-d">In its current form the C++ core writes an unencrypted log, and the
-                                Telegram front end is not yet wired to it. Encryption, consent capture, retention limits
-                                and access control are engineering work still ahead.</span></span></li>
-                    <li><span class="y">✓</span><span><strong data-i18n="l6-t">What it is.</strong> <span
-                                data-i18n="l6-d">A working computational module that turns seven self-reported numbers
-                                into an auditable, falsifiable statement — and logs every run so the statement can be
-                                checked.</span></span></li>
+                    <li><span class="x">✕</span><span><strong data-i18n="l1-t">Диагноз емес.</strong> <span
+                                data-i18n="l1-d">Анкета жауабы да, болжам ауытқуы да диагноз қоймайды.</span></span></li>
+                    <li><span class="x">✕</span><span><strong data-i18n="l2-t">Валидацияланған шкала емес.</strong> <span
+                                data-i18n="l2-d">Se, Sp және 25% динамикалық шек кодта бекітілген сценарий параметрлері, клиникалық эталонға қарсы өлшенген шамалар емес.</span></span></li>
+                    <li><span class="x">✕</span><span><strong data-i18n="l3-t">Жалпыланбайды.</strong> <span
+                                data-i18n="l3-d">Жеке жауаптар тексерілмеген. 60 анкета көлемінің өзі репрезентативтілікті немесе клиникалық жарамдылықты дәлелдемейді.</span></span></li>
+                    <li><span class="x">✕</span><span><strong data-i18n="l4-t">Маманды алмастырмайды.</strong> <span data-i18n="l4-d">Прототип ем ұсынбайды және маманға жіберу туралы шешім қабылдамайды.</span></span></li>
+                    <li><span class="x">✕</span><span><strong data-i18n="l5-t">Прототип кезеңі.</strong> <span
+                                data-i18n="l5-d">C++ — демонстрациялық үзінді; Telegram-бот — тұжырымдама, іске қосылған қорғалған клиникалық сервис емес.</span></span></li>
+                    <li><span class="y">✓</span><span><strong data-i18n="l6-t">Ол не.</strong> <span
+                                data-i18n="l6-d">Формулалар, оқу мәндері, алғышарттар және есептеу тексерістері берілген қолданбалы математика ғылыми жобасы.</span></span></li>
                 </ul>
 
                 <div class="note reveal" data-reveal="fade">
-                    <b data-i18n="ethics-t">Data and consent</b>
-                    <p data-i18n="ethics-d">Participation in the study was voluntary and responses were collected
-                        without identifying information. Any deployment beyond research would require informed consent
-                        before entry, minimal collection, encryption at rest, restricted access and a defined retention
-                        period. The current prototype does not yet demonstrate those guarantees, and the paper says so.</p>
+                    <b data-i18n="ethics-t">Деректер мен келісім</b>
+                    <p data-i18n="ethics-d">Бастапқы жазбалар мен келісім құжаттары тексеруге қолжетімді емес. Болашақ нақты дерек жинауға тиісті келісім мен құпиялылық тәртібі қажет. Сайт анкета жауаптарын жинамайды.</p>
                 </div>
             </div>
         </section>
 
-        <!-- ═══════════════ 06 PRODUCT ═══════════════ -->
+        <!-- ═══════════════ 06 COMPUTATIONAL PROTOTYPE ═══════════════ -->
         <section class="section section-alt" id="product">
             <div class="wrap">
-                <div class="eyebrow reveal" data-reveal="fade" data-i18n="product-eyebrow">06 · Product &amp; stack</div>
-                <h2 class="reveal" data-i18n="product-title">Small, inspectable, deployable in a school.</h2>
+                <div class="eyebrow reveal" data-reveal="fade" data-i18n="product-eyebrow">06 · Есептеу прототипі</div>
+                <h2 class="reveal" data-i18n="product-title">C++ прототипі және бот тұжырымдамасы.</h2>
 
                 <div class="stack-grid reveal" data-reveal="fade">
                     <div class="stack-cell">
-                        <span class="micro" data-i18n="st1-k">Intake</span>
-                        <p data-i18n="st1-v">Telegram bot (aiogram)</p>
+                        <span class="micro" data-i18n="st1-k">Енгізу</span>
+                        <p data-i18n="st1-v">Telegram-бот: тек тұжырымдама</p>
                     </div>
                     <div class="stack-cell">
-                        <span class="micro" data-i18n="st2-k">Compute core</span>
-                        <p data-i18n="st2-v">C++ — statistics, PI, AR(1), Bayes</p>
+                        <span class="micro" data-i18n="st2-k">Есептеу ядросы</span>
+                        <p data-i18n="st2-v">C++ есептеу үзіндісі: прототип</p>
                     </div>
                     <div class="stack-cell">
-                        <span class="micro" data-i18n="st3-k">Methods</span>
-                        <p data-i18n="st3-v">Bayes · Wilson · Student PI · AR(1)</p>
+                        <span class="micro" data-i18n="st3-k">Әдістер</span>
+                        <p data-i18n="st3-v">Байес · Уилсон · Стьюдент интервалы · AR(1)</p>
                     </div>
                     <div class="stack-cell">
-                        <span class="micro" data-i18n="st4-k">Storage</span>
-                        <p data-i18n="st4-v">Run log → SQLite (planned)</p>
+                        <span class="micro" data-i18n="st4-k">Ағымдағы мәртебе</span>
+                        <p data-i18n="st4-v">Нақты дерек жиналмайды</p>
                     </div>
                 </div>
 
                 <div class="mt-xl">
-                    <h3 class="sub-head reveal" data-i18n="ip-title">Position</h3>
+                    <h3 class="sub-head reveal" data-i18n="ip-title">Ғылыми шекаралар</h3>
                     <div class="reveal" data-reveal="fade">
-                        <div class="ip-item"><span class="k" data-i18n="ip1-k">Approach</span><span class="v"
-                                data-i18n="ip1-v">Per-student baseline with a held-out test day, rather than a
-                                one-off cut-off score.</span></div>
-                        <div class="ip-item"><span class="k" data-i18n="ip2-k">Data</span><span class="v"
-                                data-i18n="ip2-v">Original survey instrument and a seven-day pilot series collected by
-                                the author in 2026.</span></div>
-                        <div class="ip-item"><span class="k" data-i18n="ip3-k">Status</span><span class="v"
-                                data-i18n="ip3-v">School research project. No patent filed, no peer review, no clinical
-                                validation — those are milestones, not claims.</span></div>
+                        <div class="ip-item"><span class="k" data-i18n="ip1-k">Тәсіл</span><span class="v"
+                                data-i18n="ip1-v">Топтағы жауап үлесі және бөлек сандық болжам тексерісі.</span></div>
+                        <div class="ip-item"><span class="k" data-i18n="ip2-k">Деректер</span><span class="v"
+                                data-i18n="ip2-v">60 анкета тексерілмеген; (5,6,5,7,6,8,10) — тек иллюстративті қатар.</span></div>
+                        <div class="ip-item"><span class="k" data-i18n="ip3-k">Мәртебе</span><span class="v"
+                                data-i18n="ip3-v">Ғылыми жоба; клиникалық жарамдылық пен пайдалануға дайындық расталмаған.</span></div>
                     </div>
                 </div>
 
-                <div class="table-wrap reveal" data-reveal="fade">
-                    <table class="data">
-                        <caption class="sr-only"></caption>
-                        <thead>
-                            <tr>
-                                <th data-i18n="c-h1">Instrument</th>
-                                <th data-i18n="c-h2">Type</th>
-                                <th data-i18n="c-h3">Strength</th>
-                                <th data-i18n="c-h4">Limitation</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Y-BOCS</td>
-                                <td data-i18n="c1-2">Clinical interview</td>
-                                <td data-i18n="c1-3">The clinical reference standard</td>
-                                <td data-i18n="c1-4">Long; requires a trained specialist</td>
-                            </tr>
-                            <tr>
-                                <td>OCI-R</td>
-                                <td data-i18n="c2-2">Questionnaire</td>
-                                <td data-i18n="c2-3">18 items, six subscales</td>
-                                <td data-i18n="c2-4">Self-reported, single point in time</td>
-                            </tr>
-                            <tr>
-                                <td>MOCI</td>
-                                <td data-i18n="c3-2">Questionnaire</td>
-                                <td data-i18n="c3-3">Short, self-administered</td>
-                                <td data-i18n="c3-4">Measures symptoms only, not change</td>
-                            </tr>
-                            <tr class="us">
-                                <td>NeuroCheck</td>
-                                <td data-i18n="c4-2">Computational prototype</td>
-                                <td data-i18n="c4-3">Models an individual trajectory; every step auditable</td>
-                                <td data-i18n="c4-4">Built on self-report; not yet validated</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <div class="note reveal" data-reveal="fade"><b data-i18n="cpp-title">C++: тек оқу прототипі</b><pre class="small mono" style="white-space:pre-wrap;overflow-wrap:anywhere"><code>// 0 &lt; prior, se, sp &lt; 1
+double ppv(double prior, double se, double sp) {
+    const double tp = se * prior;
+    return tp / (tp + (1 - sp) * (1 - prior));
+}</code></pre></div>
             </div>
         </section>
 
-        <!-- ═══════════════ 07 MARKET ═══════════════ -->
-        <section class="section section-line" id="market">
-            <div class="wrap">
-                <div class="eyebrow reveal" data-reveal="fade" data-i18n="market-eyebrow">07 · Market</div>
-                <h2 class="reveal" data-i18n="market-title">Underserved, and sized from public figures.</h2>
-                <p class="lead reveal" data-reveal="fade" style="--delay:80ms" data-i18n="market-lead">The numbers below
-                    are top-down estimates built on public counts of schools and students. They are a scale check, not a
-                    revenue forecast, and no school has signed anything yet.</p>
-
-                <div class="scale-row reveal" data-reveal="fade">
-                    <div class="scale-item"><b class="num" data-count="7000" data-format="thousand" data-prefix="~">0</b><span
-                            data-i18n="mk1">schools nationwide</span></div>
-                    <div class="scale-item"><b class="num" data-count="3" data-prefix="~" data-suffix="M">0</b><span
-                            data-i18n="mk2">students aged 7–17</span></div>
-                    <div class="scale-item"><b class="num" data-count="5000" data-format="thousand" data-prefix="~">0</b><span
-                            data-i18n="mk3">school psychologists</span></div>
-                </div>
-
-                <div class="funnel reveal" data-reveal="fade" style="--delay:80ms">
-                    <div class="funnel-cell">
-                        <span class="tag">TAM</span><b>$30M</b>
-                        <p data-i18n="f-tam">3M students × $10 / year</p>
-                    </div>
-                    <div class="funnel-cell">
-                        <span class="tag">SAM</span><b>$15M</b>
-                        <p data-i18n="f-sam">Urban schools — roughly half</p>
-                    </div>
-                    <div class="funnel-cell focus">
-                        <span class="tag">SOM</span><b>$1.5M</b>
-                        <p data-i18n="f-som">5% of schools ≈ 350 schools</p>
-                    </div>
-                </div>
-
-                <div class="mt-xl">
-                    <h3 class="sub-head reveal" data-i18n="comp-title">Adjacent products</h3>
-                    <div class="table-wrap reveal" data-reveal="fade">
-                        <table class="data">
-                            <thead>
-                                <tr>
-                                    <th data-i18n="cp-h1">Product</th>
-                                    <th data-i18n="cp-h2">What it does</th>
-                                    <th data-i18n="cp-h3">Where NeuroCheck differs</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>NOCD (US)</td>
-                                    <td data-i18n="cp1-2">Teletherapy for adults with OCD</td>
-                                    <td data-i18n="cp1-3">Treatment, not screening; priced far above a school budget</td>
-                                </tr>
-                                <tr>
-                                    <td data-i18n="cp2-1">General wellbeing apps</td>
-                                    <td data-i18n="cp2-2">Mood tracking and self-help content</td>
-                                    <td data-i18n="cp2-3">No stated model, no interval, no held-out test</td>
-                                </tr>
-                                <tr>
-                                    <td data-i18n="cp3-1">In-person psychologist</td>
-                                    <td data-i18n="cp3-2">One-to-one assessment and support</td>
-                                    <td data-i18n="cp3-3">The reference standard — but cannot cover every student weekly</td>
-                                </tr>
-                                <tr class="us">
-                                    <td>NeuroCheck</td>
-                                    <td data-i18n="cp4-2">Weekly per-student signal with published limits</td>
-                                    <td data-i18n="cp4-3">Triage that hands a psychologist a shorter list, and shows its own error bars</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════ 08 MODEL ═══════════════ -->
-        <section class="section section-alt" id="model">
-            <div class="wrap">
-                <div class="eyebrow reveal" data-reveal="fade" data-i18n="model-eyebrow">08 · Business model</div>
-                <h2 class="reveal" data-i18n="model-title">Three channels, one of them non-dilutive.</h2>
-
-                <div class="grid grid-3 mt-l">
-                    <div class="card rev-card reveal">
-                        <span class="role" data-i18n="rev1-t">B2B — schools</span>
-                        <b>500,000 ₸</b>
-                        <span class="usd">≈ $1,060 / year</span>
-                        <p data-i18n="rev1-d">Annual licence covering a school's students and its psychologist dashboard.</p>
-                    </div>
-                    <div class="card rev-card reveal" style="--delay:70ms">
-                        <span class="role" data-i18n="rev2-t">B2C — parents</span>
-                        <b>5,000 ₸</b>
-                        <span class="usd">≈ $10.60 / report</span>
-                        <p data-i18n="rev2-d">An individual report for a family that wants monitoring outside school.</p>
-                    </div>
-                    <div class="card rev-card reveal" style="--delay:140ms">
-                        <span class="role" data-i18n="rev3-t">Grants</span>
-                        <b data-i18n="rev3-n">Programme funding</b>
-                        <span class="usd" data-i18n="rev3-u">Non-dilutive</span>
-                        <p data-i18n="rev3-d">Digital-education and youth mental-health programmes, applied for on the same evidence base.</p>
-                    </div>
-                </div>
-
-                <div class="mt-xl reveal" data-reveal="fade">
-                    <h3 class="sub-head" data-i18n="proj-title">Year-one scenario</h3>
-                    <p class="small" style="max-width:60ch" data-i18n="proj-sub">An illustrative target, not a booked
-                        pipeline: 100 schools and 10,000 parent reports.</p>
-                    <div class="rev-bar">
-                        <div style="width:50%; background:var(--accent); --delay:0ms">50M ₸ — <span data-i18n="rb1">schools</span></div>
-                        <div style="width:50%; background:var(--warn); --delay:220ms">50M ₸ — <span data-i18n="rb2">parents</span></div>
-                    </div>
-                    <div class="rev-legend">
-                        <span><span class="swatch" style="background:var(--accent)"></span><span data-i18n="rl1">100 schools × 500,000 ₸</span></span>
-                        <span><span class="swatch" style="background:var(--warn)"></span><span data-i18n="rl2">10,000 reports × 5,000 ₸</span></span>
-                    </div>
-                    <p class="mono small" style="margin-top:var(--gap-s)" data-i18n="rev-total">Total 100M ₸ / year ≈ $212,000 · at ~470 ₸/$1</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════ 09 ROADMAP ═══════════════ -->
+        <!-- ═══════════════ 07 RESEARCH PLAN ═══════════════ -->
         <section class="section section-line" id="roadmap">
             <div class="wrap">
-                <div class="eyebrow reveal" data-reveal="fade" data-i18n="road-eyebrow">09 · Roadmap</div>
-                <h2 class="reveal" data-i18n="road-title">The next milestone is validation, not sales.</h2>
-                <p class="lead reveal" data-reveal="fade" style="--delay:80ms" data-i18n="road-lead">The paper specifies
-                    exactly what would turn this prototype into an instrument, and that study comes before any claim of
-                    accuracy.</p>
+                <div class="eyebrow reveal" data-reveal="fade" data-i18n="road-eyebrow">07 · Зерттеу жоспары</div>
+                <h2 class="reveal" data-i18n="road-title">Қорытындыны кеңейтпес бұрын деректерді тексеру.</h2>
+                <p class="lead reveal" data-reveal="fade" style="--delay:80ms" data-i18n="road-lead">Бұл — болашақ зерттеу қадамдары; аяқталған валидация немесе енгізу міндеттемесі емес.</p>
 
                 <div class="grid grid-2 mt-l">
                     <div class="reveal">
-                        <h4 class="micro" data-i18n="road-now">Done</h4>
+                        <h4 class="micro" data-i18n="road-now">Жобада көрсетілген</h4>
                         <ul class="status-list">
-                            <li><span class="mark">✓</span><span data-i18n="rn1">C++ core: sample statistics, prediction interval, AR(1), single Bayes update</span></li>
-                            <li><span class="mark">✓</span><span data-i18n="rn2">Run logging to file for repeat inspection</span></li>
-                            <li><span class="mark">✓</span><span data-i18n="rn3">Telegram intake prototype</span></li>
-                            <li><span class="mark">✓</span><span data-i18n="rn4">Two-sample study written up with stated limits</span></li>
+                            <li><span class="mark">✓</span><span data-i18n="rn1">Алғышарттары көрсетілген Байес және Уилсон есептері</span></li>
+                            <li><span class="mark">✓</span><span data-i18n="rn2">Бір оқу мәніне арналған Стьюдент интервалы</span></li>
+                            <li><span class="mark">✓</span><span data-i18n="rn3">AR(1) нүктелік болжамы және шартты 25% қате ережесі</span></li>
+                            <li><span class="mark">✓</span><span data-i18n="rn4">Сауалнама мен сандық демонстрацияларды ажырату</span></li>
                         </ul>
                     </div>
                     <div class="reveal" style="--delay:90ms">
-                        <h4 class="micro" data-i18n="road-next">Next</h4>
+                        <h4 class="micro" data-i18n="road-next">Келесі</h4>
                         <ul class="status-list">
-                            <li><span class="mark soon">→</span><span data-i18n="rx1">Wire the Telegram front end directly to the C++ core</span></li>
-                            <li><span class="mark soon">→</span><span data-i18n="rx2">Encrypt storage; add consent capture and a retention policy</span></li>
-                            <li><span class="mark soon">→</span><span data-i18n="rx3">Extend monitoring to 30 days per participant to test residual autocorrelation</span></li>
-                            <li><span class="mark soon">→</span><span data-i18n="rx4">Move the threshold from hard-coded to data-selected</span></li>
+                            <li><span class="mark soon">→</span><span data-i18n="rx1">Бастапқы 60 жауап пен сұрақ кодтарын тексеру</span></li>
+                            <li><span class="mark soon">→</span><span data-i18n="rx2">Жұмыстың кестелерін презентациямен сәйкестендіру</span></li>
+                            <li><span class="mark soon">→</span><span data-i18n="rx3">Тексеруден кейін жауап үлесін қайта есептеу</span></li>
+                            <li><span class="mark soon">→</span><span data-i18n="rx4">Этикалық тәртіппен тәуелсіз тексеруді жоспарлау</span></li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="timeline reveal" data-reveal="fade">
-                    <div class="tl-cell">
-                        <span class="num" data-i18n="tl1-k">STAGE 1 · VALIDATION</span>
-                        <h4 data-i18n="tl1-t">50 clinical cases + 50 controls</h4>
-                        <p data-i18n="tl1-d">Each participant independently rated with Y-BOCS or CY-BOCS, compared blind against the prototype's output.</p>
-                        <span class="tl-result" data-i18n="tl1-r">Confusion matrix · ROC-AUC</span>
-                    </div>
-                    <div class="tl-cell">
-                        <span class="num" data-i18n="tl2-k">STAGE 2 · CALIBRATION</span>
-                        <h4 data-i18n="tl2-t">Measured Se, Sp, PPV, NPV</h4>
-                        <p data-i18n="tl2-d">Replace the scenario parameters with values measured on that sample; choose the threshold by Youden's J = Se + Sp − 1.</p>
-                        <span class="tl-result" data-i18n="tl2-r">A defensible cut-off</span>
-                    </div>
-                    <div class="tl-cell">
-                        <span class="num" data-i18n="tl3-k">STAGE 3 · PILOT</span>
-                        <h4 data-i18n="tl3-t">Schools, with a psychologist in the loop</h4>
-                        <p data-i18n="tl3-d">Deploy only where a specialist reviews every flag, and measure whether the queue actually saves them time.</p>
-                        <span class="tl-result" data-i18n="tl3-r">First real-world evidence</span>
-                    </div>
-                </div>
             </div>
         </section>
 
-        <!-- ═══════════════ 10 TEAM + ASK ═══════════════ -->
+        <!-- ═══════════════ 08 AUTHOR AND SUPERVISOR ═══════════════ -->
         <section class="section section-alt" id="team">
             <div class="wrap">
-                <div class="eyebrow reveal" data-reveal="fade" data-i18n="team-eyebrow">10 · Team &amp; ask</div>
-                <h2 class="reveal" data-i18n="team-title">Two people and a documented method.</h2>
+                <div class="eyebrow reveal" data-reveal="fade" data-i18n="team-eyebrow">08 · Автор және жетекші</div>
+                <h2 class="reveal" data-i18n="team-title">Екі адам және құжатталған әдіс.</h2>
 
                 <div class="grid grid-2 mt-l">
                     <div class="card reveal">
-                        <span class="role" data-i18n="team-r1">Author</span>
-                        <h3>Kydyrbek Kozykorpesh</h3>
-                        <p class="small" data-i18n="team-d1">Nazarbayev Intellectual School of Physics and Mathematics,
-                            Almaty. Wrote the C++ core, the survey instrument and the study.</p>
+                        <span class="role" data-i18n="team-r1">Автор</span>
+                        <h3>Қыдырбек Қозыкөрпеш Нуржанұлы</h3>
+                        <p class="small" data-i18n="team-d1">Алматы қаласындағы жаратылыстану-математика бағытындағы НЗМ. Ғылыми жобаның авторы.</p>
                     </div>
                     <div class="card reveal" style="--delay:80ms">
-                        <span class="role" data-i18n="team-r2">Research supervisor</span>
-                        <h3>Kalieva Almira</h3>
-                        <p class="small" data-i18n="team-d2">Supervised the project's design, statistical framing and
-                            interpretation limits.</p>
-                    </div>
-                </div>
-                <p class="small reveal mt-l" data-i18n="team-hire">Needed next: a backend engineer for the secured
-                    pipeline, and a clinical partner able to run the Y-BOCS comparison.</p>
-
-                <div class="ask-panel reveal" data-reveal="fade">
-                    <div class="ask-head">
-                        <div>
-                            <span class="micro" data-i18n="ask-k">Use of funds — 6 months</span>
-                            <b>1,500,000 ₸</b>
-                        </div>
-                        <span class="mono small">≈ $3,190</span>
-                    </div>
-                    <div>
-                        <div class="use-row"><span data-i18n="u1">Engineering — secured pipeline</span><span class="amt">600,000 ₸</span><span class="usd2">$1,277</span></div>
-                        <div class="use-row"><span data-i18n="u2">Validation study logistics</span><span class="amt">300,000 ₸</span><span class="usd2">$638</span></div>
-                        <div class="use-row"><span data-i18n="u3">Legal entity and compliance</span><span class="amt">200,000 ₸</span><span class="usd2">$425</span></div>
-                        <div class="use-row"><span data-i18n="u4">Hosting and equipment</span><span class="amt">200,000 ₸</span><span class="usd2">$425</span></div>
-                        <div class="use-row"><span data-i18n="u5">Reserve</span><span class="amt">200,000 ₸</span><span class="usd2">$425</span></div>
-                    </div>
-                    <div class="ask-metrics">
-                        <div class="ask-metric"><b data-i18n="am1-v">100 participants</b><span data-i18n="am1-k">Validation study size</span></div>
-                        <div class="ask-metric"><b data-i18n="am2-v">ROC-AUC</b><span data-i18n="am2-k">The metric that decides whether this continues</span></div>
-                        <div class="ask-metric"><b data-i18n="am3-v">3 schools</b><span data-i18n="am3-k">Supervised pilot after validation</span></div>
+                        <span class="role" data-i18n="team-r2">Ғылыми жетекші</span>
+                        <h3>Қалиева Альмира Болатханқызы</h3>
+                        <p class="small" data-i18n="team-d2">Жобаның дизайнын, статистикалық қойылымын және интерпретация шекараларын басқарды.</p>
                     </div>
                 </div>
             </div>
@@ -2949,17 +2617,16 @@
         <!-- ═══════════════ CLOSING ═══════════════ -->
         <section class="closing" id="contact">
             <div class="wrap">
-                <div class="eyebrow reveal" data-reveal="fade" data-i18n="close-eyebrow">Get in touch</div>
-                <h2 class="reveal" data-i18n="close-title">A screening signal is only useful if you can check it.</h2>
-                <p class="quote reveal" data-reveal="fade" style="--delay:80ms" data-i18n="close-quote">Every number on
-                    this page can be recomputed from the paper. If one of them is wrong, tell me and I will change it.</p>
+                <div class="eyebrow reveal" data-reveal="fade" data-i18n="close-eyebrow">Байланысу</div>
+                <h2 class="reveal" data-i18n="close-title">Скрининг сигналы тексеруге келгенде ғана пайдалы.</h2>
+                <p class="quote reveal" data-reveal="fade" style="--delay:80ms" data-i18n="close-quote">Оқу есептерін қайталауға болады. Бастапқы жауаптар, main (19).pdf және презентация мұнда тіркелмеген; алдын ала жиілікті сәйкестендіру қажет.</p>
 
                 <div class="closing-ctas reveal" data-reveal="fade" style="--delay:140ms">
                     <a href="mailto:koutlikefrvr4@gmail.com?subject=NeuroCheck" class="btn btn-invert"
                         data-i18n="close-cta1">
-                        <span>Contact the author</span>
+                        <span>Авторға жазу</span>
                     </a>
-                    <a href="login" class="btn btn-ghost" data-i18n="close-cta2">Open the demo</a>
+                    <a href="#method" class="btn btn-ghost" data-i18n="close-cta2">Әдісті қарау</a>
                 </div>
 
                 <div class="contact-links reveal" data-reveal="fade" style="--delay:200ms">
@@ -2973,15 +2640,12 @@
     <footer>
         <div class="wrap">
             <div class="footer-row">
-                <span data-i18n="foot-c">© NeuroCheck, 2026 — a school research project.</span>
-                <span data-i18n="foot-r">Not a medical device.</span>
+                <span data-i18n="foot-c">© NeuroCheck, 2026 — мектеп зерттеу жобасы.</span>
+                <span data-i18n="foot-r">Медициналық бұйым емес.</span>
             </div>
-            <p class="footer-sources" data-i18n="foot-src">Figures on this page come from: the author's 2026 study
-                (Sample A, n = 15; Sample B, one participant × 7 days); WHO and NIMH prevalence overviews; Piqueras et
-                al. and Adam et al. for comparable screening instruments; Devore and Montgomery for the prediction-interval
-                and sample-variance formulas; Gelman for the Bayesian framing. Market sizes are top-down estimates from
-                public school and enrolment counts. Currency converted at ~470 ₸/$1. Se = 0.85 and Sp = 0.70 are scenario
-                parameters, not measurements.</p>
+            <p class="footer-sources" data-i18n="foot-src">Дерек мәртебесі: автор 60 анкетаны көрсетеді; жеке жауаптар тексерілмеген. Алдын ала 21/60 мәнін сұрақпен салыстыру қажет. 8/15 мысалы мен жеті мәндік қатар — тек демонстрациялар. Байес параметрлері — модельдік алғышарттар немесе сыртқы SOCS бағалары; осы іріктемеде тексерілмеген.</p>
+
+            <p class="footer-sources"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4998931/" target="_blank" rel="noopener noreferrer">Piqueras et al. (2015), SOCS, Table 5 ↗</a> · <a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc241.htm" target="_blank" rel="noopener noreferrer">NIST: Wilson ↗</a> · <a href="https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/predlimi.htm" target="_blank" rel="noopener noreferrer">NIST: Student PI ↗</a> · <a href="docs/research-notes.md">Есептеу жазбасы ↗</a></p>
         </div>
     </footer>
 
@@ -3157,13 +2821,13 @@
             }
 
             /* ============================================================
-               HERO FIGURE — the actual Sample B result, animated
-               Series 5,6,5,7,6,8,10 · PI [2.9202, 9.4131]
+               HERO FIGURE — illustrative sequence, animated
+               Series 5,6,5,7,6,8,10 · PI [2.9208, 9.4126]
                AR(1): a=7.6429  b=-0.2143  ->  Y7hat = 5.9286
                D7 = 4.0714 > T7 = 1.4821  ->  hypothesis not confirmed
                ============================================================ */
             const SERIES = [5, 6, 5, 7, 6, 8, 10];
-            const PI_LO = 2.9202, PI_HI = 9.4131;
+            const PI_LO = 2.9208, PI_HI = 9.4126;
             const FC = 5.9286, ACTUAL = 10, D7 = 4.0714, T7 = 1.4821;
 
             const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -3208,7 +2872,7 @@
                     x: PL + 8, y: Y(PI_HI) - 6, class: 'axis-text', opacity: 0,
                     fill: 'var(--accent)'
                 });
-                n.bandLabel.textContent = '95% prediction interval';
+                n.bandLabel.textContent = 'Стьюденттің 95% болжам интервалы';
                 figSvg.appendChild(n.bandLabel);
 
                 // baseline path (days 1..6)
@@ -3308,10 +2972,10 @@
                 figNodes.dev.setAttribute('opacity', seg(p, 0.90, 1));
 
                 // readouts
-                roPi.textContent = bp > .95 ? '[2.920; 9.413]' : '—';
-                roFc.textContent = fp > .5 ? FC.toFixed(3) : '—';
+                roPi.textContent = bp > .95 ? '[2.9208; 9.4126]' : '—';
+                roFc.textContent = fp > .5 ? FC.toFixed(4) : '—';
                 roActual.textContent = ap > .5 ? String(ACTUAL) : '—';
-                roDev.textContent = seg(p, 0.90, 1) > .5 ? D7.toFixed(3) + ' / ' + T7.toFixed(3) : '—';
+                roDev.textContent = seg(p, 0.90, 1) > .5 ? D7.toFixed(4) + ' / ' + T7.toFixed(4) : '—';
             }
 
             function playFigure() {
@@ -3543,8 +3207,8 @@
                 const F = [
                     ['fx-bayes', 'P(A\\mid B)=\\dfrac{Se\\cdot P(A)}{Se\\cdot P(A)+(1-Sp)(1-P(A))}'],
                     ['fx-wilson', '\\dfrac{\\hat p+\\frac{z^2}{2n}\\pm z\\sqrt{\\frac{\\hat p(1-\\hat p)}{n}+\\frac{z^2}{4n^2}}}{1+\\frac{z^2}{n}}'],
-                    ['fx-pi', '\\bar x \\pm t_{\\alpha/2,\\,n-1}\;S\\sqrt{1+\\tfrac{1}{n}}'],
-                    ['fx-ar1', '\\hat Y_{7}=\\hat\\alpha+\\hat\\beta\\,Y_{6}\\quad\\text{flag if } |Y_7-\\hat Y_7| > 0.25\\max(|\\hat Y_7|,1)']
+                    ['fx-pi', '\\bar x \\pm t_{n-1,\\,0.975}\;S\\sqrt{1+\\tfrac{1}{n}}'],
+                    ['fx-ar1', '\\hat Y_{7}=\\hat\\alpha+\\hat\\beta\\,Y_{6}\\quad D_7=|Y_7-\\hat Y_7|,\\quad T_7=0.25\\max(|\\hat Y_7|,1)']
                 ];
                 F.forEach(function (pair) {
                     const el = document.getElementById(pair[0]);
@@ -3556,537 +3220,516 @@
                I18N
                ============================================================ */
             const I18N = {
-                en: {
-                    "skip": "Skip to content",
-                    "nav-problem": "Problem", "nav-method": "Method", "nav-evidence": "Evidence",
-                    "nav-limits": "Limits", "nav-market": "Market", "nav-roadmap": "Roadmap",
-                    "nav-signin": "Sign in",
+  "en": {
+    "skip": "Skip to content",
+    "nav-problem": "Research",
+    "nav-method": "Method",
+    "nav-evidence": "Evidence",
+    "nav-limits": "Limits",
+    "nav-roadmap": "Roadmap",
+    "nav-signin": "Research data",
+    "badge": "Research project · NIS Almaty · 2026",
+    "hero-title": "Mathematical analysis of OCD screening signs.",
+    "hero-sub": "Applied mathematics: Bayes, Wilson, Student prediction interval and AR(1). The current work covers 60 questionnaires; individual answers remain unverified. The seven-value time series is a separate illustrative example.",
+    "hero-method": "See the method",
+    "hero-demo": "View the data",
+    "hs1": "questionnaires in the current work; answers unverified",
+    "hs2": "values in a separate illustrative series",
+    "hs3": "held-out value in the numerical demonstration",
+    "fig-title": "Illustrative series · not participant data",
+    "fig-replay": "Replay",
+    "ro1": "Student 95% prediction interval",
+    "ro2": "AR(1) forecast Ŷ₇",
+    "ro3": "Illustrative Y₇",
+    "ro4": "Error / illustrative 25% limit",
+    "fig-flag": "Not met",
+    "fig-verdict": "Illustration only: |10 − 5.9286| = 4.0714 > 0.25·max(|5.9286|,1) = 1.4821. The ≤25% error hypothesis was not confirmed. The 25% rule is not a statistical prediction interval or a clinical threshold.",
+    "problem-eyebrow": "01 · Research question",
+    "problem-title": "What can these screening signs tell us?",
+    "problem-lead": "The project examines response proportions, conditional probabilities and forecast errors. These are different mathematical quantities; none establishes a medical diagnosis.",
+    "why-now": "Research objectives",
+    "r1-t": "Describe the group.",
+    "r1-d": "Check the preliminary 21/60 frequency against the original questionnaire responses.",
+    "r2-t": "Quantify uncertainty.",
+    "r2-d": "Calculate a conditional Wilson interval for the given counts.",
+    "r3-t": "Explain the base rate.",
+    "r3-d": "Use Bayes to distinguish sensitivity from positive predictive value.",
+    "r4-t": "Test the forecast.",
+    "r4-d": "Compare the held-out illustrative value with Student PI and the AR(1) 25% error rule.",
+    "method-eyebrow": "02 · Method",
+    "method-title": "Four classical tools, each doing one job.",
+    "method-lead": "Each method answers a separate question. The C++ snippet is a computational prototype, not a validated diagnostic system.",
+    "m1-t": "Bayes' rule",
+    "m1-d": "Turns a positive screen into a posterior probability, given sensitivity, specificity and the population base rate. This is what makes the base-rate problem visible instead of hiding it.",
+    "m2-t": "Wilson score interval",
+    "m2-d": "Wilson estimates uncertainty in a binary response proportion. For the preliminary 21/60, its 95% interval is [24.2; 47.6]%, conditional on the counts and question mapping being correct. It does not correct selection bias.",
+    "m3-t": "Student prediction interval",
+    "m3-d": "An interval for one new observation, not the mean. In the illustration n = 6, df = 5 and t = 2.5706. It assumes independent, identically normally distributed observations, unverified in this short series.",
+    "m4-t": "AR(1) model",
+    "m4-d": "Five adjacent pairs from the first six illustrative values give the point forecast 5.9286. Its absolute error is compared with the illustrative 25% rule; that rule is not a probability interval.",
+    "method-note-t": "Keep the data levels separate",
+    "method-note-d": "The 60 questionnaires describe a group. The seven-value series is only a numerical illustration, with no verified participant provenance. The group data do not validate the time-series model.",
+    "how-title": "Steps of the numerical demonstration",
+    "s1-t": "Illustrative inputs",
+    "s1-d": "Use (5,6,5,7,6,8,10), not real participant records.",
+    "s2-t": "Baseline fit",
+    "s2-d": "Days 1–6 give x̄, S, a prediction interval and the AR(1) coefficients.",
+    "s3-t": "Held-out test",
+    "s3-d": "The seventh value is held out from fitting and used only for the check.",
+    "s4-t": "Interpretation",
+    "s4-d": "Report the failed 25% error condition without a clinical conclusion.",
+    "evidence-eyebrow": "03 · Evidence",
+    "evidence-title": "Survey and illustration, kept separate.",
+    "evidence-lead": "The current work analyses 60 questionnaires. Individual answers and their question mapping remain unverified; there are discrepancies with the presentation. The separate time series demonstrates the calculations only.",
+    "sa-t": "Preliminary questionnaire aggregate",
+    "sa-k1": "Checking household appliances",
+    "sa-k2": "Conditional Wilson 95% interval",
+    "sa-k3": "Status",
+    "sa-v3": "Question mapping needs verification",
+    "sa-note": "21/60 = 35% is preliminary. The interval assumes correct k = 21, n = 60 and independent binary responses. It does not establish OCD prevalence or confirmed diagnoses.",
+    "sb-t": "Illustrative time series",
+    "sb-k1": "Series",
+    "sb-k2": "Baseline mean · S",
+    "sb-k3": "Student 95% prediction interval",
+    "sb-k4": "AR(1) estimates α, β",
+    "sb-k5": "Forecast / held-out value",
+    "sb-k6": "Error / 25% threshold",
+    "sb-note": "The illustrative value 10 is above Student PI. AR(1) forecasts 5.9286; error 4.0714 exceeds the illustrative threshold 1.4821. The ≤25% hypothesis is not confirmed in this example; no participant outcome is asserted.",
+    "para-eyebrow": "04 · The screening paradox",
+    "para-title": "Bayes: sensitivity and PPV are different.",
+    "para-lead": "A hypothetical population of 1,000 illustrates prior = 0.02, Se = 0.85 and Sp = 0.70. These are model inputs, not measurements on the 60 questionnaires.",
+    "lg1": "Healthy, negative",
+    "lg2": "Healthy, false alarm",
+    "lg3": "OCD, detected",
+    "lg4": "OCD, missed",
+    "br-s0": "1,000 hypothetical people",
+    "br-s1": "20 expected cases",
+    "br-s2": "Run the test",
+    "br-s3": "Keep only positives",
+    "br-c0": "Hypothetical population only: at prior = 0.02, 20 of 1,000 are assumed cases. These are not study participants.",
+    "br-c1": "The model assumes 20 cases and 980 non-cases. The 2% prior is not estimated from this survey.",
+    "br-c2": "With Se = 0.85 and Sp = 0.70: 17 true positives, 294 false positives and 3 false negatives.",
+    "br-c3": "Of 311 model positive signals, 17 are true positives. PPV = 17/311 = 5.466%.",
+    "ppv-d": "prior = 0.02, Se = 0.85, Sp = 0.70. PPV = 17/311 = 5.466%. Parameters not validated on this sample.",
+    "npv-d": "Published SOCS cut-off 6: Se = 0.76, Sp = 0.49. At model prior = 0.02, recalculated PPV = 2.951%; not validated on this sample.",
+    "para-note-t": "Interpretation boundary",
+    "para-note-d": "Model PPV is not a diagnosis, a measured survey outcome or a validated referral rule. It changes with the prior and test parameters.",
+    "para-fine": "Source: Piqueras et al. (2015), Table 5, SOCS cut-off 6. Only Se and Sp come from that publication; PPV here is recalculated for prior = 0.02. Neither scenario is validated on these 60 questionnaires.",
+    "limits-eyebrow": "05 · Limits",
+    "limits-title": "Research limits.",
+    "limits-lead": "Preliminary counts, model inputs and illustrative calculations have different evidence status. They must remain distinct.",
+    "l1-t": "Not a diagnosis.",
+    "l1-d": "Neither a questionnaire answer nor a forecast deviation establishes a diagnosis.",
+    "l2-t": "Not a validated scale.",
+    "l2-d": "Se, Sp and the 25% dynamic limit are hard-coded scenario parameters, not quantities measured against a clinical reference.",
+    "l3-t": "Not generalisable.",
+    "l3-d": "The individual responses are unverified. A sample size of 60 alone does not establish representativeness or clinical validity.",
+    "l4-t": "Not a replacement for a specialist.",
+    "l4-d": "The prototype proposes no treatment and makes no referral decision.",
+    "l5-t": "Prototype stage.",
+    "l5-d": "C++ is a demonstration snippet; the Telegram bot is a concept, not a deployed or secured clinical service.",
+    "l6-t": "What it is.",
+    "l6-d": "An applied mathematics research project showing formulas, illustrative inputs, assumptions and calculation checks.",
+    "ethics-t": "Data and consent",
+    "ethics-d": "Original records and consent documentation were not available for verification. Any future real-data collection needs an appropriate consent and privacy protocol. This site collects no questionnaire responses.",
+    "product-eyebrow": "06 · Computational prototype",
+    "product-title": "C++ prototype and bot concept.",
+    "st1-k": "Intake",
+    "st1-v": "Telegram bot: concept only",
+    "st2-k": "Compute core",
+    "st2-v": "C++ calculation snippet: prototype",
+    "st3-k": "Methods",
+    "st3-v": "Bayes · Wilson · Student PI · AR(1)",
+    "st4-k": "Current status",
+    "st4-v": "No live data collection",
+    "ip-title": "Scientific scope",
+    "ip1-k": "Approach",
+    "ip1-v": "A group response proportion and a separate held-out numerical forecast test.",
+    "ip2-k": "Data",
+    "ip2-v": "60 questionnaires, unverified; (5,6,5,7,6,8,10) is an illustrative sequence only.",
+    "ip3-k": "Status",
+    "ip3-v": "Research project; clinical validity and operational readiness have not been established.",
+    "road-eyebrow": "07 · Research next steps",
+    "road-title": "Verify the data before extending the conclusions.",
+    "road-lead": "These are proposed next steps, not completed validation or a deployment commitment.",
+    "road-now": "Shown in this project",
+    "road-next": "Next",
+    "rn1": "Bayes and Wilson calculations with explicit assumptions",
+    "rn2": "Student PI for one illustrative future value",
+    "rn3": "AR(1) point forecast and illustrative 25% error rule",
+    "rn4": "Clear separation of survey and numerical demonstrations",
+    "rx1": "Verify the original 60 responses and question codes",
+    "rx2": "Reconcile the research tables with the presentation",
+    "rx3": "Recalculate the response proportion after verification",
+    "rx4": "Plan independent validation with an appropriate ethical protocol",
+    "team-eyebrow": "08 · Author and supervisor",
+    "team-title": "Two people and a documented method.",
+    "team-r1": "Author",
+    "team-d1": "Nazarbayev Intellectual School of Science and Mathematics, Almaty. Author of the research project.",
+    "team-r2": "Research supervisor",
+    "team-d2": "Supervised the project's design, statistical framing and interpretation limits.",
+    "close-eyebrow": "Get in touch",
+    "close-title": "A screening signal is only useful if you can check it.",
+    "close-quote": "Illustrative calculations are reproducible. The original questionnaire records, main (19).pdf and presentation are not attached here; preliminary counts still require reconciliation.",
+    "close-cta1": "Contact the author",
+    "close-cta2": "Read the method",
+    "foot-c": "© NeuroCheck, 2026 — a school research project.",
+    "foot-r": "Not a medical device.",
+    "foot-src": "Data status: 60 questionnaires reported by the author; individual answers unverified. Preliminary 21/60 is conditional on correct question mapping. The 8/15 example and seven-value series are numerical demonstrations only. Bayes parameters are model assumptions or external SOCS estimates, not validated on this sample.",
+    "sa-tag": "A · n = 60, unverified",
+    "sb-tag": "B · numerical example",
+    "example-title": "8/15: a separate worked example",
+    "example-note": "8/15 ≈ 53.3%, Wilson 95% interval [30.1; 75.2]% (rounded [30;75]%). These are demonstration numbers, not the results of the 60 questionnaires.",
+    "ppv-label": "Model PPV",
+    "socs-label": "SOCS PPV",
+    "cpp-title": "C++: educational prototype only",
+    "band-label": "Student 95% prediction interval",
+    "page-title": "NeuroCheck — OCD screening: mathematics research"
+  },
+  "ru": {
+    "skip": "Перейти к содержимому",
+    "nav-problem": "Исследование",
+    "nav-method": "Метод",
+    "nav-evidence": "Данные",
+    "nav-limits": "Ограничения",
+    "nav-roadmap": "План",
+    "nav-signin": "Данные проекта",
+    "badge": "Научный проект · НИШ Алматы · 2026",
+    "hero-title": "Математический анализ скрининговых признаков ОКР.",
+    "hero-sub": "Прикладная математика: Байес, Уилсон, прогнозный интервал Стьюдента и AR(1). В текущей работе 60 анкет; индивидуальные ответы не верифицированы. Ряд из семи значений — отдельный иллюстративный пример.",
+    "hero-method": "Как это устроено",
+    "hero-demo": "Посмотреть данные",
+    "hs1": "анкет в текущей работе; ответы не верифицированы",
+    "hs2": "значений в отдельном иллюстративном ряду",
+    "hs3": "отложенное значение в числовой демонстрации",
+    "fig-title": "Иллюстративный ряд · не данные участника",
+    "fig-replay": "Заново",
+    "ro1": "95% прогнозный интервал Стьюдента",
+    "ro2": "Прогноз AR(1) Ŷ₇",
+    "ro3": "Пример Y₇",
+    "ro4": "Ошибка / условный порог 25%",
+    "fig-flag": "Не выполнено",
+    "fig-verdict": "Только иллюстрация: |10 − 5.9286| = 4.0714 > 0.25·max(|5.9286|,1) = 1.4821. Гипотеза об ошибке ≤25% не подтвердилась. Правило 25% не является статистическим прогнозным интервалом или клиническим порогом.",
+    "problem-eyebrow": "01 · Задача исследования",
+    "problem-title": "Что позволяют оценить скрининговые признаки?",
+    "problem-lead": "Проект рассматривает доли ответов, условные вероятности и ошибки прогноза. Это разные математические величины; ни одна сама по себе не устанавливает медицинский диагноз.",
+    "why-now": "Задачи работы",
+    "r1-t": "Описать группу.",
+    "r1-d": "Сопоставить предварительную частоту 21/60 с исходными ответами анкеты.",
+    "r2-t": "Оценить неопределённость.",
+    "r2-d": "Рассчитать условный интервал Уилсона для заданных частот.",
+    "r3-t": "Показать роль prior.",
+    "r3-d": "С помощью Байеса различить чувствительность и прогностическую ценность положительного результата.",
+    "r4-t": "Проверить прогноз.",
+    "r4-d": "Сравнить отложенное значение учебного ряда с интервалом Стьюдента и правилом ошибки AR(1) 25%.",
+    "method-eyebrow": "02 · Метод",
+    "method-title": "Четыре классических инструмента, каждый — под свою задачу.",
+    "method-lead": "Каждый метод отвечает на отдельный вопрос. Фрагмент C++ — вычислительный прототип, а не валидированная диагностическая система.",
+    "m1-t": "Формула Байеса",
+    "m1-d": "Превращает положительный скрининг в апостериорную вероятность при заданных чувствительности, специфичности и базовой частоте. Именно она делает проблему базовой частоты видимой, а не прячет её.",
+    "m2-t": "Интервал Уилсона",
+    "m2-d": "Уилсон оценивает неопределённость доли бинарных ответов. Для предварительных 21/60 интервал 95% равен [24.2; 47.6]% при условии верных частот и соответствия вопросу. Он не устраняет смещение отбора.",
+    "m3-t": "Прогностический интервал Стьюдента",
+    "m3-d": "Интервал для одного нового наблюдения, не среднего. В примере n = 6, df = 5, t = 2.5706. Предполагаются независимые одинаково нормально распределённые наблюдения; в коротком ряду это не проверено.",
+    "m4-t": "Модель AR(1)",
+    "m4-d": "Пять соседних пар первых шести значений дают точечный прогноз 5.9286. Абсолютная ошибка сравнивается с условным правилом 25%; оно не является вероятностным интервалом.",
+    "method-note-t": "Разделять уровни данных",
+    "method-note-d": "60 анкет описывают группу. Ряд из семи значений — только числовая иллюстрация без подтверждённого происхождения от участника. Анкета не валидирует модель временного ряда.",
+    "how-title": "Шаги числовой демонстрации",
+    "s1-t": "Учебные значения",
+    "s1-d": "Используется (5,6,5,7,6,8,10), не реальные данные участника.",
+    "s2-t": "Построение базы",
+    "s2-d": "Дни 1–6 дают x̄, S, прогностический интервал и коэффициенты AR(1).",
+    "s3-t": "Отложенная проверка",
+    "s3-d": "Седьмое значение не участвует в оценке модели и служит только для проверки.",
+    "s4-t": "Интерпретация",
+    "s4-d": "Сообщить о невыполнении условия ошибки 25% без клинического вывода.",
+    "evidence-eyebrow": "03 · Данные",
+    "evidence-title": "Анкета и иллюстрация — раздельно.",
+    "evidence-lead": "В текущей работе анализируются 60 анкет. Индивидуальные ответы и соответствие вопросов не верифицированы; есть расхождения с презентацией. Отдельный временной ряд только демонстрирует расчёты.",
+    "sa-t": "Предварительная сводка анкеты",
+    "sa-k1": "Проверка бытовой техники",
+    "sa-k2": "Условный 95% интервал Уилсона",
+    "sa-k3": "Статус",
+    "sa-v3": "Соответствие вопросу требует проверки",
+    "sa-note": "21/60 = 35% — предварительные данные. Интервал предполагает верные k = 21, n = 60 и независимые бинарные ответы. Это не распространённость ОКР и не доля подтверждённых диагнозов.",
+    "sb-t": "Иллюстративный временной ряд",
+    "sb-k1": "Ряд",
+    "sb-k2": "Среднее базы · S",
+    "sb-k3": "95% прогнозный интервал Стьюдента",
+    "sb-k4": "Оценки AR(1) α, β",
+    "sb-k5": "Прогноз / отложенное значение",
+    "sb-k6": "Ошибка / порог 25%",
+    "sb-note": "Учебное значение 10 выше интервала Стьюдента. Прогноз AR(1) 5.9286; ошибка 4.0714 превышает условный порог 1.4821. Гипотеза ≤25% в примере не подтверждена; это не результат реального участника.",
+    "para-eyebrow": "04 · Парадокс скрининга",
+    "para-title": "Байес: чувствительность и PPV различаются.",
+    "para-lead": "Условные 1000 человек иллюстрируют prior = 0.02, Se = 0.85 и Sp = 0.70. Это входы модели, не измерения на 60 анкетах.",
+    "lg1": "Здоров, отрицательно",
+    "lg2": "Здоров, ложная тревога",
+    "lg3": "ОКР, выявлено",
+    "lg4": "ОКР, пропущено",
+    "br-s0": "1000 условных человек",
+    "br-s1": "20 ожидаемых случаев",
+    "br-s2": "Запустить тест",
+    "br-s3": "Оставить положительные",
+    "br-c0": "Только модель: при prior = 0.02 предполагаются 20 случаев на 1000. Это не участники исследования.",
+    "br-c1": "Модель предполагает 20 случаев и 980 без ОКР. Prior 2% не оценён по этой анкете.",
+    "br-c2": "При Se = 0.85 и Sp = 0.70: 17 истинно положительных, 294 ложноположительных и 3 ложноотрицательных.",
+    "br-c3": "Из 311 модельных положительных сигналов 17 истинные. PPV = 17/311 = 5.466%.",
+    "ppv-d": "prior = 0.02, Se = 0.85, Sp = 0.70. PPV = 17/311 = 5.466%. Параметры не валидированы на этой выборке.",
+    "npv-d": "Опубликованный SOCS, порог 6: Se = 0.76, Sp = 0.49. При модельном prior = 0.02 пересчитанный PPV = 2.951%; на этой выборке не проверен.",
+    "para-note-t": "Граница интерпретации",
+    "para-note-d": "Модельный PPV — не диагноз, не измеренный результат анкеты и не валидированное правило направления. Он зависит от prior и параметров теста.",
+    "para-fine": "Источник: Piqueras et al. (2015), Table 5, SOCS, порог 6. Из публикации взяты Se и Sp; PPV здесь пересчитан для prior = 0.02. Оба сценария не проверены на этих 60 анкетах.",
+    "limits-eyebrow": "05 · Ограничения",
+    "limits-title": "Ограничения исследования.",
+    "limits-lead": "Предварительные частоты, параметры модели и учебные расчёты имеют разный статус доказательности. Их необходимо разделять.",
+    "l1-t": "Не диагноз.",
+    "l1-d": "Ни ответ анкеты, ни отклонение прогноза не устанавливают диагноз.",
+    "l2-t": "Не валидированная шкала.",
+    "l2-d": "Se, Sp и динамический предел 25% зашиты в код как параметры сценария, а не измерены относительно клинического эталона.",
+    "l3-t": "Не обобщается.",
+    "l3-d": "Индивидуальные ответы не верифицированы. Сам размер 60 не доказывает репрезентативность или клиническую валидность.",
+    "l4-t": "Не заменяет специалиста.",
+    "l4-d": "Прототип не предлагает лечения и не принимает решения о направлении к врачу.",
+    "l5-t": "Стадия прототипа.",
+    "l5-d": "C++ — демонстрационный фрагмент; Telegram-бот — концепция, не развёрнутый защищённый клинический сервис.",
+    "l6-t": "Чем он является.",
+    "l6-d": "Научный проект по прикладной математике с формулами, учебными входными данными, допущениями и проверками расчётов.",
+    "ethics-t": "Данные и согласие",
+    "ethics-d": "Исходные записи и документы согласия не доступны для проверки. Будущий сбор реальных данных требует надлежащего согласия и защиты информации. Сайт не собирает ответы анкет.",
+    "product-eyebrow": "06 · Вычислительный прототип",
+    "product-title": "Прототип C++ и концепция бота.",
+    "st1-k": "Ввод",
+    "st1-v": "Telegram-бот: только концепция",
+    "st2-k": "Расчётное ядро",
+    "st2-v": "Фрагмент расчёта C++: прототип",
+    "st3-k": "Методы",
+    "st3-v": "Байес · Уилсон · интервал Стьюдента · AR(1)",
+    "st4-k": "Текущий статус",
+    "st4-v": "Сбор реальных данных не ведётся",
+    "ip-title": "Научные границы",
+    "ip1-k": "Подход",
+    "ip1-v": "Доля ответов в группе и отдельная числовая проверка прогноза.",
+    "ip2-k": "Данные",
+    "ip2-v": "60 анкет, не верифицированы; (5,6,5,7,6,8,10) — только иллюстрация.",
+    "ip3-k": "Статус",
+    "ip3-v": "Научный проект; клиническая пригодность и готовность к эксплуатации не установлены.",
+    "road-eyebrow": "07 · План исследования",
+    "road-title": "Проверить данные перед расширением выводов.",
+    "road-lead": "Это будущие исследовательские шаги, не завершённая валидация или обязательство внедрения.",
+    "road-now": "Показано в проекте",
+    "road-next": "Дальше",
+    "rn1": "Расчёты Байеса и Уилсона с явными допущениями",
+    "rn2": "Интервал Стьюдента для одного учебного нового значения",
+    "rn3": "Точечный прогноз AR(1) и условное правило ошибки 25%",
+    "rn4": "Разделение анкеты и числовых демонстраций",
+    "rx1": "Проверить исходные 60 ответов и коды вопросов",
+    "rx2": "Согласовать таблицы работы с презентацией",
+    "rx3": "Пересчитать долю ответов после проверки",
+    "rx4": "Спланировать независимую проверку с этическим протоколом",
+    "team-eyebrow": "08 · Автор и руководитель",
+    "team-title": "Два человека и задокументированный метод.",
+    "team-r1": "Автор",
+    "team-d1": "НИШ естественно-математического направления, Алматы. Автор научного проекта.",
+    "team-r2": "Научный руководитель",
+    "team-d2": "Руководила дизайном проекта, статистической постановкой и границами интерпретации.",
+    "close-eyebrow": "Связаться",
+    "close-title": "Скрининговый сигнал полезен, только если его можно проверить.",
+    "close-quote": "Учебные расчёты воспроизводимы. Исходные ответы, main (19).pdf и презентация здесь не приложены; предварительные частоты требуют сверки.",
+    "close-cta1": "Написать автору",
+    "close-cta2": "Изучить метод",
+    "foot-c": "© NeuroCheck, 2026 — школьный исследовательский проект.",
+    "foot-r": "Не медицинское изделие.",
+    "foot-src": "Статус данных: автор указывает 60 анкет; индивидуальные ответы не верифицированы. Предварительные 21/60 требуют сверки с вопросом. Пример 8/15 и ряд из семи значений — только демонстрации. Параметры Байеса — модельные допущения или внешние оценки SOCS, не проверенные на этой выборке.",
+    "sa-tag": "A · n = 60, не верифицировано",
+    "sb-tag": "B · числовой пример",
+    "example-title": "8/15: отдельный учебный пример",
+    "example-note": "8/15 ≈ 53.3%, 95% интервал Уилсона [30.1; 75.2]% (округлённо [30;75]%). Это демонстрация, не итог 60 анкет.",
+    "ppv-label": "Модельный PPV",
+    "socs-label": "SOCS PPV",
+    "cpp-title": "C++: только учебный прототип",
+    "band-label": "95% прогнозный интервал Стьюдента",
+    "page-title": "NeuroCheck — математический анализ признаков ОКР"
+  },
+  "kz": {
+    "skip": "Мазмұнға өту",
+    "nav-problem": "Зерттеу",
+    "nav-method": "Әдіс",
+    "nav-evidence": "Нәтиже",
+    "nav-limits": "Шектеулер",
+    "nav-roadmap": "Жоспар",
+    "nav-signin": "Жоба деректері",
+    "badge": "Ғылыми жоба · НЗМ Алматы · 2026",
+    "hero-title": "ОКБ скринингтік белгілерін математикалық талдау.",
+    "hero-sub": "Қолданбалы математика: Байес, Уилсон, Стьюденттің болжам интервалы және AR(1). Соңғы жұмыста 60 анкета; жеке жауаптар верификацияланбаған. Жеті мәндік қатар — бөлек иллюстративті мысал.",
+    "hero-method": "Әдісті көру",
+    "hero-demo": "Деректерді қарау",
+    "hs1": "соңғы жұмыстағы анкета; жауаптар тексерілмеген",
+    "hs2": "бөлек иллюстративті қатардағы мән",
+    "hs3": "сандық мысалда тексеруге қалдырылған мән",
+    "fig-title": "Иллюстративті қатар · қатысушы дерегі емес",
+    "fig-replay": "Қайта",
+    "ro1": "Стьюденттің 95% болжам интервалы",
+    "ro2": "AR(1) болжамы Ŷ₇",
+    "ro3": "Мысалдағы Y₇",
+    "ro4": "Қате / шартты 25% шек",
+    "fig-flag": "Орындалмады",
+    "fig-verdict": "Тек иллюстрация: |10 − 5.9286| = 4.0714 > 0.25·max(|5.9286|,1) = 1.4821. Қате ≤25% гипотезасы расталмады. 25% ереже статистикалық болжам интервалы немесе клиникалық шек емес.",
+    "problem-eyebrow": "01 · Зерттеу сұрағы",
+    "problem-title": "Скринингтік белгілерді қалай бағалауға болады?",
+    "problem-lead": "Жоба жауап үлестерін, шартты ықтималдықтарды және болжам қатесін қарастырады. Бұл — әртүрлі математикалық шамалар; олардың ешқайсысы өздігінен медициналық диагноз қоймайды.",
+    "why-now": "Зерттеу міндеттері",
+    "r1-t": "Топты сипаттау.",
+    "r1-d": "Алдын ала 21/60 жиілігін анкетаның бастапқы жауаптарымен салыстыру.",
+    "r2-t": "Белгісіздікті бағалау.",
+    "r2-d": "Берілген жиілік үшін шартты Уилсон интервалын есептеу.",
+    "r3-t": "Prior рөлін түсіндіру.",
+    "r3-d": "Байес арқылы сезімталдық пен оң нәтиженің болжамдық құнын ажырату.",
+    "r4-t": "Болжамды тексеру.",
+    "r4-d": "Оқу қатарының тексеру мәнін Стьюдент интервалымен және AR(1) 25% қате ережесімен салыстыру.",
+    "method-eyebrow": "02 · Әдіс",
+    "method-title": "Төрт классикалық құрал, әрқайсысы бір іске.",
+    "method-lead": "Әр әдіс бөлек сұраққа жауап береді. C++ үзіндісі — есептеу прототипі; валидацияланған диагностикалық жүйе емес.",
+    "m1-t": "Байес формуласы",
+    "m1-d": "Сезімталдық, ерекшелік және базалық жиілік берілгенде оң скринингті кейінгі ықтималдыққа айналдырады. Дәл осы базалық жиілік мәселесін жасырмай, көрінетін етеді.",
+    "m2-t": "Уилсон интервалы",
+    "m2-d": "Уилсон бинарлық жауап үлесінің белгісіздігін бағалайды. Алдын ала 21/60 үшін 95% интервал [24.2; 47.6]%; жиілік пен сұраққа сәйкестігі дұрыс болуы шарт. Ол іріктеу ығысуын түземейді.",
+    "m3-t": "Стьюденттің прогностикалық интервалы",
+    "m3-d": "Орта мәнге емес, бір жаңа бақылауға арналған интервал. Мысалда n = 6, df = 5, t = 2.5706. Бақылаулар тәуелсіз, бірдей қалыпты үлестірілген деп алынады; қысқа қатарда бұл тексерілмеген.",
+    "m4-t": "AR(1) моделі",
+    "m4-d": "Алғашқы алты мәннің бес көршілес жұбы 5.9286 нүктелік болжамын береді. Абсолютті қате шартты 25% ережемен салыстырылады; бұл ықтималдық интервалы емес.",
+    "method-note-t": "Дерек деңгейлерін ажырату",
+    "method-note-d": "60 анкета топты сипаттайды. Жеті мәндік қатар — қатысушыдан алынғаны расталмаған сандық иллюстрация. Сауалнама уақыттық модельді валидацияламайды.",
+    "how-title": "Сандық демонстрация қадамдары",
+    "s1-t": "Оқу мәндері",
+    "s1-d": "(5,6,5,7,6,8,10) қолданылады; қатысушының нақты дерегі емес.",
+    "s2-t": "Базалық кезең",
+    "s2-d": "1–6 күндер x̄, S, прогностикалық интервал және AR(1) коэффициенттерін береді.",
+    "s3-t": "Қалдырылған тексеру",
+    "s3-d": "Жетінші мән модельді бағалауға кірмейді; тек тексеруге қолданылады.",
+    "s4-t": "Түсіндіру",
+    "s4-d": "25% қате шарты орындалмағанын клиникалық қорытындысыз көрсету.",
+    "evidence-eyebrow": "03 · Нәтиже",
+    "evidence-title": "Сауалнама мен иллюстрация — бөлек.",
+    "evidence-lead": "Соңғы жұмыста 60 анкета талданады. Жеке жауаптар мен сұрақтарға сәйкестік тексерілмеген; презентациямен айырмашылықтар бар. Бөлек уақыттық қатар тек есептеуді көрсетеді.",
+    "sa-t": "Алдын ала анкета мәліметі",
+    "sa-k1": "Тұрмыстық техниканы тексеру",
+    "sa-k2": "Шартты 95% Уилсон интервалы",
+    "sa-k3": "Мәртебе",
+    "sa-v3": "Сұраққа сәйкестігі тексеріледі",
+    "sa-note": "21/60 = 35% — алдын ала мәлімет. Интервал k = 21, n = 60 дұрыс және бинарлық жауаптар тәуелсіз деп есептеледі. Бұл ОКБ таралуы немесе расталған диагноздар үлесі емес.",
+    "sb-t": "Иллюстративті уақыттық қатар",
+    "sb-k1": "Қатар",
+    "sb-k2": "Базаның ортасы · S",
+    "sb-k3": "Стьюденттің 95% болжам интервалы",
+    "sb-k4": "AR(1) бағалары α, β",
+    "sb-k5": "Болжам / тексеру мәні",
+    "sb-k6": "Қате / 25% шек",
+    "sb-note": "Мысалдағы 10 мәні Стьюдент интервалынан жоғары. AR(1) болжамы 5.9286; қате 4.0714 шартты 1.4821 шектен асады. Мысалда ≤25% гипотезасы расталмады; нақты қатысушы нәтижесі деп берілмейді.",
+    "para-eyebrow": "04 · Скрининг парадоксы",
+    "para-title": "Байес: сезімталдық пен PPV әртүрлі.",
+    "para-lead": "Шартты 1000 адам prior = 0.02, Se = 0.85 және Sp = 0.70 мәндерін түсіндіреді. Бұл — модель параметрлері; 60 анкетада өлшенген шамалар емес.",
+    "lg1": "Сау, теріс",
+    "lg2": "Сау, жалған дабыл",
+    "lg3": "ОКБ, анықталды",
+    "lg4": "ОКБ, өткізіп алынды",
+    "br-s0": "1000 шартты адам",
+    "br-s1": "20 модельдік жағдай",
+    "br-s2": "Тестті жүргізу",
+    "br-s3": "Тек оң нәтижелер",
+    "br-c0": "Тек модель: prior = 0.02 кезінде 1000 адамның 20-сы шартты жағдай деп алынады. Бұлар зерттеу қатысушылары емес.",
+    "br-c1": "Модельде 20 жағдай және 980 жағдайсыз адам алынады. 2% prior осы сауалнамадан бағаланбаған.",
+    "br-c2": "Se = 0.85 және Sp = 0.70: 17 шынайы оң, 294 жалған оң және 3 жалған теріс.",
+    "br-c3": "311 модельдік оң сигналдың 17-сі шынайы. PPV = 17/311 = 5.466%.",
+    "ppv-d": "prior = 0.02, Se = 0.85, Sp = 0.70. PPV = 17/311 = 5.466%. Параметрлер осы іріктемеде тексерілмеген.",
+    "npv-d": "Жарияланған SOCS, шек 6: Se = 0.76, Sp = 0.49. Модельдік prior = 0.02 кезінде қайта есептелген PPV = 2.951%; осы іріктемеде тексерілмеген.",
+    "para-note-t": "Түсіндіру шекарасы",
+    "para-note-d": "Модельдік PPV — диагноз, сауалнамада өлшенген нәтиже немесе тексерілген жолдау ережесі емес. Ол prior мен тест параметрлеріне тәуелді.",
+    "para-fine": "Дереккөз: Piqueras et al. (2015), Table 5, SOCS, шек 6. Мақаладан Se және Sp алынған; PPV мұнда prior = 0.02 үшін есептелген. Екі сценарий де осы 60 анкетада тексерілмеген.",
+    "limits-eyebrow": "05 · Шектеулер",
+    "limits-title": "Зерттеу шектеулері.",
+    "limits-lead": "Алдын ала жиіліктер, модель параметрлері және оқу есептері әртүрлі дәлел деңгейіне жатады. Олар бөлек қарастырылады.",
+    "l1-t": "Диагноз емес.",
+    "l1-d": "Анкета жауабы да, болжам ауытқуы да диагноз қоймайды.",
+    "l2-t": "Валидацияланған шкала емес.",
+    "l2-d": "Se, Sp және 25% динамикалық шек кодта бекітілген сценарий параметрлері, клиникалық эталонға қарсы өлшенген шамалар емес.",
+    "l3-t": "Жалпыланбайды.",
+    "l3-d": "Жеке жауаптар тексерілмеген. 60 анкета көлемінің өзі репрезентативтілікті немесе клиникалық жарамдылықты дәлелдемейді.",
+    "l4-t": "Маманды алмастырмайды.",
+    "l4-d": "Прототип ем ұсынбайды және маманға жіберу туралы шешім қабылдамайды.",
+    "l5-t": "Прототип кезеңі.",
+    "l5-d": "C++ — демонстрациялық үзінді; Telegram-бот — тұжырымдама, іске қосылған қорғалған клиникалық сервис емес.",
+    "l6-t": "Ол не.",
+    "l6-d": "Формулалар, оқу мәндері, алғышарттар және есептеу тексерістері берілген қолданбалы математика ғылыми жобасы.",
+    "ethics-t": "Деректер мен келісім",
+    "ethics-d": "Бастапқы жазбалар мен келісім құжаттары тексеруге қолжетімді емес. Болашақ нақты дерек жинауға тиісті келісім мен құпиялылық тәртібі қажет. Сайт анкета жауаптарын жинамайды.",
+    "product-eyebrow": "06 · Есептеу прототипі",
+    "product-title": "C++ прототипі және бот тұжырымдамасы.",
+    "st1-k": "Енгізу",
+    "st1-v": "Telegram-бот: тек тұжырымдама",
+    "st2-k": "Есептеу ядросы",
+    "st2-v": "C++ есептеу үзіндісі: прототип",
+    "st3-k": "Әдістер",
+    "st3-v": "Байес · Уилсон · Стьюдент интервалы · AR(1)",
+    "st4-k": "Ағымдағы мәртебе",
+    "st4-v": "Нақты дерек жиналмайды",
+    "ip-title": "Ғылыми шекаралар",
+    "ip1-k": "Тәсіл",
+    "ip1-v": "Топтағы жауап үлесі және бөлек сандық болжам тексерісі.",
+    "ip2-k": "Деректер",
+    "ip2-v": "60 анкета тексерілмеген; (5,6,5,7,6,8,10) — тек иллюстративті қатар.",
+    "ip3-k": "Мәртебе",
+    "ip3-v": "Ғылыми жоба; клиникалық жарамдылық пен пайдалануға дайындық расталмаған.",
+    "road-eyebrow": "07 · Зерттеу жоспары",
+    "road-title": "Қорытындыны кеңейтпес бұрын деректерді тексеру.",
+    "road-lead": "Бұл — болашақ зерттеу қадамдары; аяқталған валидация немесе енгізу міндеттемесі емес.",
+    "road-now": "Жобада көрсетілген",
+    "road-next": "Келесі",
+    "rn1": "Алғышарттары көрсетілген Байес және Уилсон есептері",
+    "rn2": "Бір оқу мәніне арналған Стьюдент интервалы",
+    "rn3": "AR(1) нүктелік болжамы және шартты 25% қате ережесі",
+    "rn4": "Сауалнама мен сандық демонстрацияларды ажырату",
+    "rx1": "Бастапқы 60 жауап пен сұрақ кодтарын тексеру",
+    "rx2": "Жұмыстың кестелерін презентациямен сәйкестендіру",
+    "rx3": "Тексеруден кейін жауап үлесін қайта есептеу",
+    "rx4": "Этикалық тәртіппен тәуелсіз тексеруді жоспарлау",
+    "team-eyebrow": "08 · Автор және жетекші",
+    "team-title": "Екі адам және құжатталған әдіс.",
+    "team-r1": "Автор",
+    "team-d1": "Алматы қаласындағы жаратылыстану-математика бағытындағы НЗМ. Ғылыми жобаның авторы.",
+    "team-r2": "Ғылыми жетекші",
+    "team-d2": "Жобаның дизайнын, статистикалық қойылымын және интерпретация шекараларын басқарды.",
+    "close-eyebrow": "Байланысу",
+    "close-title": "Скрининг сигналы тексеруге келгенде ғана пайдалы.",
+    "close-quote": "Оқу есептерін қайталауға болады. Бастапқы жауаптар, main (19).pdf және презентация мұнда тіркелмеген; алдын ала жиілікті сәйкестендіру қажет.",
+    "close-cta1": "Авторға жазу",
+    "close-cta2": "Әдісті қарау",
+    "foot-c": "© NeuroCheck, 2026 — мектеп зерттеу жобасы.",
+    "foot-r": "Медициналық бұйым емес.",
+    "foot-src": "Дерек мәртебесі: автор 60 анкетаны көрсетеді; жеке жауаптар тексерілмеген. Алдын ала 21/60 мәнін сұрақпен салыстыру қажет. 8/15 мысалы мен жеті мәндік қатар — тек демонстрациялар. Байес параметрлері — модельдік алғышарттар немесе сыртқы SOCS бағалары; осы іріктемеде тексерілмеген.",
+    "sa-tag": "A · n = 60, тексерілмеген",
+    "sb-tag": "B · сандық мысал",
+    "example-title": "8/15 — бөлек оқу мысалы",
+    "example-note": "8/15 ≈ 53.3%, Уилсонның 95% интервалы [30.1; 75.2]% (дөңгелектеп [30;75]%). Бұл — демонстрация, 60 анкетаның нәтижесі емес.",
+    "ppv-label": "Модельдік PPV",
+    "socs-label": "SOCS PPV",
+    "cpp-title": "C++: тек оқу прототипі",
+    "band-label": "Стьюденттің 95% болжам интервалы",
+    "page-title": "NeuroCheck — ОКБ белгілерін математикалық талдау"
+  }
+};
 
-                    "badge": "Research prototype · NIS Almaty · 2026",
-                    "hero-title": "Seven daily check-ins. One falsifiable forecast.",
-                    "hero-sub": "NeuroCheck fits an AR(1) model to a student's first six daily anxiety scores, then predicts day seven — and openly reports whether the prediction held. Bayes' rule, a Wilson interval and a Student prediction interval do the rest.",
-                    "hero-method": "See the method", "hero-demo": "Open the demo",
-                    "hs1": "students in the cross-sectional sample",
-                    "hs2": "consecutive days in the longitudinal series",
-                    "hs3": "held-out day used as the test point",
-
-                    "fig-title": "Sample B · one student · Y₁…Y₇", "fig-replay": "Replay",
-                    "ro1": "95% pred. interval", "ro2": "AR(1) forecast Ŷ₇", "ro3": "Actual Y₇", "ro4": "Deviation D₇ / limit T₇",
-                    "fig-flag": "Not met",
-                    "fig-verdict": "On this demonstration series D₇ = 4.071 exceeded the dynamic limit T₇ = 1.482, so the hypothesis was not confirmed. The method returned a clear, checkable answer — that is the point of it.",
-
-                    "problem-eyebrow": "01 · The problem",
-                    "problem-title": "Screening for OCD rarely reaches a classroom.",
-                    "problem-lead": "Obsessive–compulsive disorder is measurable, treatable and routinely missed in adolescence. The bottleneck is not the absence of clinical instruments — it is that no one has time to run them on every student, every week.",
-                    "stat1": "of the world's population lives with OCD.",
-                    "stat2-num": "Top 10", "stat2": "most disabling conditions worldwide.",
-                    "stat3": "median delay between first symptoms and treatment.",
-                    "stat4": "school psychologists for ~3M students in Kazakhstan.",
-                    "src-est": "Public estimate",
-                    "why-now": "Why it stays unsolved",
-                    "r1-t": "No routine screening.", "r1-d": "A psychologist covering several hundred students cannot run a structured interview with each of them.",
-                    "r2-t": "Self-report is unreliable at a single point in time.", "r2-d": "One questionnaire captures a mood, not a trajectory.",
-                    "r3-t": "Stigma suppresses disclosure.", "r3-d": "Adolescents under-report intrusive thoughts when the form has their name on it.",
-                    "r4-t": "Rare conditions break naive tests.", "r4-d": "At a 2% base rate even a good test produces far more false alarms than true ones — see section 04.",
-
-                    "method-eyebrow": "02 · Method",
-                    "method-title": "Four classical tools, each doing one job.",
-                    "method-lead": "Nothing here is a black box. Every number on this page comes from a formula you can check by hand, implemented in a C++ core that writes every run to a log.",
-                    "m1-t": "Bayes' rule", "m1-d": "Turns a positive screen into a posterior probability, given sensitivity, specificity and the population base rate. This is what makes the base-rate problem visible instead of hiding it.",
-                    "m2-t": "Wilson score interval", "m2-d": "Puts honest error bars on a proportion measured in a small group. With n = 15 the interval is wide — and the site shows it that way rather than quoting the point estimate alone.",
-                    "m3-t": "Student prediction interval", "m3-d": "A range for one new observation — not for a mean. Built from the first six days (n = 6, df = 5, t = 2.571), it says where day seven should land if nothing has changed.",
-                    "m4-t": "AR(1) model", "m4-d": "A first-order autoregression fitted to that same baseline. It carries yesterday's value forward into a point forecast for today, which the held-out day then tests.",
-                    "method-note-t": "Why not a neural network?",
-                    "method-note-d": "With one participant and seven observations, any model with more than a couple of parameters would fit noise. Classical statistics is not a fallback here — at this sample size it is the only defensible choice, and it produces intervals a reviewer can audit.",
-                    "how-title": "How a week runs",
-                    "s1-t": "Daily check-in", "s1-d": "A short self-report through a Telegram bot produces one anxiety index per day.",
-                    "s2-t": "Baseline fit", "s2-d": "Days 1–6 give x̄, S, a prediction interval and the AR(1) coefficients.",
-                    "s3-t": "Held-out test", "s3-d": "Day 7 is compared against both forecasts. It never enters the fit.",
-                    "s4-t": "Signal, not verdict", "s4-d": "A deviation is flagged for a human to look at. The system never names a diagnosis.",
-
-                    "evidence-eyebrow": "03 · Evidence",
-                    "evidence-title": "Two samples, kept strictly apart.",
-                    "evidence-lead": "The study answers two different questions and refuses to mix them. Sample A describes a group at one moment. Sample B tests a forecasting procedure on one person over time. Neither validates the other.",
-                    "sa-t": "Cross-sectional",
-                    "sa-k1": "Above the chosen threshold", "sa-k2": "Wilson 95% interval", "sa-k3": "Design", "sa-v3": "one questionnaire, one moment",
-                    "sa-note": "The width of that band is the finding. With fifteen respondents the true proportion could plausibly be one in three or three in four — so this number describes these fifteen students and no one else.",
-                    "sb-t": "Longitudinal",
-                    "sb-k1": "Series", "sb-k2": "Baseline mean · S", "sb-k3": "95% prediction interval",
-                    "sb-k4": "AR(1) estimates α, β", "sb-k5": "Forecast Ŷ₇ · actual Y₇", "sb-k6": "D₇ vs T₇",
-                    "sb-note": "Day seven landed outside the prediction interval and beyond the dynamic limit, so the stated hypothesis was not confirmed on this series. A single run neither validates nor refutes the method — it demonstrates that the decision rule fires.",
-                    "survey-title": "What the fifteen reported",
-                    "survey-sub": "Descriptive frequencies from Sample A. These are self-reported symptom frequencies, not clinical ratings.",
-                    "b1-l": "Intrusive thoughts", "b1-n": "53.3% often · 40% sometimes · 6.7% rarely",
-                    "b2-l": "Repeated checking", "b2-n": "53.3% check 1–3× · 20% 5–10× · 13.3% 10+×",
-                    "b3-l": "Worry about locks and doors", "b3-n": "26.7% always · 26.7% often",
-
-                    "para-eyebrow": "04 · The screening paradox",
-                    "para-title": "A positive screen means a 5% chance, not an 85% one.",
-                    "para-lead": "This is the single most important number on the page, and most screening products never show it. Run 1,000 students through a test with 85% sensitivity and 70% specificity at a 2% base rate, and the arithmetic is unforgiving.",
-                    "lg1": "Healthy, negative", "lg2": "Healthy, false alarm", "lg3": "OCD, detected", "lg4": "OCD, missed",
-                    "br-s0": "1,000 students", "br-s1": "20 have OCD", "br-s2": "Run the test", "br-s3": "Keep only positives",
-                    "br-c0": "One thousand students. At a 2% base rate, twenty of them have OCD — and you do not know which.",
-                    "br-c1": "Those twenty, highlighted. This is the signal any screening tool is trying to find.",
-                    "br-c2": "The test fires. It catches 17 of the 20 — but also flags 294 healthy students, and misses 3.",
-                    "br-c3": "Now keep only the positives: 311 flags, of which 17 are real. That ratio is the PPV — 5.5%.",
-                    "ppv-d": "Of everyone the test flags, about one in eighteen actually has OCD. 294 false alarms against 17 true detections.",
-                    "npv-d": "A negative result is usually right — but mostly because the condition is rare, not because the test is strong.",
-                    "para-note-t": "So why build it at all?",
-                    "para-note-d": "Because a 5% posterior is not a diagnosis — it is a queue. Instead of screening 1,000 students a psychologist reviews 311, and the seventeen who need help are almost certainly among them. The value is triage, and the honest framing of that is the product.",
-                    "para-fine": "Se = 0.85 and Sp = 0.70 are deliberately optimistic scenario parameters chosen to make the arithmetic legible. They were not measured in this study. Published figures for comparable short screens sit lower — Se 0.61 / Sp 0.60 at one threshold in Piqueras et al.",
-
-                    "limits-eyebrow": "05 · Limits",
-                    "limits-title": "What NeuroCheck is not.",
-                    "limits-lead": "A screening result is not a diagnosis, and a prototype is not a validated instrument. Everything below is stated in the research paper this site is built on; repeating it here is not a disclaimer, it is the method.",
-                    "l1-t": "Not a diagnosis.", "l1-d": "Crossing a threshold in Sample A, or falling outside the interval in Sample B, carries no clinical meaning on its own.",
-                    "l2-t": "Not a validated scale.", "l2-d": "Se, Sp and the 25% dynamic limit are hard-coded scenario parameters, not quantities measured against a clinical reference.",
-                    "l3-t": "Not generalisable.", "l3-d": "Fifteen respondents from one school describe fifteen respondents from one school.",
-                    "l4-t": "Not a replacement for a specialist.", "l4-d": "The prototype proposes no treatment and makes no referral decision.",
-                    "l5-t": "Not yet a secured system.", "l5-d": "In its current form the C++ core writes an unencrypted log, and the Telegram front end is not yet wired to it. Encryption, consent capture, retention limits and access control are engineering work still ahead.",
-                    "l6-t": "What it is.", "l6-d": "A working computational module that turns seven self-reported numbers into an auditable, falsifiable statement — and logs every run so the statement can be checked.",
-                    "ethics-t": "Data and consent",
-                    "ethics-d": "Participation in the study was voluntary and responses were collected without identifying information. Any deployment beyond research would require informed consent before entry, minimal collection, encryption at rest, restricted access and a defined retention period. The current prototype does not yet demonstrate those guarantees, and the paper says so.",
-
-                    "product-eyebrow": "06 · Product & stack",
-                    "product-title": "Small, inspectable, deployable in a school.",
-                    "st1-k": "Intake", "st1-v": "Telegram bot (aiogram)",
-                    "st2-k": "Compute core", "st2-v": "C++ — statistics, PI, AR(1), Bayes",
-                    "st3-k": "Methods", "st3-v": "Bayes · Wilson · Student PI · AR(1)",
-                    "st4-k": "Storage", "st4-v": "Run log → SQLite (planned)",
-                    "ip-title": "Position",
-                    "ip1-k": "Approach", "ip1-v": "Per-student baseline with a held-out test day, rather than a one-off cut-off score.",
-                    "ip2-k": "Data", "ip2-v": "Original survey instrument and a seven-day pilot series collected by the author in 2026.",
-                    "ip3-k": "Status", "ip3-v": "School research project. No patent filed, no peer review, no clinical validation — those are milestones, not claims.",
-                    "c-h1": "Instrument", "c-h2": "Type", "c-h3": "Strength", "c-h4": "Limitation",
-                    "c1-2": "Clinical interview", "c1-3": "The clinical reference standard", "c1-4": "Long; requires a trained specialist",
-                    "c2-2": "Questionnaire", "c2-3": "18 items, six subscales", "c2-4": "Self-reported, single point in time",
-                    "c3-2": "Questionnaire", "c3-3": "Short, self-administered", "c3-4": "Measures symptoms only, not change",
-                    "c4-2": "Computational prototype", "c4-3": "Models an individual trajectory; every step auditable", "c4-4": "Built on self-report; not yet validated",
-
-                    "market-eyebrow": "07 · Market",
-                    "market-title": "Underserved, and sized from public figures.",
-                    "market-lead": "The numbers below are top-down estimates built on public counts of schools and students. They are a scale check, not a revenue forecast, and no school has signed anything yet.",
-                    "mk1": "schools nationwide", "mk2": "students aged 7–17", "mk3": "school psychologists",
-                    "f-tam": "3M students × $10 / year", "f-sam": "Urban schools — roughly half", "f-som": "5% of schools ≈ 350 schools",
-                    "comp-title": "Adjacent products",
-                    "cp-h1": "Product", "cp-h2": "What it does", "cp-h3": "Where NeuroCheck differs",
-                    "cp1-2": "Teletherapy for adults with OCD", "cp1-3": "Treatment, not screening; priced far above a school budget",
-                    "cp2-1": "General wellbeing apps", "cp2-2": "Mood tracking and self-help content", "cp2-3": "No stated model, no interval, no held-out test",
-                    "cp3-1": "In-person psychologist", "cp3-2": "One-to-one assessment and support", "cp3-3": "The reference standard — but cannot cover every student weekly",
-                    "cp4-2": "Weekly per-student signal with published limits", "cp4-3": "Triage that hands a psychologist a shorter list, and shows its own error bars",
-
-                    "model-eyebrow": "08 · Business model",
-                    "model-title": "Three channels, one of them non-dilutive.",
-                    "rev1-t": "B2B — schools", "rev1-d": "Annual licence covering a school's students and its psychologist dashboard.",
-                    "rev2-t": "B2C — parents", "rev2-d": "An individual report for a family that wants monitoring outside school.",
-                    "rev3-t": "Grants", "rev3-n": "Programme funding", "rev3-u": "Non-dilutive",
-                    "rev3-d": "Digital-education and youth mental-health programmes, applied for on the same evidence base.",
-                    "proj-title": "Year-one scenario",
-                    "proj-sub": "An illustrative target, not a booked pipeline: 100 schools and 10,000 parent reports.",
-                    "rb1": "schools", "rb2": "parents",
-                    "rl1": "100 schools × 500,000 ₸", "rl2": "10,000 reports × 5,000 ₸",
-                    "rev-total": "Total 100M ₸ / year ≈ $212,000 · at ~470 ₸/$1",
-
-                    "road-eyebrow": "09 · Roadmap",
-                    "road-title": "The next milestone is validation, not sales.",
-                    "road-lead": "The paper specifies exactly what would turn this prototype into an instrument, and that study comes before any claim of accuracy.",
-                    "road-now": "Done", "road-next": "Next",
-                    "rn1": "C++ core: sample statistics, prediction interval, AR(1), single Bayes update",
-                    "rn2": "Run logging to file for repeat inspection",
-                    "rn3": "Telegram intake prototype",
-                    "rn4": "Two-sample study written up with stated limits",
-                    "rx1": "Wire the Telegram front end directly to the C++ core",
-                    "rx2": "Encrypt storage; add consent capture and a retention policy",
-                    "rx3": "Extend monitoring to 30 days per participant to test residual autocorrelation",
-                    "rx4": "Move the threshold from hard-coded to data-selected",
-                    "tl1-k": "STAGE 1 · VALIDATION", "tl1-t": "50 clinical cases + 50 controls",
-                    "tl1-d": "Each participant independently rated with Y-BOCS or CY-BOCS, compared blind against the prototype's output.",
-                    "tl1-r": "Confusion matrix · ROC-AUC",
-                    "tl2-k": "STAGE 2 · CALIBRATION", "tl2-t": "Measured Se, Sp, PPV, NPV",
-                    "tl2-d": "Replace the scenario parameters with values measured on that sample; choose the threshold by Youden's J = Se + Sp − 1.",
-                    "tl2-r": "A defensible cut-off",
-                    "tl3-k": "STAGE 3 · PILOT", "tl3-t": "Schools, with a psychologist in the loop",
-                    "tl3-d": "Deploy only where a specialist reviews every flag, and measure whether the queue actually saves them time.",
-                    "tl3-r": "First real-world evidence",
-
-                    "team-eyebrow": "10 · Team & ask",
-                    "team-title": "Two people and a documented method.",
-                    "team-r1": "Author", "team-d1": "Nazarbayev Intellectual School of Physics and Mathematics, Almaty. Wrote the C++ core, the survey instrument and the study.",
-                    "team-r2": "Research supervisor", "team-d2": "Supervised the project's design, statistical framing and interpretation limits.",
-                    "team-hire": "Needed next: a backend engineer for the secured pipeline, and a clinical partner able to run the Y-BOCS comparison.",
-                    "ask-k": "Use of funds — 6 months",
-                    "u1": "Engineering — secured pipeline", "u2": "Validation study logistics", "u3": "Legal entity and compliance",
-                    "u4": "Hosting and equipment", "u5": "Reserve",
-                    "am1-v": "100 participants", "am1-k": "Validation study size",
-                    "am2-v": "ROC-AUC", "am2-k": "The metric that decides whether this continues",
-                    "am3-v": "3 schools", "am3-k": "Supervised pilot after validation",
-
-                    "close-eyebrow": "Get in touch",
-                    "close-title": "A screening signal is only useful if you can check it.",
-                    "close-quote": "Every number on this page can be recomputed from the paper. If one of them is wrong, tell me and I will change it.",
-                    "close-cta1": "Contact the author", "close-cta2": "Open the demo",
-                    "foot-c": "© NeuroCheck, 2026 — a school research project.",
-                    "foot-r": "Not a medical device.",
-                    "foot-src": "Figures on this page come from: the author's 2026 study (Sample A, n = 15; Sample B, one participant × 7 days); WHO and NIMH prevalence overviews; Piqueras et al. and Adam et al. for comparable screening instruments; Devore and Montgomery for the prediction-interval and sample-variance formulas; Gelman for the Bayesian framing. Market sizes are top-down estimates from public school and enrolment counts. Currency converted at ~470 ₸/$1. Se = 0.85 and Sp = 0.70 are scenario parameters, not measurements."
-                },
-
-                ru: {
-                    "skip": "Перейти к содержимому",
-                    "nav-problem": "Проблема", "nav-method": "Метод", "nav-evidence": "Данные",
-                    "nav-limits": "Ограничения", "nav-market": "Рынок", "nav-roadmap": "План",
-                    "nav-signin": "Войти",
-
-                    "badge": "Исследовательский прототип · НИШ Алматы · 2026",
-                    "hero-title": "Семь ежедневных замеров. Один проверяемый прогноз.",
-                    "hero-sub": "NeuroCheck строит модель AR(1) по первым шести дневным значениям тревожности ученика, прогнозирует седьмой день — и честно сообщает, сбылся прогноз или нет. Остальное делают формула Байеса, интервал Уилсона и прогностический интервал Стьюдента.",
-                    "hero-method": "Как это устроено", "hero-demo": "Открыть демо",
-                    "hs1": "учеников в поперечной выборке",
-                    "hs2": "последовательных дней в продольном ряду",
-                    "hs3": "отложенный день как точка проверки",
-
-                    "fig-title": "Выборка B · один ученик · Y₁…Y₇", "fig-replay": "Заново",
-                    "ro1": "95% прогн. интервал", "ro2": "Прогноз AR(1) Ŷ₇", "ro3": "Факт Y₇", "ro4": "Отклонение D₇ / предел T₇",
-                    "fig-flag": "Не выполнено",
-                    "fig-verdict": "На этом демонстрационном ряду D₇ = 4.071 превысило динамический предел T₇ = 1.482, поэтому гипотеза не подтвердилась. Метод дал ясный проверяемый ответ — в этом и смысл.",
-
-                    "problem-eyebrow": "01 · Проблема",
-                    "problem-title": "Скрининг ОКР почти не доходит до класса.",
-                    "problem-lead": "Обсессивно-компульсивное расстройство измеримо, поддаётся лечению и регулярно упускается в подростковом возрасте. Дело не в отсутствии клинических инструментов — просто ни у кого нет времени применять их к каждому ученику каждую неделю.",
-                    "stat1": "населения мира живёт с ОКР.",
-                    "stat2-num": "Топ-10", "stat2": "наиболее инвалидизирующих состояний в мире.",
-                    "stat3": "медианная задержка между первыми симптомами и лечением.",
-                    "stat4": "школьных психологов на ~3 млн учеников в Казахстане.",
-                    "src-est": "Открытая оценка",
-                    "why-now": "Почему это не решается",
-                    "r1-t": "Нет регулярного скрининга.", "r1-d": "Психолог, ведущий несколько сотен учеников, не может провести структурированное интервью с каждым.",
-                    "r2-t": "Разовый самоотчёт ненадёжен.", "r2-d": "Одна анкета фиксирует настроение, а не траекторию.",
-                    "r3-t": "Стигма мешает говорить.", "r3-d": "Подростки занижают навязчивые мысли, когда в анкете стоит их имя.",
-                    "r4-t": "Редкие состояния ломают наивные тесты.", "r4-d": "При базовой частоте 2% даже хороший тест даёт куда больше ложных тревог, чем верных — см. раздел 04.",
-
-                    "method-eyebrow": "02 · Метод",
-                    "method-title": "Четыре классических инструмента, каждый — под свою задачу.",
-                    "method-lead": "Здесь нет чёрного ящика. Любое число на этой странице выводится формулой, которую можно проверить вручную; всё реализовано в ядре на C++, которое пишет каждый запуск в лог.",
-                    "m1-t": "Формула Байеса", "m1-d": "Превращает положительный скрининг в апостериорную вероятность при заданных чувствительности, специфичности и базовой частоте. Именно она делает проблему базовой частоты видимой, а не прячет её.",
-                    "m2-t": "Интервал Уилсона", "m2-d": "Даёт честные границы погрешности для доли, измеренной в маленькой группе. При n = 15 интервал широкий — и сайт показывает именно его, а не одну точечную оценку.",
-                    "m3-t": "Прогностический интервал Стьюдента", "m3-d": "Диапазон для одного нового наблюдения, а не для среднего. Построенный по первым шести дням (n = 6, df = 5, t = 2.571), он говорит, где должен оказаться седьмой день, если ничего не изменилось.",
-                    "m4-t": "Модель AR(1)", "m4-d": "Авторегрессия первого порядка на той же базовой части ряда. Она переносит вчерашнее значение в точечный прогноз на сегодня, а отложенный день его проверяет.",
-                    "method-note-t": "Почему не нейросеть?",
-                    "method-note-d": "При одном участнике и семи наблюдениях любая модель сложнее пары параметров будет подгонять шум. Классическая статистика здесь не запасной вариант — при таком объёме данных это единственный защитимый выбор, и она даёт интервалы, которые рецензент может проверить.",
-                    "how-title": "Как проходит неделя",
-                    "s1-t": "Ежедневный замер", "s1-d": "Короткий самоотчёт через Telegram-бот даёт один индекс тревожности в день.",
-                    "s2-t": "Построение базы", "s2-d": "Дни 1–6 дают x̄, S, прогностический интервал и коэффициенты AR(1).",
-                    "s3-t": "Отложенная проверка", "s3-d": "День 7 сравнивается с обоими прогнозами и никогда не входит в оценку модели.",
-                    "s4-t": "Сигнал, а не вердикт", "s4-d": "Отклонение помечается для человека. Система не ставит диагноз.",
-
-                    "evidence-eyebrow": "03 · Данные",
-                    "evidence-title": "Две выборки, строго не смешанные.",
-                    "evidence-lead": "Исследование отвечает на два разных вопроса и отказывается их объединять. Выборка A описывает группу в один момент. Выборка B проверяет процедуру прогноза на одном человеке во времени. Ни одна не подтверждает другую.",
-                    "sa-t": "Поперечная",
-                    "sa-k1": "Выше выбранного порога", "sa-k2": "Интервал Уилсона 95%", "sa-k3": "Дизайн", "sa-v3": "одна анкета, один момент",
-                    "sa-note": "Ширина этой полосы и есть результат. При пятнадцати респондентах истинная доля правдоподобно лежит и на уровне одного из трёх, и трёх из четырёх — поэтому число описывает этих пятнадцать учеников и никого больше.",
-                    "sb-t": "Продольная",
-                    "sb-k1": "Ряд", "sb-k2": "Среднее базы · S", "sb-k3": "95% прогностический интервал",
-                    "sb-k4": "Оценки AR(1) α, β", "sb-k5": "Прогноз Ŷ₇ · факт Y₇", "sb-k6": "D₇ против T₇",
-                    "sb-note": "Седьмой день вышел и за прогностический интервал, и за динамический предел, поэтому заявленная гипотеза на этом ряду не подтвердилась. Один запуск не подтверждает и не опровергает метод — он показывает, что решающее правило срабатывает.",
-                    "survey-title": "Что ответили пятнадцать",
-                    "survey-sub": "Описательные частоты по выборке A. Это самоотчёт о частоте симптомов, а не клиническая оценка.",
-                    "b1-l": "Навязчивые мысли", "b1-n": "53.3% часто · 40% иногда · 6.7% редко",
-                    "b2-l": "Повторные проверки", "b2-n": "53.3% проверяют 1–3× · 20% 5–10× · 13.3% 10+×",
-                    "b3-l": "Тревога о замках и дверях", "b3-n": "26.7% всегда · 26.7% часто",
-
-                    "para-eyebrow": "04 · Парадокс скрининга",
-                    "para-title": "Положительный тест — это 5% вероятности, а не 85%.",
-                    "para-lead": "Это самое важное число на странице, и почти ни один скрининговый продукт его не показывает. Прогоните 1000 учеников через тест с чувствительностью 85% и специфичностью 70% при базовой частоте 2% — арифметика будет беспощадной.",
-                    "lg1": "Здоров, отрицательно", "lg2": "Здоров, ложная тревога", "lg3": "ОКР, выявлено", "lg4": "ОКР, пропущено",
-                    "br-s0": "1000 учеников", "br-s1": "У 20 есть ОКР", "br-s2": "Запустить тест", "br-s3": "Оставить положительные",
-                    "br-c0": "Тысяча учеников. При базовой частоте 2% у двадцати из них ОКР — и вы не знаете, у кого именно.",
-                    "br-c1": "Вот эти двадцать. Именно их пытается найти любой скрининговый инструмент.",
-                    "br-c2": "Тест срабатывает. Он ловит 17 из 20 — но помечает ещё 294 здоровых и пропускает 3.",
-                    "br-c3": "Оставляем только положительные: 311 меток, из них 17 настоящих. Это отношение и есть PPV — 5.5%.",
-                    "ppv-d": "Из всех, кого тест пометил, ОКР есть примерно у одного из восемнадцати. 294 ложные тревоги против 17 верных находок.",
-                    "npv-d": "Отрицательный результат обычно верен — но в основном потому, что состояние редкое, а не потому, что тест сильный.",
-                    "para-note-t": "Тогда зачем всё это?",
-                    "para-note-d": "Потому что 5% апостериорной вероятности — это не диагноз, а очередь. Вместо тысячи учеников психолог смотрит 311, и те семнадцать, кому нужна помощь, почти наверняка среди них. Ценность — в сортировке, и честная формулировка этого и есть продукт.",
-                    "para-fine": "Se = 0.85 и Sp = 0.70 — намеренно оптимистичные параметры сценария, взятые ради наглядности расчёта. В этом исследовании они не измерялись. Опубликованные значения для сопоставимых коротких шкал ниже — Se 0.61 / Sp 0.60 на одном из порогов у Piqueras и соавт.",
-
-                    "limits-eyebrow": "05 · Ограничения",
-                    "limits-title": "Чем NeuroCheck не является.",
-                    "limits-lead": "Результат скрининга — не диагноз, а прототип — не валидированный инструмент. Всё изложенное ниже прямо записано в научной работе, на которой построен сайт; это не дисклеймер, а часть метода.",
-                    "l1-t": "Не диагноз.", "l1-d": "Превышение порога в выборке A или выход за интервал в выборке B сами по себе не имеют клинического смысла.",
-                    "l2-t": "Не валидированная шкала.", "l2-d": "Se, Sp и динамический предел 25% зашиты в код как параметры сценария, а не измерены относительно клинического эталона.",
-                    "l3-t": "Не обобщается.", "l3-d": "Пятнадцать респондентов из одной школы описывают пятнадцать респондентов из одной школы.",
-                    "l4-t": "Не заменяет специалиста.", "l4-d": "Прототип не предлагает лечения и не принимает решения о направлении к врачу.",
-                    "l5-t": "Пока не защищённая система.", "l5-d": "В нынешнем виде ядро на C++ пишет незашифрованный лог, а Telegram-интерфейс с ним напрямую не связан. Шифрование, фиксация согласия, сроки хранения и разграничение доступа — инженерная работа впереди.",
-                    "l6-t": "Чем он является.", "l6-d": "Рабочий расчётный модуль, который превращает семь самоотчётных чисел в проверяемое, опровержимое утверждение — и пишет каждый запуск в лог, чтобы это утверждение можно было перепроверить.",
-                    "ethics-t": "Данные и согласие",
-                    "ethics-d": "Участие в исследовании было добровольным, ответы собирались без идентифицирующих сведений. Любое внедрение за пределами исследования потребует информированного согласия до ввода данных, минимального сбора, шифрования при хранении, ограниченного доступа и определённого срока хранения. Нынешний прототип этих гарантий ещё не демонстрирует, и в работе это сказано прямо.",
-
-                    "product-eyebrow": "06 · Продукт и стек",
-                    "product-title": "Небольшой, проверяемый, разворачиваемый в школе.",
-                    "st1-k": "Ввод", "st1-v": "Telegram-бот (aiogram)",
-                    "st2-k": "Расчётное ядро", "st2-v": "C++ — статистика, интервал, AR(1), Байес",
-                    "st3-k": "Методы", "st3-v": "Байес · Уилсон · интервал Стьюдента · AR(1)",
-                    "st4-k": "Хранение", "st4-v": "Лог запусков → SQLite (в планах)",
-                    "ip-title": "Позиция",
-                    "ip1-k": "Подход", "ip1-v": "Индивидуальная базовая линия с отложенным днём проверки вместо разового порогового балла.",
-                    "ip2-k": "Данные", "ip2-v": "Собственная анкета и семидневный пилотный ряд, собранные автором в 2026 году.",
-                    "ip3-k": "Статус", "ip3-v": "Школьный исследовательский проект. Патент не подан, рецензирования нет, клинической валидации нет — это цели, а не заявления.",
-                    "c-h1": "Инструмент", "c-h2": "Тип", "c-h3": "Сильная сторона", "c-h4": "Ограничение",
-                    "c1-2": "Клиническое интервью", "c1-3": "Клинический эталон", "c1-4": "Долго; нужен обученный специалист",
-                    "c2-2": "Опросник", "c2-3": "18 пунктов, шесть субшкал", "c2-4": "Самоотчёт, один момент времени",
-                    "c3-2": "Опросник", "c3-3": "Короткий, заполняется самостоятельно", "c3-4": "Измеряет только симптомы, не динамику",
-                    "c4-2": "Расчётный прототип", "c4-3": "Моделирует индивидуальную траекторию; каждый шаг проверяем", "c4-4": "Опирается на самоотчёт; пока не валидирован",
-
-                    "market-eyebrow": "07 · Рынок",
-                    "market-title": "Незакрытая потребность, оценённая по открытым данным.",
-                    "market-lead": "Цифры ниже — оценка сверху вниз по публичным данным о числе школ и учеников. Это проверка масштаба, а не прогноз выручки; ни одна школа пока ничего не подписала.",
-                    "mk1": "школ по стране", "mk2": "учеников 7–17 лет", "mk3": "школьных психологов",
-                    "f-tam": "3 млн учеников × $10 / год", "f-sam": "Городские школы — примерно половина", "f-som": "5% школ ≈ 350 школ",
-                    "comp-title": "Смежные продукты",
-                    "cp-h1": "Продукт", "cp-h2": "Что делает", "cp-h3": "Чем отличается NeuroCheck",
-                    "cp1-2": "Телетерапия для взрослых с ОКР", "cp1-3": "Лечение, а не скрининг; цена вне школьного бюджета",
-                    "cp2-1": "Приложения для благополучия", "cp2-2": "Отслеживание настроения и материалы для самопомощи", "cp2-3": "Нет заявленной модели, интервала и отложенной проверки",
-                    "cp3-1": "Очный психолог", "cp3-2": "Индивидуальная оценка и поддержка", "cp3-3": "Эталон — но не может охватить каждого ученика еженедельно",
-                    "cp4-2": "Еженедельный индивидуальный сигнал с опубликованными ограничениями", "cp4-3": "Сортировка, которая даёт психологу короткий список и показывает свою погрешность",
-
-                    "model-eyebrow": "08 · Бизнес-модель",
-                    "model-title": "Три канала, один из них без размытия доли.",
-                    "rev1-t": "B2B — школы", "rev1-d": "Годовая лицензия на учеников школы и панель психолога.",
-                    "rev2-t": "B2C — родители", "rev2-d": "Индивидуальный отчёт для семьи, которой нужен мониторинг вне школы.",
-                    "rev3-t": "Гранты", "rev3-n": "Программное финансирование", "rev3-u": "Без размытия доли",
-                    "rev3-d": "Программы цифрового образования и подросткового психического здоровья — заявки на той же доказательной базе.",
-                    "proj-title": "Сценарий первого года",
-                    "proj-sub": "Иллюстративная цель, а не подтверждённый пайплайн: 100 школ и 10 000 родительских отчётов.",
-                    "rb1": "школы", "rb2": "родители",
-                    "rl1": "100 школ × 500 000 ₸", "rl2": "10 000 отчётов × 5 000 ₸",
-                    "rev-total": "Итого 100 млн ₸ / год ≈ $212 000 · по курсу ~470 ₸/$1",
-
-                    "road-eyebrow": "09 · План",
-                    "road-title": "Следующая веха — валидация, а не продажи.",
-                    "road-lead": "В работе прямо описано, что превратит прототип в инструмент, и это исследование идёт раньше любых заявлений о точности.",
-                    "road-now": "Сделано", "road-next": "Дальше",
-                    "rn1": "Ядро на C++: выборочные статистики, прогностический интервал, AR(1), однократное обновление по Байесу",
-                    "rn2": "Запись запусков в файл для повторной проверки",
-                    "rn3": "Прототип ввода через Telegram",
-                    "rn4": "Двухвыборочное исследование, описанное вместе с ограничениями",
-                    "rx1": "Связать Telegram-интерфейс напрямую с ядром на C++",
-                    "rx2": "Зашифровать хранение; добавить фиксацию согласия и срок хранения",
-                    "rx3": "Довести мониторинг до 30 дней на участника и проверить автокорреляцию остатков",
-                    "rx4": "Перейти от зашитого порога к выбранному по данным",
-                    "tl1-k": "ЭТАП 1 · ВАЛИДАЦИЯ", "tl1-t": "50 клинических случаев + 50 контролей",
-                    "tl1-d": "Каждый участник независимо оценивается по Y-BOCS или CY-BOCS и вслепую сравнивается с выводом прототипа.",
-                    "tl1-r": "Матрица ошибок · ROC-AUC",
-                    "tl2-k": "ЭТАП 2 · КАЛИБРОВКА", "tl2-t": "Измеренные Se, Sp, PPV, NPV",
-                    "tl2-d": "Заменить параметры сценария измеренными на этой выборке; порог выбрать по индексу Юдена J = Se + Sp − 1.",
-                    "tl2-r": "Обоснованный порог",
-                    "tl3-k": "ЭТАП 3 · ПИЛОТ", "tl3-t": "Школы, с психологом в контуре",
-                    "tl3-d": "Внедрять только там, где специалист просматривает каждую метку, и измерять, экономит ли очередь его время.",
-                    "tl3-r": "Первые данные из практики",
-
-                    "team-eyebrow": "10 · Команда и запрос",
-                    "team-title": "Два человека и задокументированный метод.",
-                    "team-r1": "Автор", "team-d1": "Назарбаев Интеллектуальная школа физико-математического направления, Алматы. Написал ядро на C++, анкету и саму работу.",
-                    "team-r2": "Научный руководитель", "team-d2": "Руководила дизайном проекта, статистической постановкой и границами интерпретации.",
-                    "team-hire": "Нужны дальше: backend-инженер для защищённого контура и клинический партнёр, способный провести сравнение с Y-BOCS.",
-                    "ask-k": "Использование средств — 6 месяцев",
-                    "u1": "Разработка — защищённый контур", "u2": "Логистика валидационного исследования", "u3": "Юрлицо и соответствие требованиям",
-                    "u4": "Хостинг и оборудование", "u5": "Резерв",
-                    "am1-v": "100 участников", "am1-k": "Размер валидационного исследования",
-                    "am2-v": "ROC-AUC", "am2-k": "Метрика, решающая, продолжается ли проект",
-                    "am3-v": "3 школы", "am3-k": "Пилот под наблюдением после валидации",
-
-                    "close-eyebrow": "Связаться",
-                    "close-title": "Скрининговый сигнал полезен, только если его можно проверить.",
-                    "close-quote": "Любое число на этой странице можно пересчитать по работе. Если какое-то из них неверно — напишите, и я его исправлю.",
-                    "close-cta1": "Написать автору", "close-cta2": "Открыть демо",
-                    "foot-c": "© NeuroCheck, 2026 — школьный исследовательский проект.",
-                    "foot-r": "Не медицинское изделие.",
-                    "foot-src": "Источники цифр на странице: работа автора 2026 года (выборка A, n = 15; выборка B, один участник × 7 дней); обзоры распространённости ВОЗ и NIMH; Piqueras и соавт., Adam и соавт. — по сопоставимым скрининговым инструментам; Devore и Montgomery — формулы прогностического интервала и выборочной дисперсии; Gelman — байесовская постановка. Оценки рынка получены сверху вниз по открытым данным о школах и контингенте. Курс ~470 ₸/$1. Se = 0.85 и Sp = 0.70 — параметры сценария, а не измерения."
-                },
-
-                kz: {
-                    "skip": "Мазмұнға өту",
-                    "nav-problem": "Мәселе", "nav-method": "Әдіс", "nav-evidence": "Нәтиже",
-                    "nav-limits": "Шектеулер", "nav-market": "Нарық", "nav-roadmap": "Жоспар",
-                    "nav-signin": "Кіру",
-
-                    "badge": "Зерттеу прототипі · НЗМ Алматы · 2026",
-                    "hero-title": "Жеті күндік өлшем. Бір тексерілетін болжам.",
-                    "hero-sub": "NeuroCheck оқушының алғашқы алты күндік мазасыздық көрсеткішіне AR(1) моделін құрып, жетінші күнді болжайды — және болжамның расталғанын ашық көрсетеді. Қалғанын Байес формуласы, Уилсон интервалы және Стьюденттің прогностикалық интервалы атқарады.",
-                    "hero-method": "Әдісті көру", "hero-demo": "Демоны ашу",
-                    "hs1": "оқушы бір реттік іріктемеде",
-                    "hs2": "қатарынан келген күн бойлық қатарда",
-                    "hs3": "тексеру нүктесі ретінде қалдырылған күн",
-
-                    "fig-title": "В іріктемесі · бір оқушы · Y₁…Y₇", "fig-replay": "Қайта",
-                    "ro1": "95% прогн. интервал", "ro2": "AR(1) болжамы Ŷ₇", "ro3": "Нақты Y₇", "ro4": "Ауытқу D₇ / шек T₇",
-                    "fig-flag": "Орындалмады",
-                    "fig-verdict": "Осы демонстрациялық қатарда D₇ = 4.071 динамикалық шек T₇ = 1.482 мәнінен асып кетті, сондықтан гипотеза расталмады. Әдіс айқын әрі тексерілетін жауап берді — мәні сонда.",
-
-                    "problem-eyebrow": "01 · Мәселе",
-                    "problem-title": "ОКБ скринингі сыныпқа сирек жетеді.",
-                    "problem-lead": "Обсессивті-компульсивті бұзылыс өлшенеді, емделеді және жасөспірім кезде жүйелі түрде назардан тыс қалады. Мәселе клиникалық құралдардың жоқтығында емес — оларды әр оқушыға, әр апта сайын қолдануға ешкімнің уақыты жоқ.",
-                    "stat1": "әлем халқы ОКБ-мен өмір сүреді.",
-                    "stat2-num": "Топ-10", "stat2": "әлемдегі ең мүгедектікке апаратын жағдайлар қатарында.",
-                    "stat3": "алғашқы белгілер мен ем арасындағы медиандық кідіріс.",
-                    "stat4": "мектеп психологы Қазақстандағы ~3 млн оқушыға.",
-                    "src-est": "Ашық дереккөз бағасы",
-                    "why-now": "Неге шешілмей жатыр",
-                    "r1-t": "Тұрақты скрининг жоқ.", "r1-d": "Бірнеше жүз оқушыны жүргізетін психолог әрқайсысымен құрылымдық сұхбат өткізе алмайды.",
-                    "r2-t": "Бір реттік өзін-өзі бағалау сенімсіз.", "r2-d": "Бір сауалнама көңіл күйді тіркейді, траекторияны емес.",
-                    "r3-t": "Стигма ашық айтуға кедергі.", "r3-d": "Сауалнамада аты тұрса, жасөспірімдер мазасыз ойларын жасырады.",
-                    "r4-t": "Сирек жағдайлар қарапайым тесттерді бұзады.", "r4-d": "Базалық жиілік 2% болғанда жақсы тест те дұрыс белгіден әлдеқайда көп жалған дабыл береді — 04-бөлімді қараңыз.",
-
-                    "method-eyebrow": "02 · Әдіс",
-                    "method-title": "Төрт классикалық құрал, әрқайсысы бір іске.",
-                    "method-lead": "Мұнда қара жәшік жоқ. Беттегі әрбір сан қолмен тексеруге болатын формуладан шығады және әр жүргізуді журналға жазатын C++ ядросында іске асырылған.",
-                    "m1-t": "Байес формуласы", "m1-d": "Сезімталдық, ерекшелік және базалық жиілік берілгенде оң скринингті кейінгі ықтималдыққа айналдырады. Дәл осы базалық жиілік мәселесін жасырмай, көрінетін етеді.",
-                    "m2-t": "Уилсон интервалы", "m2-d": "Шағын топта өлшенген үлеске адал қателік шекараларын береді. n = 15 болғанда интервал кең — сайт нүктелік бағаны емес, дәл осы интервалды көрсетеді.",
-                    "m3-t": "Стьюденттің прогностикалық интервалы", "m3-d": "Орташа мән үшін емес, бір жаңа бақылау үшін диапазон. Алғашқы алты күннен құрылып (n = 6, df = 5, t = 2.571), ештеңе өзгермесе жетінші күн қайда түсуі тиіс екенін көрсетеді.",
-                    "m4-t": "AR(1) моделі", "m4-d": "Сол базалық бөлікке құрылған бірінші ретті авторегрессия. Ол кешегі мәнді бүгінгі нүктелік болжамға көшіреді, ал қалдырылған күн оны тексереді.",
-                    "method-note-t": "Неге нейрожелі емес?",
-                    "method-note-d": "Бір қатысушы мен жеті бақылауда бірнеше параметрден асатын кез келген модель шуды үйренеді. Классикалық статистика мұнда сақтық нұсқа емес — осы көлемде бұл жалғыз қорғауға болатын таңдау, әрі ол рецензент тексере алатын интервалдар береді.",
-                    "how-title": "Апта қалай өтеді",
-                    "s1-t": "Күнделікті өлшем", "s1-d": "Telegram-бот арқылы қысқа өзін-өзі бағалау күніне бір мазасыздық индексін береді.",
-                    "s2-t": "Базалық кезең", "s2-d": "1–6 күндер x̄, S, прогностикалық интервал және AR(1) коэффициенттерін береді.",
-                    "s3-t": "Қалдырылған тексеру", "s3-d": "7-күн екі болжаммен салыстырылады және модель құруға ешқашан кірмейді.",
-                    "s4-t": "Сигнал, үкім емес", "s4-d": "Ауытқу адам қарауы үшін белгіленеді. Жүйе диагноз қоймайды.",
-
-                    "evidence-eyebrow": "03 · Нәтиже",
-                    "evidence-title": "Екі іріктеме, қатаң бөлек.",
-                    "evidence-lead": "Зерттеу екі бөлек сұраққа жауап береді және оларды араластырудан бас тартады. А іріктемесі топты бір сәтте сипаттайды. В іріктемесі болжау рәсімін бір адамда уақыт бойы тексереді. Бірі екіншісін растамайды.",
-                    "sa-t": "Бір реттік",
-                    "sa-k1": "Таңдалған шектен жоғары", "sa-k2": "Уилсонның 95% интервалы", "sa-k3": "Дизайн", "sa-v3": "бір сауалнама, бір сәт",
-                    "sa-note": "Осы жолақтың ені — нәтиженің өзі. Он бес респондентте нақты үлес үштен бір де, төрттен үш те болуы мүмкін — сондықтан бұл сан дәл осы он бес оқушыны сипаттайды, басқа ешкімді емес.",
-                    "sb-t": "Бойлық",
-                    "sb-k1": "Қатар", "sb-k2": "Базаның ортасы · S", "sb-k3": "95% прогностикалық интервал",
-                    "sb-k4": "AR(1) бағалары α, β", "sb-k5": "Болжам Ŷ₇ · нақты Y₇", "sb-k6": "D₇ және T₇",
-                    "sb-note": "Жетінші күн прогностикалық интервалдан да, динамикалық шектен де шықты, сондықтан аталған гипотеза осы қатарда расталмады. Бір жүргізу әдісті растамайды да, теріске шығармайды да — ол шешім ережесінің іске қосылатынын көрсетеді.",
-                    "survey-title": "Он бес оқушы не жауап берді",
-                    "survey-sub": "А іріктемесі бойынша сипаттамалық жиіліктер. Бұл — белгілердің өзін-өзі бағалауы, клиникалық баға емес.",
-                    "b1-l": "Мазасыз ойлар", "b1-n": "53.3% жиі · 40% кейде · 6.7% сирек",
-                    "b2-l": "Қайталап тексеру", "b2-n": "53.3% 1–3 рет · 20% 5–10 рет · 13.3% 10+ рет",
-                    "b3-l": "Құлып пен есік туралы алаңдау", "b3-n": "26.7% әрқашан · 26.7% жиі",
-
-                    "para-eyebrow": "04 · Скрининг парадоксы",
-                    "para-title": "Оң нәтиже — 85% емес, 5% ықтималдық.",
-                    "para-lead": "Бұл беттегі ең маңызды сан, әрі скрининг өнімдерінің көбі оны мүлде көрсетпейді. Базалық жиілік 2% болғанда сезімталдығы 85%, ерекшелігі 70% тесттен 1000 оқушыны өткізіңіз — арифметика аяусыз.",
-                    "lg1": "Сау, теріс", "lg2": "Сау, жалған дабыл", "lg3": "ОКБ, анықталды", "lg4": "ОКБ, өткізіп алынды",
-                    "br-s0": "1000 оқушы", "br-s1": "20-сында ОКБ бар", "br-s2": "Тестті жүргізу", "br-s3": "Тек оң нәтижелер",
-                    "br-c0": "Мың оқушы. Базалық жиілік 2% болғанда, олардың жиырмасында ОКБ бар — бірақ кімде екені белгісіз.",
-                    "br-c1": "Міне сол жиырма. Кез келген скрининг құралы дәл соларды іздейді.",
-                    "br-c2": "Тест іске қосылды. Ол 20-ның 17-сін ұстады — бірақ 294 сау оқушыны белгілеп, 3-еуін өткізіп жіберді.",
-                    "br-c3": "Енді тек оң нәтижелерді қалдырамыз: 311 белгінің 17-сі ғана шын. Осы қатынас — PPV, 5.5%.",
-                    "ppv-d": "Тест белгілегендердің ішінде шамамен он сегізден бірінде ғана ОКБ бар. 17 дұрыс анықтауға қарсы 294 жалған дабыл.",
-                    "npv-d": "Теріс нәтиже әдетте дұрыс — бірақ негізінен тесттің күштілігінен емес, жағдайдың сиректігінен.",
-                    "para-note-t": "Онда бұл не үшін керек?",
-                    "para-note-d": "Себебі 5% кейінгі ықтималдық — диагноз емес, кезек. Психолог 1000 оқушының орнына 311-ін қарайды, ал көмекке мұқтаж он жеті адам солардың ішінде болуы ықтимал. Құндылық — сұрыптауда, ал оны адал тұжырымдау өнімнің өзі.",
-                    "para-fine": "Se = 0.85 және Sp = 0.70 — есепті түсінікті ету үшін әдейі алынған оптимистік сценарий параметрлері. Бұл зерттеуде олар өлшенген жоқ. Ұқсас қысқа шкалалар үшін жарияланған мәндер төмен — Piqueras және әріптестерінде бір шекте Se 0.61 / Sp 0.60.",
-
-                    "limits-eyebrow": "05 · Шектеулер",
-                    "limits-title": "NeuroCheck не емес.",
-                    "limits-lead": "Скрининг нәтижесі — диагноз емес, прототип — валидацияланған құрал емес. Төмендегінің бәрі сайт негізделген ғылыми жұмыста жазылған; мұны қайталау — дисклеймер емес, әдістің бөлігі.",
-                    "l1-t": "Диагноз емес.", "l1-d": "А іріктемесінде шектен асу немесе В іріктемесінде интервалдан шығу өз алдына клиникалық мағына бермейді.",
-                    "l2-t": "Валидацияланған шкала емес.", "l2-d": "Se, Sp және 25% динамикалық шек кодта бекітілген сценарий параметрлері, клиникалық эталонға қарсы өлшенген шамалар емес.",
-                    "l3-t": "Жалпыланбайды.", "l3-d": "Бір мектептен он бес респондент сол он бес респондентті ғана сипаттайды.",
-                    "l4-t": "Маманды алмастырмайды.", "l4-d": "Прототип ем ұсынбайды және маманға жіберу туралы шешім қабылдамайды.",
-                    "l5-t": "Әзірге қорғалған жүйе емес.", "l5-d": "Қазіргі күйінде C++ ядросы шифрланбаған журнал жазады, ал Telegram интерфейсі онымен тікелей байланыспаған. Шифрлау, келісімді тіркеу, сақтау мерзімі мен қолжетімділікті шектеу — әлі алда тұрған инженерлік жұмыс.",
-                    "l6-t": "Ол не.", "l6-d": "Жеті өзін-өзі бағалау санын тексерілетін, теріске шығарылатын тұжырымға айналдыратын жұмыс істейтін есептеу модулі — және тұжырымды қайта тексеру үшін әр жүргізуді журналға жазады.",
-                    "ethics-t": "Деректер мен келісім",
-                    "ethics-d": "Зерттеуге қатысу ерікті болды, жауаптар жеке басты анықтайтын мәліметсіз жиналды. Зерттеуден тыс кез келген енгізу деректерді енгізер алдында ақпараттандырылған келісімді, барынша аз жинауды, сақтау кезінде шифрлауды, шектеулі қолжетімділікті және белгіленген сақтау мерзімін талап етеді. Қазіргі прототип бұл кепілдіктерді әлі көрсетпейді, жұмыста бұл тікелей айтылған.",
-
-                    "product-eyebrow": "06 · Өнім және стек",
-                    "product-title": "Шағын, тексерілетін, мектепке орнатылатын.",
-                    "st1-k": "Енгізу", "st1-v": "Telegram-бот (aiogram)",
-                    "st2-k": "Есептеу ядросы", "st2-v": "C++ — статистика, интервал, AR(1), Байес",
-                    "st3-k": "Әдістер", "st3-v": "Байес · Уилсон · Стьюдент интервалы · AR(1)",
-                    "st4-k": "Сақтау", "st4-v": "Жүргізу журналы → SQLite (жоспарда)",
-                    "ip-title": "Ұстаным",
-                    "ip1-k": "Тәсіл", "ip1-v": "Бір реттік шекті балдың орнына әр оқушының базалық сызығы және қалдырылған тексеру күні.",
-                    "ip2-k": "Деректер", "ip2-v": "Автор 2026 жылы жинаған меншікті сауалнама және жеті күндік пилоттық қатар.",
-                    "ip3-k": "Мәртебе", "ip3-v": "Мектеп зерттеу жобасы. Патент берілмеген, рецензия жоқ, клиникалық валидация жоқ — бұл мақсаттар, мәлімдеме емес.",
-                    "c-h1": "Құрал", "c-h2": "Түрі", "c-h3": "Артықшылығы", "c-h4": "Шектеуі",
-                    "c1-2": "Клиникалық сұхбат", "c1-3": "Клиникалық эталон", "c1-4": "Ұзақ; дайындалған маман қажет",
-                    "c2-2": "Сауалнама", "c2-3": "18 тармақ, алты субшкала", "c2-4": "Өзін-өзі бағалау, бір сәт",
-                    "c3-2": "Сауалнама", "c3-3": "Қысқа, өздігінен толтырылады", "c3-4": "Тек белгілерді өлшейді, динамиканы емес",
-                    "c4-2": "Есептеу прототипі", "c4-3": "Жеке траекторияны модельдейді; әр қадам тексеріледі", "c4-4": "Өзін-өзі бағалауға сүйенеді; әзірге валидацияланбаған",
-
-                    "market-eyebrow": "07 · Нарық",
-                    "market-title": "Қамтылмаған қажеттілік, ашық деректермен өлшенген.",
-                    "market-lead": "Төмендегі сандар — мектептер мен оқушылардың ашық санына негізделген жоғарыдан төмен бағалау. Бұл ауқымды тексеру, кіріс болжамы емес; әзірге бірде-бір мектеп ештеңеге қол қойған жоқ.",
-                    "mk1": "мектеп ел бойынша", "mk2": "7–17 жастағы оқушы", "mk3": "мектеп психологы",
-                    "f-tam": "3 млн оқушы × $10 / жыл", "f-sam": "Қалалық мектептер — шамамен жартысы", "f-som": "мектептердің 5% ≈ 350 мектеп",
-                    "comp-title": "Іргелес өнімдер",
-                    "cp-h1": "Өнім", "cp-h2": "Не істейді", "cp-h3": "NeuroCheck несімен өзгеше",
-                    "cp1-2": "ОКБ бар ересектерге телетерапия", "cp1-3": "Скрининг емес, ем; бағасы мектеп бюджетінен әлдеқайда жоғары",
-                    "cp2-1": "Жалпы әл-ауқат қосымшалары", "cp2-2": "Көңіл күйді бақылау және өзіне-өзі көмек мазмұны", "cp2-3": "Мәлімделген модель, интервал және қалдырылған тексеру жоқ",
-                    "cp3-1": "Күндізгі психолог", "cp3-2": "Жеке бағалау және қолдау", "cp3-3": "Эталон — бірақ әр оқушыны апта сайын қамти алмайды",
-                    "cp4-2": "Шектеулері жарияланған, әр оқушыға апталық сигнал", "cp4-3": "Психологқа қысқа тізім беретін және өз қателігін көрсететін сұрыптау",
-
-                    "model-eyebrow": "08 · Бизнес-модель",
-                    "model-title": "Үш арна, бірі үлесті сұйылтпайды.",
-                    "rev1-t": "B2B — мектептер", "rev1-d": "Мектеп оқушылары мен психолог панелін қамтитын жылдық лицензия.",
-                    "rev2-t": "B2C — ата-аналар", "rev2-d": "Мектептен тыс мониторинг қалайтын отбасына арналған жеке есеп.",
-                    "rev3-t": "Гранттар", "rev3-n": "Бағдарламалық қаржыландыру", "rev3-u": "Үлесті сұйылтпайды",
-                    "rev3-d": "Цифрлық білім және жасөспірімдер психикалық денсаулығы бағдарламалары — сол дәлелдер базасымен өтінім беріледі.",
-                    "proj-title": "Бірінші жыл сценарийі",
-                    "proj-sub": "Иллюстрациялық мақсат, расталған келісім тізбегі емес: 100 мектеп және 10 000 ата-ана есебі.",
-                    "rb1": "мектептер", "rb2": "ата-аналар",
-                    "rl1": "100 мектеп × 500 000 ₸", "rl2": "10 000 есеп × 5 000 ₸",
-                    "rev-total": "Барлығы 100 млн ₸ / жыл ≈ $212 000 · ~470 ₸/$1 бағамымен",
-
-                    "road-eyebrow": "09 · Жоспар",
-                    "road-title": "Келесі кезең — сату емес, валидация.",
-                    "road-lead": "Жұмыста прототипті құралға айналдыратын нәрсе нақты жазылған, әрі ол зерттеу дәлдік туралы кез келген мәлімдемеден бұрын келеді.",
-                    "road-now": "Орындалды", "road-next": "Келесі",
-                    "rn1": "C++ ядросы: таңдама статистикасы, прогностикалық интервал, AR(1), бір реттік Байес жаңартуы",
-                    "rn2": "Қайта тексеру үшін жүргізулерді файлға жазу",
-                    "rn3": "Telegram арқылы енгізу прототипі",
-                    "rn4": "Шектеулері көрсетілген екі іріктемелі зерттеу",
-                    "rx1": "Telegram интерфейсін C++ ядросымен тікелей байланыстыру",
-                    "rx2": "Сақтауды шифрлау; келісімді тіркеу мен сақтау мерзімін қосу",
-                    "rx3": "Мониторингті қатысушыға 30 күнге дейін ұзартып, қалдық автокорреляцияны тексеру",
-                    "rx4": "Шекті кодта бекітілген күйден деректен таңдалатын күйге көшіру",
-                    "tl1-k": "1-КЕЗЕҢ · ВАЛИДАЦИЯ", "tl1-t": "50 клиникалық жағдай + 50 бақылау",
-                    "tl1-d": "Әр қатысушы Y-BOCS немесе CY-BOCS бойынша тәуелсіз бағаланып, прототип нәтижесімен соқыр түрде салыстырылады.",
-                    "tl1-r": "Қателер матрицасы · ROC-AUC",
-                    "tl2-k": "2-КЕЗЕҢ · КАЛИБРЛЕУ", "tl2-t": "Өлшенген Se, Sp, PPV, NPV",
-                    "tl2-d": "Сценарий параметрлерін сол іріктемеде өлшенген мәндермен алмастыру; шекті Юден индексі J = Se + Sp − 1 бойынша таңдау.",
-                    "tl2-r": "Негізделген шек",
-                    "tl3-k": "3-КЕЗЕҢ · ПИЛОТ", "tl3-t": "Психолог қатысатын мектептер",
-                    "tl3-d": "Тек маман әр белгіні қарайтын жерде енгізу және кезектің оның уақытын үнемдейтінін өлшеу.",
-                    "tl3-r": "Тәжірибедегі алғашқы дәлел",
-
-                    "team-eyebrow": "10 · Команда және сұраныс",
-                    "team-title": "Екі адам және құжатталған әдіс.",
-                    "team-r1": "Автор", "team-d1": "Жаратылыстану-математика бағытындағы Назарбаев зияткерлік мектебі, Алматы. C++ ядросын, сауалнаманы және жұмысты жазды.",
-                    "team-r2": "Ғылыми жетекші", "team-d2": "Жобаның дизайнын, статистикалық қойылымын және интерпретация шекараларын басқарды.",
-                    "team-hire": "Әрі қарай қажет: қорғалған контурға арналған backend-инженер және Y-BOCS салыстыруын жүргізе алатын клиникалық серіктес.",
-                    "ask-k": "Қаражатты пайдалану — 6 ай",
-                    "u1": "Әзірлеу — қорғалған контур", "u2": "Валидация зерттеуінің логистикасы", "u3": "Заңды тұлға және талаптарға сәйкестік",
-                    "u4": "Хостинг және жабдық", "u5": "Резерв",
-                    "am1-v": "100 қатысушы", "am1-k": "Валидация зерттеуінің көлемі",
-                    "am2-v": "ROC-AUC", "am2-k": "Жобаның жалғасуын шешетін метрика",
-                    "am3-v": "3 мектеп", "am3-k": "Валидациядан кейінгі бақыланатын пилот",
-
-                    "close-eyebrow": "Байланысу",
-                    "close-title": "Скрининг сигналы тексеруге келгенде ғана пайдалы.",
-                    "close-quote": "Беттегі кез келген санды жұмыс бойынша қайта есептеуге болады. Егер біреуі қате болса — жазыңыз, түзетемін.",
-                    "close-cta1": "Авторға жазу", "close-cta2": "Демоны ашу",
-                    "foot-c": "© NeuroCheck, 2026 — мектеп зерттеу жобасы.",
-                    "foot-r": "Медициналық бұйым емес.",
-                    "foot-src": "Беттегі сандардың дереккөздері: автордың 2026 жылғы жұмысы (А іріктемесі, n = 15; В іріктемесі, бір қатысушы × 7 күн); ДДҰ және NIMH таралым шолулары; ұқсас скрининг құралдары бойынша Piqueras және Adam және әріптестері; прогностикалық интервал мен таңдама дисперсиясының формулалары бойынша Devore және Montgomery; байестік қойылым бойынша Gelman. Нарық бағалары мектептер мен контингенттің ашық санынан жоғарыдан төмен есептелген. Бағам ~470 ₸/$1. Se = 0.85 және Sp = 0.70 — сценарий параметрлері, өлшем емес."
-                }
-            };
-
-            const LANG_KEY = 'nc-lang';
+            const LANG_KEY = 'nc-research-lang';
             const HTML_LANG = { en: 'en', ru: 'ru', kz: 'kk' };
-            let currentLang = 'en';
+            let currentLang = 'kz';
 
             function applyLang(lang) {
                 const dict = I18N[lang];
                 if (!dict) return;
                 currentLang = lang;
+                document.title = dict['page-title'];
+                if (figNodes) figNodes.bandLabel.textContent = dict['band-label'];
                 document.documentElement.lang = HTML_LANG[lang] || 'en';
 
                 $$('[data-i18n]').forEach(function (el) {
@@ -4124,8 +3767,8 @@
                 let saved = null;
                 try { saved = localStorage.getItem(LANG_KEY); } catch (e) { }
                 const nav = (navigator.language || 'en').toLowerCase();
-                const guess = saved || (nav.startsWith('kk') ? 'kz' : nav.startsWith('ru') ? 'ru' : 'en');
-                applyLang(I18N[guess] ? guess : 'en');
+                const guess = saved || 'kz';
+                applyLang(I18N[guess] ? guess : 'kz');
 
                 observeAll();
                 renderMath();
