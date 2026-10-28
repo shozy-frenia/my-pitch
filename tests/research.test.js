@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { wilson, ppv, illustrativeAnalysis, SERIES, SCENARIOS, SURVEY } from '../assets/math.js';
+import { wilson, ppv, illustrativeAnalysis, analyzeSeries, STUDENT_T_95_DF5, SERIES, SCENARIOS, SURVEY } from '../assets/math.js';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const near = (actual, expected, tolerance = .00005) => assert.ok(Math.abs(actual - expected) < tolerance, `${actual} ≉ ${expected}`);
 
@@ -68,7 +68,9 @@ test('Published page retains scientific boundaries and excludes removed claims',
   assert.equal(banned.test(copy), false, copy.match(banned)?.[0]);
 
   // Repository name is a historical URL only, never commercial copy.
-  assert.ok(!/<form\b/i.test(html));
+  assert.equal([...html.matchAll(/<form\b/g)].length, 1);
+  assert.match(html, /<form id="series-demo-form" novalidate>/);
+  assert.doesNotMatch(html, /<form[^>]*(?:action|method)=/i);
 });
 test('All local assets and fragment links resolve; no duplicate IDs', async () => {
   const html = await readFile(resolve(root, 'index.html'), 'utf8');
@@ -92,4 +94,38 @@ test('The original stylesheet, responsive layout and controls are preserved', as
   const html = await readFile(resolve(root, 'index.html'), 'utf8');
   assert.equal(createHash('sha256').update(html.match(/<style>([\s\S]*?)<\/style>/)[1]).digest('hex'), '93908cc37d8630538bc242cd0de8bad559e1f5fe34c2f9c915f418e1e9e07978');
   for (const id of ['themeToggle','navToggle','heroFigure','figSvg','baseRate','brSteps']) assert.ok(html.includes('id="'+id+'"'));
+});
+
+
+test('The calculator uses Student df=5 and excludes the held-out value from fitting', () => {
+  const first = analyzeSeries([5,6,5,7,6,8,10]);
+  const second = analyzeSeries([5,6,5,7,6,8,100]);
+  assert.equal(first.n, 6);
+  assert.equal(first.degreesOfFreedom, 5);
+  assert.equal(first.criticalValue, STUDENT_T_95_DF5);
+  near(first.criticalValue, 2.5705818356, 1e-9);
+  assert.deepEqual(first.student.lower, second.student.lower);
+  assert.deepEqual(first.student.upper, second.student.upper);
+  assert.equal(first.ar.forecast, second.ar.forecast);
+  assert.notEqual(first.ar.error, second.ar.error);
+  near(first.variance, 1.3666666667, 1e-9);
+  const gaussianHalf = 1.96 * first.sd * Math.sqrt(1 + 1/6);
+  assert.ok(first.student.halfWidth > gaussianHalf);
+});
+test('The calculator validates input and handles undefined AR independently of Student', () => {
+  for (const values of [[1,2,3], [1,2,3,4,5,6,NaN], [1,1,1,1,1,1,2], [0.1,0.1,0.1,0.1,0.1,0.1,2]]) assert.throws(() => analyzeSeries(values), RangeError);
+  const result=analyzeSeries([1,1,1,1,1,2,3]);
+  assert.equal(result.ar, null);
+  assert.equal(analyzeSeries([0.1,0.1,0.1,0.1,0.1,0.2,0.3]).ar, null);
+  assert.ok(result.sd > 0);
+  assert.ok(Number.isFinite(result.student.upper));
+  const inside=analyzeSeries([5,6,5,7,6,8,6]);
+  assert.equal(inside.student.containsActual, true);
+  assert.equal(inside.ar.withinTolerance, true);
+});
+test('Calculator runs locally with no data transmission or record persistence', async () => {
+  const js=await readFile(resolve(root,'assets/demo.js'),'utf8');
+  assert.doesNotMatch(js,/\bfetch\(|XMLHttpRequest|sendBeacon|localStorage|sessionStorage|document\.cookie/);
+  assert.ok(js.includes('event.preventDefault()'));
+  assert.ok(js.includes('results.hidden = !lastResult || dirty || !!lastError'));
 });
